@@ -1,0 +1,151 @@
+<!doctype html>
+<!-- BEGIN CODE MAP (generated; npm run code-map)
+ * control: main — line 39
+ * control: label — line 104
+ * control: render — line 107
+ * control: fetch — line 108
+ * control: status — line 110
+ * control: preview — line 117
+END CODE MAP -->
+<!-- Jason Stys: responsive security-boundary learning tool, local-only text exercise, no external assets. -->
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>AppSec Regression Lab · Jason Stys</title>
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to exercises</a>
+    <header>
+      <div class="brand">
+        ASRL <span>APPLICATION SECURITY REGRESSION LAB</span>
+      </div>
+      <nav aria-label="Project links">
+        <a
+          href="https://github.com/JasonStys/application-security-regression-lab"
+          rel="noopener noreferrer"
+          target="_blank"
+          >Source &amp; reports</a
+        ><a
+          href="https://www.linkedin.com/in/jason-stys-31b30b351/"
+          rel="noopener noreferrer"
+          target="_blank"
+          >Contact Jason Stys</a
+        >
+      </nav>
+    </header>
+    <main id="main">
+      <section class="intro">
+        <p class="eyebrow">BOUNDARIES, NOT CHECKBOXES.</p>
+        <h1>Prove the rejection.<br /><span>Keep the fix working.</span></h1>
+        <p>
+          Created by Jason Stys. Four independent native fixtures show how
+          application controls fail, how corrected code behaves, and how
+          regression tests preserve the boundary.
+        </p>
+        <aside>
+          Owner-local synthetic lab. No real identities, sensitive records,
+          public hosting or production certification. Vulnerable comparisons run
+          only inside tests—never served here.
+        </aside>
+      </section>
+      <section class="cards" aria-label="Native security workbenches">
+        <article>
+          <p class="tag">JAVA · AUTHORIZATION</p>
+          <h2>Know whose record it is.</h2>
+          <p>
+            Authoritative tenant and operation checks; immutable snapshots;
+            optimistic edit races. Claimed tenant/role fields never grant
+            access.
+          </p>
+          <p class="scope">Native Java + actual HTTP regression cases.</p>
+        </article>
+        <article>
+          <p class="tag">C# · SESSION LIFECYCLE</p>
+          <h2>A session must end.</h2>
+          <p>
+            256-bit random tokens, fingerprint-only storage, inclusive expiry,
+            revocation, scope and capacity. Fixture bootstrap is not real
+            authentication.
+          </p>
+          <p class="scope">Native .NET + actual cookies and revocation.</p>
+        </article>
+        <article>
+          <p class="tag">PHP / SQL · DATA BOUNDARIES</p>
+          <h2>Inputs are data.</h2>
+          <p>
+            Prepared queries and tenant scope. Bounded UTF8 .txt uploads stored
+            as nonexecuting SQLite data; private downloads are attachments.
+          </p>
+          <p class="scope">Actual PDO/SQLite + upload/SQL regressions.</p>
+        </article>
+        <article>
+          <p class="tag">JAVASCRIPT / TYPESCRIPT · DOM</p>
+          <h2>Text stays text.</h2>
+          <p>
+            Runtime-checked responses, literal DOM rendering, restrictive CSP
+            and no remote assets. This is the browser exercise below.
+          </p>
+          <p class="scope">Real Chromium, Firefox, WebKit and mobile layout.</p>
+        </article>
+      </section>
+      <section class="exercise">
+        <div>
+          <p class="eyebrow">LIVE CORRECTED NODE FIXTURE</p>
+          <h2>Try a hostile-looking label.</h2>
+          <p>
+            This preview uses textContent—not HTML parsing. Your typed input
+            stays in this tab. The sample button calls only this loopback
+            service.
+          </p>
+          <label for="label">Untrusted label</label
+          ><textarea id="label" rows="5" maxlength="10000" spellcheck="false">
+&lt;img src=x onerror=alert(1)&gt; · synthetic label</textarea>
+          <div class="actions">
+            <button id="render" type="button">Render as text</button
+            ><button id="fetch" type="button">Fetch local fixture</button>
+          </div>
+          <p id="status" role="status" aria-live="polite">
+            Preparing local exercise…
+          </p>
+        </div>
+        <div class="output">
+          <h3>Literal output</h3>
+          <pre
+            id="preview"
+            tabindex="0"
+            aria-label="Literal rendered label"
+          ></pre>
+          <p>No active tags, event handlers, navigation or file execution.</p>
+        </div>
+      </section>
+      <details>
+        <summary>Help, test evidence and scope</summary>
+        <p>
+          This page does not claim to connect a Java authorization service to
+          the C# broker or PHP database. They are independent focused fixtures,
+          tested through their native cores and real loopback HTTP adapters.
+        </p>
+        <p>
+          The repo runner creates its own temporary synthetic services and
+          records expected versus observed results. It accepts no external
+          target URL. Test-only vulnerable comparisons help prove selected
+          regressions would catch known defects, not universal mutation
+          coverage.
+        </p>
+        <p>
+          Use the README and docs for commands, HTTP contracts, threat model,
+          ASVS reference mappings, measured reports, cleanup and known limits.
+          These checks do not certify complete OWASP ASVS compliance or
+          production security. Do not enter sensitive data here.
+        </p>
+      </details>
+    </main>
+    <footer>
+      Built by Jason Stys · Defensive, synthetic, owner-local · No ads,
+      analytics or third-party UI scripts.
+    </footer>
+  </body>
+</html>

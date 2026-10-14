@@ -1,0 +1,105 @@
+# Jason Stys: security-extended analysis of all supported authored languages, including compiled native code.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: name — line 53
+# parameter: on — line 54
+# parameter: push — line 55
+# parameter: branches — line 56
+# parameter: pull_request — line 57
+# parameter: workflow_dispatch — line 58
+# parameter: permissions — line 59
+# parameter: contents — line 60
+# parameter: jobs — line 61
+# parameter: analyze — line 62
+# parameter: name — line 63
+# parameter: runs-on — line 64
+# parameter: timeout-minutes — line 65
+# parameter: permissions — line 66
+# parameter: contents — line 67
+# parameter: security-events — line 68
+# parameter: actions — line 69
+# parameter: strategy — line 70
+# parameter: fail-fast — line 71
+# parameter: matrix — line 72
+# parameter: language — line 73
+# parameter: env — line 74
+# parameter: DOTNET_CLI_TELEMETRY_OPTOUT — line 75
+# parameter: DOTNET_NOLOGO — line 76
+# parameter: steps — line 77
+# parameter: uses — line 78
+# parameter: with — line 79
+# parameter: persist-credentials — line 80
+# parameter: uses — line 81
+# parameter: if — line 82
+# parameter: with — line 83
+# parameter: distribution — line 84
+# parameter: java-version — line 85
+# parameter: uses — line 86
+# parameter: if — line 87
+# parameter: with — line 88
+# parameter: dotnet-version — line 89
+# parameter: uses — line 90
+# parameter: with — line 91
+# parameter: languages — line 92
+# parameter: queries — line 93
+# parameter: build-mode — line 94
+# parameter: if — line 95
+# parameter: run — line 96
+# parameter: if — line 99
+# parameter: run — line 100
+# parameter: uses — line 103
+# parameter: with — line 104
+# parameter: upload-database — line 105
+# END CODE MAP
+name: CodeQL
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  analyze:
+    name: CodeQL / ${{ matrix.language }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [python, javascript-typescript, java-kotlin, csharp]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        if: matrix.language == 'java-kotlin'
+        with:
+          distribution: temurin
+          java-version: '25.0.4'
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        if: matrix.language == 'csharp'
+        with:
+          dotnet-version: '10.0.401'
+      - uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4
+        with:
+          languages: ${{ matrix.language }}
+          queries: security-extended
+          build-mode: ${{ (matrix.language == 'java-kotlin' || matrix.language == 'csharp') && 'manual' || 'none' }}
+      - if: matrix.language == 'java-kotlin'
+        run: |
+          mkdir -p out/java
+          javac -encoding UTF-8 -Xlint:all -Werror -d out/java services/java/*.java tests/java/*.java
+      - if: matrix.language == 'csharp'
+        run: |
+          dotnet restore services/session/SessionLab.csproj --locked-mode
+          dotnet build services/session/SessionLab.csproj -c Release --no-restore
+      - uses: github/codeql-action/analyze@24c54180a607b1449ed407dd24f251e4e9147c8d # v4
+        with:
+          upload-database: false

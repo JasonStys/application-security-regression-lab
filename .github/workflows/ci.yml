@@ -1,0 +1,279 @@
+# Jason Stys: actual native/HTTP/browser security regressions; no artifact uploads or Actions caches.
+# BEGIN CODE MAP (generated; python scripts/code_map.py)
+# parameter: name — line 128
+# parameter: on — line 129
+# parameter: push — line 130
+# parameter: branches — line 131
+# parameter: pull_request — line 132
+# parameter: workflow_dispatch — line 133
+# parameter: permissions — line 134
+# parameter: contents — line 135
+# parameter: concurrency — line 136
+# parameter: group — line 137
+# parameter: cancel-in-progress — line 138
+# parameter: jobs — line 139
+# parameter: quality — line 140
+# parameter: name — line 141
+# parameter: runs-on — line 142
+# parameter: timeout-minutes — line 143
+# parameter: strategy — line 144
+# parameter: fail-fast — line 145
+# parameter: matrix — line 146
+# parameter: include — line 147
+# parameter: steps — line 152
+# parameter: uses — line 153
+# parameter: with — line 154
+# parameter: persist-credentials — line 155
+# parameter: uses — line 156
+# parameter: with — line 157
+# parameter: python-version — line 158
+# parameter: uses — line 159
+# parameter: with — line 160
+# parameter: node-version — line 161
+# parameter: package-manager-cache — line 162
+# parameter: run — line 163
+# parameter: run — line 164
+# parameter: run — line 165
+# parameter: shell — line 166
+# parameter: run — line 167
+# parameter: native — line 168
+# parameter: name — line 169
+# parameter: runs-on — line 170
+# parameter: timeout-minutes — line 171
+# parameter: env — line 172
+# parameter: DOTNET_CLI_TELEMETRY_OPTOUT — line 173
+# parameter: DOTNET_NOLOGO — line 174
+# parameter: strategy — line 175
+# parameter: fail-fast — line 176
+# parameter: matrix — line 177
+# parameter: os — line 178
+# parameter: steps — line 179
+# parameter: uses — line 180
+# parameter: with — line 181
+# parameter: persist-credentials — line 182
+# parameter: uses — line 183
+# parameter: with — line 184
+# parameter: distribution — line 185
+# parameter: java-version — line 186
+# parameter: uses — line 187
+# parameter: with — line 188
+# parameter: dotnet-version — line 189
+# parameter: name — line 190
+# parameter: shell — line 191
+# parameter: run — line 192
+# parameter: integration — line 203
+# parameter: name — line 204
+# parameter: runs-on — line 205
+# parameter: timeout-minutes — line 206
+# parameter: steps — line 207
+# parameter: uses — line 208
+# parameter: with — line 209
+# parameter: persist-credentials — line 210
+# parameter: uses — line 211
+# parameter: with — line 212
+# parameter: python-version — line 213
+# parameter: uses — line 214
+# parameter: with — line 215
+# parameter: node-version — line 216
+# parameter: package-manager-cache — line 217
+# parameter: uses — line 218
+# parameter: with — line 219
+# parameter: distribution — line 220
+# parameter: java-version — line 221
+# parameter: uses — line 222
+# parameter: with — line 223
+# parameter: dotnet-version — line 224
+# parameter: run — line 225
+# parameter: run — line 226
+# parameter: name — line 227
+# parameter: run — line 228
+# parameter: name — line 229
+# parameter: run — line 230
+# parameter: browser — line 234
+# parameter: name — line 235
+# parameter: runs-on — line 236
+# parameter: timeout-minutes — line 237
+# parameter: steps — line 238
+# parameter: uses — line 239
+# parameter: with — line 240
+# parameter: persist-credentials — line 241
+# parameter: uses — line 242
+# parameter: with — line 243
+# parameter: node-version — line 244
+# parameter: package-manager-cache — line 245
+# parameter: run — line 246
+# parameter: run — line 247
+# parameter: run — line 252
+# parameter: run — line 253
+# parameter: security — line 254
+# parameter: name — line 255
+# parameter: runs-on — line 256
+# parameter: timeout-minutes — line 257
+# parameter: steps — line 258
+# parameter: uses — line 259
+# parameter: with — line 260
+# parameter: persist-credentials — line 261
+# parameter: fetch-depth — line 262
+# parameter: uses — line 263
+# parameter: with — line 264
+# parameter: python-version — line 265
+# parameter: uses — line 266
+# parameter: with — line 267
+# parameter: node-version — line 268
+# parameter: package-manager-cache — line 269
+# parameter: run — line 270
+# parameter: run — line 271
+# parameter: run — line 272
+# END CODE MAP
+name: Validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  quality:
+    name: Python ${{ matrix.python }} / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - {os: ubuntu-24.04, python: '3.12'}
+          - {os: ubuntu-24.04, python: '3.14'}
+          - {os: windows-latest, python: '3.14'}
+          - {os: macos-15-intel, python: '3.14'}
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: ${{ matrix.python }}
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.21.0'
+          package-manager-cache: false
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - shell: bash
+        run: bash scripts/validate.sh
+  native:
+    name: Native Java/C# / ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
+      DOTNET_NOLOGO: '1'
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, windows-latest]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '25.0.4'
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: '10.0.401'
+      - name: Actual native cores
+        shell: bash
+        run: |
+          mkdir -p out/java
+          javac -encoding UTF-8 -Xlint:all -Werror -d out/java services/java/*.java tests/java/*.java
+          java -cp out/java PolicyTests
+          dotnet restore services/session/SessionLab.csproj --locked-mode
+          dotnet restore tests/session/SessionTests.csproj --locked-mode
+          dotnet build services/session/SessionLab.csproj -c Release --no-restore
+          dotnet build tests/session/SessionTests.csproj -c Release --no-restore
+          dotnet format services/session/SessionLab.csproj whitespace --verify-no-changes --no-restore
+          dotnet format tests/session/SessionTests.csproj whitespace --verify-no-changes --no-restore
+          dotnet tests/session/bin/Release/net10.0/SessionTests.dll
+  integration:
+    name: Native PHP/SQL + all four real HTTP adapters
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.21.0'
+          package-manager-cache: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '25.0.4'
+      - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
+        with:
+          dotnet-version: '10.0.401'
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - name: Native compiler, real SQLite and owned-service regressions
+        run: bash scripts/native.sh
+      - name: Observed evidence summary, not artifact upload
+        run: |
+          cat out/java-core.json
+          cat out/session-core.json
+          cat out/php-core.json
+  browser:
+    name: Browser / Chromium, Firefox, WebKit, mobile
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.21.0'
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - run: |
+          mkdir -p out
+          npm run typecheck
+          npm run build
+          npm run test:unit
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:e2e
+  security:
+    name: Security / dependencies, secrets, workflows
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.21.0'
+          package-manager-cache: false
+      - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - run: npm ci --ignore-scripts
+      - run: |
+          python -m pip_audit -r requirements-dev.lock --disable-pip --no-deps
+          npm run audit
+          python scripts/scanners.py gitleaks
+          python scripts/scanners.py actionlint
+          .tools/gitleaks git . --redact --no-banner
+          .tools/actionlint
+          shellcheck scripts/validate.sh scripts/native.sh

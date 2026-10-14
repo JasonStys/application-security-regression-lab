@@ -1,0 +1,19 @@
+# Jason Stys: synthetic runtime state, tokens, compilers, dependencies and working reports remain untracked.
+out/
+dist/
+node_modules/
+.venv/
+.tools/
+**/bin/
+**/obj/
+*.sqlite*
+*.db*
+.env*
+__pycache__/
+.coverage*
+.pytest_cache/
+.hypothesis/
+.mypy_cache/
+.ruff_cache/
+test-results/
+playwright-report/
