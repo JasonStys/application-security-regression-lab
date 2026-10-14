@@ -1,4 +1,4 @@
-/** Jason Stys: corrected tenant-policy HTTP fixture on numeric loopback; no vulnerable HTTP mode. */
+// Jason Stys: corrected tenant-policy HTTP fixture on numeric loopback; no vulnerable HTTP mode.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
 // definition: JavaService — line 49
 // symbol: main — line 51

@@ -1,4 +1,4 @@
-/** Jason Stys: authoritative tenant/operation policy, atomic revisions and bounded literal form parsing. */
+// Jason Stys: authoritative tenant/operation policy, atomic revisions and bounded literal form parsing.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
 // definition: policy — line 70
 // definition: Policy — line 71

@@ -1,4 +1,4 @@
-/** Jason Stys: native tenant, operation, form/JSON and edit-race tests, plus nonserved insecure comparisons. */
+// Jason Stys: native tenant, operation, form/JSON and edit-race tests, plus nonserved insecure comparisons.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
 // definition: PolicyTests — line 55
 // variable: CASES — line 56
