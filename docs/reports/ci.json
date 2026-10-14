@@ -1,0 +1,134 @@
+{
+  "schema": 1,
+  "accepted_source": "9538721dd1dddac74949e170ab15c022358f69cf",
+  "recorded_at": "2026-10-14 08:10:54 UTC",
+  "note": "Immutable accepted executable-source snapshot. Subsequent documentation commits rerun all workflows; this is not a self-referential or future-source guarantee.",
+  "runs": [
+    {
+      "conclusion": "success",
+      "databaseId": 38532952741,
+      "headSha": "9538721dd1dddac74949e170ab15c022358f69cf",
+      "jobs": [
+        {
+          "name": "Native PHP/SQL + all four real HTTP adapters",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:47Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911762"
+        },
+        {
+          "name": "Browser / Chromium, Firefox, WebKit, mobile",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:47Z",
+          "completedAt": "2026-10-14T08:09:16Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911768"
+        },
+        {
+          "name": "Python 3.12 / ubuntu-24.04",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:47Z",
+          "completedAt": "2026-10-14T08:08:18Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911821"
+        },
+        {
+          "name": "Python 3.14 / macos-15-intel",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:49Z",
+          "completedAt": "2026-10-14T08:09:53Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911833"
+        },
+        {
+          "name": "Native Java/C# / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:47Z",
+          "completedAt": "2026-10-14T08:08:53Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911903"
+        },
+        {
+          "name": "Native Java/C# / ubuntu-24.04",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:25Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911945"
+        },
+        {
+          "name": "Python 3.14 / windows-latest",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:51Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748911954"
+        },
+        {
+          "name": "Security / dependencies, secrets, workflows",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:23Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748912010"
+        },
+        {
+          "name": "Python 3.14 / ubuntu-24.04",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:47Z",
+          "completedAt": "2026-10-14T08:08:15Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741/job/115748912068"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-10-14T08:09:54Z",
+      "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952741",
+      "workflowName": "Validate"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 38532952764,
+      "headSha": "9538721dd1dddac74949e170ab15c022358f69cf",
+      "jobs": [
+        {
+          "name": "CodeQL / java-kotlin",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:47Z",
+          "completedAt": "2026-10-14T08:09:02Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952764/job/115748911355"
+        },
+        {
+          "name": "CodeQL / javascript-typescript",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:42Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952764/job/115748911596"
+        },
+        {
+          "name": "CodeQL / python",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:08:34Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952764/job/115748911634"
+        },
+        {
+          "name": "CodeQL / csharp",
+          "status": "completed",
+          "conclusion": "success",
+          "startedAt": "2026-10-14T08:07:48Z",
+          "completedAt": "2026-10-14T08:09:20Z",
+          "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952764/job/115748911643"
+        }
+      ],
+      "status": "completed",
+      "updatedAt": "2026-10-14T08:09:21Z",
+      "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/38532952764",
+      "workflowName": "CodeQL"
+    }
+  ]
+}

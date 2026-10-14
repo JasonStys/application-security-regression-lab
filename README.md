@@ -46,7 +46,7 @@ Working evidence is ignored under out/native-http/http.json and http.html. A fre
 
 Authored code has descriptions and checked generated exact-line symbol maps. Python/TypeScript maps use ASTs; Java/C#/PHP/SQL/shell/YAML use documented lexical declaration maps. Native compilers/type/lint gates independently verify syntax. JSON/lock/config purposes are in the complete tracked-file inventory below.
 
-Complexity: Java note lookups/updates expected O(1), bounded form parsing O(bytes); C# resolution expected O(1), bounded expiry reclamation O(sessions); PHP indexed upload lookup, bounded literal-search scan and quota aggregation; DOM validation/render O(text bytes); orchestration O(cases). Limits/microbenchmarks are not universal worst-case or production performance promises.
+Complexity: Java note lookups/updates expected O(1), bounded form parsing O(bytes); C# resolution expected O(1), bounded expiry reclamation O(sessions); PHP indexed upload lookup, bounded literal-search scan and quota aggregation; DOM validation/render O(text bytes); orchestration O(cases). Complexity analysis and observed request latencies are not universal worst-case or production performance promises.
 
 ## Safety scope
 
@@ -76,6 +76,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/transport.py](asrl/transport.py) | Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
+| [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
