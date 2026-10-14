@@ -1,42 +1,44 @@
 // Jason Stys: synthetic-only loopback HTTP session fixture. Not a real identity provider or public login.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
-// definition: Program — line 46
-// symbol: port — line 51
-// symbol: builder — line 53
-// variable: builder — line 53
-// variable: options — line 55
-// variable: MaxRequestBodySize — line 58
-// variable: RequestHeadersTimeout — line 59
-// variable: KeepAliveTimeout — line 60
-// variable: MaxConcurrentConnections — line 61
-// symbol: broker — line 63
-// variable: broker — line 63
-// symbol: app — line 64
-// variable: app — line 64
-// symbol: origin — line 65
-// variable: origin — line 65
-// variable: StatusCode — line 78
-// variable: StatusCode — line 87
-// variable: StatusCode — line 91
-// variable: StatusCode — line 92
+// definition: Program — line 48
+// symbol: port — line 53
+// symbol: builder — line 55
+// variable: builder — line 55
+// variable: options — line 57
+// variable: MaxRequestBodySize — line 60
+// variable: RequestHeadersTimeout — line 61
+// variable: KeepAliveTimeout — line 62
+// variable: MaxConcurrentConnections — line 63
+// symbol: broker — line 65
+// variable: broker — line 65
+// symbol: app — line 66
+// variable: app — line 66
+// symbol: origin — line 67
+// variable: origin — line 67
+// variable: StatusCode — line 80
+// variable: StatusCode — line 89
 // variable: StatusCode — line 93
-// variable: component — line 95
-// variable: synthetic — line 95
-// variable: MaxDepth — line 98
-// variable: document — line 98
-// variable: value — line 99
-// symbol: token — line 103
-// variable: token — line 104
-// variable: HttpOnly — line 107
-// variable: MaxAge — line 107
-// variable: Path — line 107
-// variable: SameSite — line 107
-// variable: expires_in_seconds — line 108
-// variable: synthetic — line 108
-// variable: identity — line 112
-// variable: HttpOnly — line 118
-// variable: Path — line 118
-// variable: SameSite — line 118
+// variable: StatusCode — line 94
+// variable: StatusCode — line 95
+// variable: component — line 97
+// variable: synthetic — line 97
+// variable: MaxDepth — line 100
+// variable: document — line 100
+// variable: value — line 101
+// symbol: token — line 105
+// variable: token — line 106
+// variable: HttpOnly — line 109
+// variable: MaxAge — line 109
+// variable: Path — line 109
+// variable: SameSite — line 109
+// variable: Secure — line 109
+// variable: expires_in_seconds — line 110
+// variable: synthetic — line 110
+// variable: identity — line 114
+// variable: HttpOnly — line 120
+// variable: Path — line 120
+// variable: SameSite — line 120
+// variable: Secure — line 120
 // END CODE MAP
 using System.Net;
 using System.Text.Json;
@@ -104,7 +106,7 @@ internal static class Program
             try { token = broker.Issue(principal.GetString()!); }
             catch (ArgumentException) { return Results.BadRequest(); }
             context.Response.Cookies.Append("lab_session", token,
-                new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Strict, Path = "/", MaxAge = TimeSpan.FromMinutes(2) });
+                new CookieOptions { Secure = true, HttpOnly = true, SameSite = SameSiteMode.Strict, Path = "/", MaxAge = TimeSpan.FromMinutes(2) });
             return Results.Json(new { synthetic = true, expires_in_seconds = 120 });
         });
         app.MapGet("/whoami", (HttpContext context) =>
@@ -115,7 +117,7 @@ internal static class Program
         app.MapPost("/logout", (HttpContext context) =>
         {
             broker.Revoke(context.Request.Cookies["lab_session"]);
-            context.Response.Cookies.Delete("lab_session", new CookieOptions { HttpOnly = true, SameSite = SameSiteMode.Strict, Path = "/" });
+            context.Response.Cookies.Delete("lab_session", new CookieOptions { Secure = true, HttpOnly = true, SameSite = SameSiteMode.Strict, Path = "/" });
             return Results.NoContent();
         });
         Console.WriteLine("Local synthetic session fixture: " + origin);

@@ -1,40 +1,48 @@
 """Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_case_generation — line 52
-# parameter: component — line 52
-# parameter: monkeypatch — line 52
-# variable: counter — line 54
-# definition: respond — line 56
-# parameter: args — line 56
-# variable: counter — line 59
-# variable: rows — line 73
-# variable: row — line 75
-# definition: test_bad_upload_evidence — line 83
-# parameter: monkeypatch — line 83
-# parameter: args — line 85
-# definition: test_actual_node — line 90
-# parameter: tmp_path — line 90
-# variable: port — line 92
-# variable: rows — line 93
-# variable: row — line 94
-# definition: test_cli — line 97
-# parameter: capsys — line 97
-# parameter: monkeypatch — line 97
-# parameter: tmp_path — line 97
-# variable: report — line 100
-# variable: row — line 101
-# parameter: args — line 105
-# definition: test_cli_all_and_link — line 120
-# parameter: monkeypatch — line 120
-# parameter: tmp_path — line 120
-# definition: owned — line 125
-# parameter: args — line 125
-# parameter: component — line 132
-# parameter: port — line 132
-# parameter: self — line 144
-# parameter: args — line 148
-# parameter: kwargs — line 148
-# variable: _ — line 148
+# definition: test_case_generation — line 60
+# parameter: component — line 60
+# parameter: monkeypatch — line 60
+# variable: counter — line 62
+# definition: respond — line 64
+# parameter: args — line 64
+# variable: counter — line 67
+# variable: rows — line 81
+# variable: row — line 83
+# definition: test_bad_upload_evidence — line 91
+# parameter: monkeypatch — line 91
+# parameter: args — line 93
+# definition: test_cookie_security_verdict — line 99
+# parameter: monkeypatch — line 99
+# parameter: secure — line 99
+# definition: respond — line 102
+# parameter: args — line 102
+# variable: rows — line 118
+# variable: issued — line 119
+# variable: row — line 119
+# definition: test_actual_node — line 123
+# parameter: tmp_path — line 123
+# variable: port — line 125
+# variable: rows — line 126
+# variable: row — line 127
+# definition: test_cli — line 130
+# parameter: capsys — line 130
+# parameter: monkeypatch — line 130
+# parameter: tmp_path — line 130
+# variable: report — line 133
+# variable: row — line 134
+# parameter: args — line 138
+# definition: test_cli_all_and_link — line 153
+# parameter: monkeypatch — line 153
+# parameter: tmp_path — line 153
+# definition: owned — line 158
+# parameter: args — line 158
+# parameter: component — line 165
+# parameter: port — line 165
+# parameter: self — line 177
+# parameter: args — line 181
+# parameter: kwargs — line 181
+# variable: _ — line 181
 # END CODE MAP
 
 import json
@@ -85,6 +93,31 @@ def test_bad_upload_evidence(monkeypatch):
     monkeypatch.setattr(cases, "request", lambda *args: (200, {}, b"{}", 1))
     with pytest.raises(LabError, match="upload_evidence"):
         cases.exercise("php", 12345)
+
+
+@pytest.mark.parametrize("secure", [False, True])
+def test_cookie_security_verdict(monkeypatch, secure):
+    """Missing Secure must fail the HTTP evidence predicate; transport mocks do not certify native issuance."""
+
+    def respond(*args):
+        """Return synthetic issuance headers with one controlled security-attribute difference."""
+        return (
+            200,
+            {
+                "x-lab-component": "session",
+                "cache-control": "no-store",
+                "x-content-type-options": "nosniff",
+                "set-cookie": "lab_session=synthetic; HttpOnly; SameSite=Strict; Path=/; Max-Age=120"
+                + ("; Secure" if secure else ""),
+            },
+            b'{"synthetic":true}',
+            1,
+        )
+
+    monkeypatch.setattr(cases, "request", respond)
+    rows = cases.exercise("session", 12345)
+    issued = next(row for row in rows if row["id"] == "SESSION-ISSUE")
+    assert passed(issued) is secure
 
 
 def test_actual_node(tmp_path):

@@ -1,47 +1,49 @@
 """Jason Stys: actual expected/observed application-boundary cases across four independent native adapters."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: exercise — line 56
-# parameter: component — line 56
-# parameter: port — line 56
-# variable: origin — line 58
-# variable: owner — line 59
-# variable: mutation — line 60
-# variable: cases — line 66
-# definition: case — line 68
-# parameter: name — line 69
-# parameter: expected — line 70
-# parameter: path — line 71
-# parameter: method — line 72
-# parameter: body — line 73
-# parameter: headers — line 74
-# parameter: contains — line 75
-# parameter: absent — line 76
-# variable: latency — line 79
-# variable: raw — line 79
-# variable: received — line 79
-# variable: status — line 79
-# variable: content — line 80
-# variable: content — line 87
+# definition: exercise — line 58
+# parameter: component — line 58
+# parameter: port — line 58
+# variable: origin — line 60
+# variable: owner — line 61
+# variable: mutation — line 62
+# variable: cases — line 68
+# definition: case — line 70
+# parameter: name — line 71
+# parameter: expected — line 72
+# parameter: path — line 73
+# parameter: method — line 74
+# parameter: body — line 75
+# parameter: headers — line 76
+# parameter: contains — line 77
+# parameter: absent — line 78
+# variable: latency — line 81
+# variable: raw — line 81
+# variable: received — line 81
+# variable: status — line 81
+# variable: content — line 82
 # variable: content — line 89
-# variable: raw — line 121
-# variable: cross — line 133
-# variable: name — line 168
-# variable: value — line 168
-# variable: raw — line 183
-# variable: name — line 198
-# variable: value — line 198
-# variable: data — line 214
-# variable: received — line 214
-# variable: identifier — line 217
-# variable: data — line 220
-# variable: received — line 220
-# variable: mutation — line 252
-# variable: _ — line 290
-# variable: first — line 290
-# variable: cookie — line 299
-# variable: _ — line 306
-# variable: peer — line 306
-# variable: peer_cookie — line 314
+# variable: content — line 91
+# variable: raw — line 123
+# variable: cross — line 135
+# variable: name — line 170
+# variable: value — line 170
+# variable: raw — line 185
+# variable: name — line 200
+# variable: value — line 200
+# variable: data — line 216
+# variable: received — line 216
+# variable: identifier — line 219
+# variable: data — line 222
+# variable: received — line 222
+# variable: mutation — line 254
+# variable: _ — line 292
+# variable: first — line 292
+# variable: cookie — line 301
+# variable: attributes — line 302
+# variable: item — line 303
+# variable: _ — line 311
+# variable: peer — line 311
+# variable: peer_cookie — line 319
 # END CODE MAP
 
 from __future__ import annotations
@@ -297,11 +299,14 @@ def exercise(component: str, port: int) -> list[dict[str, Any]]:
             contains=b'"synthetic":true',
         )
         cookie = first.get("set-cookie", "").split(";", 1)[0]
+        attributes = {
+            item.strip().lower() for item in first.get("set-cookie", "").split(";")[1:]
+        }
         cases[-1]["content_ok"] = (
             cases[-1]["content_ok"]
             and cookie.startswith("lab_session=")
-            and "httponly" in first.get("set-cookie", "").lower()
-            and "samesite=strict" in first.get("set-cookie", "").lower()
+            and {"secure", "httponly", "samesite=strict", "path=/", "max-age=120"}
+            <= attributes
         )
         peer, _ = case(
             "PEER-ISSUE",
