@@ -77,6 +77,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
+| [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
