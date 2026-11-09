@@ -40,6 +40,14 @@ On Linux/macOS use .venv/bin/python and activate the venv before Bash. On PowerS
 
 Working evidence is ignored under out/native-http/http.json and http.html. A fresh result directory is mandatory, not silently overwritten. For explicit individual adapters after building: python -m asrl --component session --output out/new-session. All is the default; no external target/URL option exists. Only owned numeric-loopback processes are started and stopped in a finally block.
 
+## Compare saved regression runs
+
+```powershell
+python -m asrl.compare out/previous/http.json out/current/http.json --output out/review
+```
+
+Open the escaped standalone `comparison.html`. Review every regressed or still-failing case, missing execution, new case and changed assertion. The union of IDs prevents deleting a failing case from looking like a fix; changing expected status or component also cannot count as a recovery. Exact input-byte hashes and source commits remain in the report. A recovery requires the same component/expected status and successful status **and** content invariant. This compares saved HTTP evidence only; native core/browser checks stay separate. Matching labels do not prove test implementation equivalence and observed latencies are not controlled benchmarks. Reports must be bounded ordinary local files and output must be new.
+
 ## Read and validate
 
 [Architecture/ADR](docs/architecture.md), [contracts](docs/contracts.md), [threat model](docs/security.md), [runbook](docs/runbook.md), [testing](docs/testing.md), [research/control references](docs/research.md), [actual validation](docs/reports/validation.md), [contributing](CONTRIBUTING.md).
@@ -72,12 +80,14 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/\_\_init\_\_.py](asrl/__init__.py) | Jason Stys: owned-loopback conformance and strict inert evidence reporting; no import-time I/O. |
 | [asrl/\_\_main\_\_.py](asrl/__main__.py) | Jason Stys: explicit component/all conformance runner and new-directory inert reports; owned synthetic fixtures only. |
 | [asrl/cases.py](asrl/cases.py) | Jason Stys: actual expected/observed application-boundary cases across four independent native adapters. |
+| [asrl/compare.py](asrl/compare.py) | Jason Stys: exact-byte regression run comparison; missing execution never becomes a pass. |
 | [asrl/evidence.py](asrl/evidence.py) | Jason Stys: validated expected/observed security evidence, honest verdicts and inert HTML summaries. |
 | [asrl/transport.py](asrl/transport.py) | Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
+| [docs/reports/regression-review-2026-11-09.md](docs/reports/regression-review-2026-11-09.md) | Regression run review validation — November 9, 2026. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
@@ -115,6 +125,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/session/Program.cs](tests/session/Program.cs) | Jason Stys: actual native session boundaries and nonserved deliberately incorrect comparison predicates. |
 | [tests/session/SessionTests.csproj](tests/session/SessionTests.csproj) | Jason Stys: native self-contained session tests, no test framework or runtime packages. |
 | [tests/session/packages.lock.json](tests/session/packages.lock.json) | Locked framework-only native test restore. |
+| [tests/test\_compare.py](tests/test_compare.py) | Jason Stys: independent regression cohort/status oracles and exact source/output boundaries. |
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
 | [tests/test\_runner.py](tests/test_runner.py) | Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence. |
 | [tests/test\_transport.py](tests/test_transport.py) | Jason Stys: actual loopback sockets plus isolated lifecycle failure/timeout/no-external-target tests. |
