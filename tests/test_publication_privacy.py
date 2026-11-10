@@ -5,11 +5,11 @@
 # variable: path — line 25
 # variable: archive — line 26
 # variable: text — line 29
-# definition: test_unsupported_word_packages_fail_closed — line 37
-# parameter: kind — line 37
-# parameter: tmp_path — line 37
-# variable: path — line 39
-# variable: archive — line 40
+# definition: test_unsupported_word_packages_fail_closed — line 38
+# parameter: kind — line 38
+# parameter: tmp_path — line 38
+# variable: path — line 40
+# variable: archive — line 41
 # END CODE MAP
 
 import re
@@ -32,7 +32,8 @@ def test_word_xml_remains_visible_to_secret_scan(tmp_path):
 
 
 @pytest.mark.parametrize(
-    "kind", ["missing-document", "macro", "invalid-utf8", "oversized"]
+    "kind",
+    ["missing-document", "macro", "embedded-package", "invalid-utf8", "oversized"],
 )
 def test_unsupported_word_packages_fail_closed(tmp_path, kind):
     """Unknown/malformed/macro and amplified packages do not become a skipped empty source."""
@@ -44,6 +45,8 @@ def test_unsupported_word_packages_fail_closed(tmp_path, kind):
         )
         if kind == "macro":
             archive.writestr("word/vbaProject.bin", b"not an executable macro")
+        if kind == "embedded-package":
+            archive.writestr("word/embeddings/inert.bin", b"synthetic inert package")
         if kind == "oversized":
             archive.writestr("word/oversized.xml", b"x" * (16 * 1024 * 1024 + 1))
     with pytest.raises((ValueError, UnicodeDecodeError)):
