@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "project": "application-security-regression-lab",
+  "author": "Jason Stys",
+  "editionDate": "2026-11-09",
+  "sourceBaseline": "4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+  "sourceUrl": "https://github.com/JasonStys/application-security-regression-lab/tree/4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+  "functionalEvidenceBaseline": "4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+  "evidenceObservedAt": "2026-11-10T05:25:40.628667+00:00",
+  "workflowEvidence": [
+    {
+      "conclusion": "success",
+      "databaseId": 42710447276,
+      "event": "push",
+      "headSha": "4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+      "name": "CodeQL",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/42710447276"
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 42710447325,
+      "event": "push",
+      "headSha": "4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+      "name": "Validate",
+      "status": "completed",
+      "url": "https://github.com/JasonStys/application-security-regression-lab/actions/runs/42710447325"
+    }
+  ],
+  "summary": "Compare exact saved HTTP regression evidence across union cases, including missing execution and changed assertions.",
+  "rationale": "Prevents an absent or weakened test from being reported as an application-security recovery.",
+  "limitations": [
+    "Comparison covers saved HTTP evidence; matching labels do not prove that test implementations or assertions are equivalent.",
+    "Missing execution and changed assertions remain distinct from verified application-security recovery.",
+    "It is not a chronology guarantee, latency benchmark or universal application-security assessment."
+  ],
+  "documents": [
+    {
+      "filename": "project-guide.docx",
+      "mimeType": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+      "bytes": 43847,
+      "sha256": "6034cfb6e90bd833c37e60d03af08902ca692dc3612541d1e037083ef2eac9d5",
+      "sourceBaseline": "4466fed1ebed0c538cc2ea35d96c92c6299b96bf",
+      "visualReview": {
+        "approved": true,
+        "method": "Every rendered page individually viewed at readable original resolution",
+        "pageCount": 4,
+        "renderedPageSha256": {
+          "page-1.png": "254a22d69f95a13795af2c50cb4d66e45fc8b17a25945c54301e866f87d67f18",
+          "page-2.png": "54ced5af7d5b56e7c3f9e8fb563ac6505453b35d119f394e73e553f9f29fcba0",
+          "page-3.png": "f0fb30b72065b31fef5a8c5b0bbd6f0a9c509f73db02e76b977df47df9c65b40",
+          "page-4.png": "1f3f91654463b146682449ef22f6c1d2c7a91cacfa31652e69ac218ce8783091"
+        }
+      }
+    }
+  ],
+  "scope": "Reviewed documentation editions of the cited source. Checksums identify bytes, not authorship. Historical measurements retain their own dates; integration CI must be checked separately."
+}

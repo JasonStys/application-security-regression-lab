@@ -6,13 +6,13 @@ Created by **Jason Stys** · [GitHub](https://github.com/JasonStys) · [Contact 
 
 Four independent, functional, corrected native services demonstrate security boundaries and keep them under regression tests. This is an owner-local **synthetic educational lab**, not a public login system, vulnerability scanner, federated app, ASVS certification or production-ready deployment.
 
-| Workbench | Working feature | Proof |
-| --- | --- | --- |
-| Java | Authoritative tenant/operation authorization, immutable notes, atomic expected revisions | native negative/race checks + actual HTTP read/write isolation |
-| C# / ASP.NET Core | 256-bit random sessions, hash-only storage, monotonic expiry/revocation/capacity | native time-boundary tests + real cookies, peer scope and revocation |
-| PHP / SQLite | Parameterized literal search, same-tenant access, bounded .txt data uploads | actual PDO queries/quota rollback + HTTP upload/download |
-| JavaScript / TypeScript / HTML / CSS | Literal DOM rendering, strict response validation, CSP, no remote UI assets | native Node/typed tests + real browser XSS/keyboard/accessibility cases |
-| Python / Bash | Owned-process orchestration, exact expected/observed evidence, inert HTML reports | strict negative/property/lifecycle tests, real loopback conformance |
+| Workbench                            | Working feature                                                                          | Proof                                                                   |
+| ------------------------------------ | ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| Java                                 | Authoritative tenant/operation authorization, immutable notes, atomic expected revisions | native negative/race checks + actual HTTP read/write isolation          |
+| C# / ASP.NET Core                    | 256-bit random sessions, hash-only storage, monotonic expiry/revocation/capacity         | native time-boundary tests + real cookies, peer scope and revocation    |
+| PHP / SQLite                         | Parameterized literal search, same-tenant access, bounded .txt data uploads              | actual PDO queries/quota rollback + HTTP upload/download                |
+| JavaScript / TypeScript / HTML / CSS | Literal DOM rendering, strict response validation, CSP, no remote UI assets              | native Node/typed tests + real browser XSS/keyboard/accessibility cases |
+| Python / Bash                        | Owned-process orchestration, exact expected/observed evidence, inert HTML reports        | strict negative/property/lifecycle tests, real loopback conformance     |
 
 Deliberately incorrect comparisons live only in tests, not HTTP modes. Regressions prove selected known defects are discriminated; this is not universal mutation coverage. Synthetic fixture IDs are **public exercise selectors, never real credentials**. C# bootstrap selects synthetic identities without passwords; it is not authentication of real people.
 
@@ -85,8 +85,12 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/transport.py](asrl/transport.py) | Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
+| [docs/handbook.md](docs/handbook.md) | Application Security Regression Lab handbook. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
+| [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
+| [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
+| [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/regression-review-2026-11-09.md](docs/reports/regression-review-2026-11-09.md) | Regression run review validation — November 9, 2026. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
@@ -127,6 +131,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/session/packages.lock.json](tests/session/packages.lock.json) | Locked framework-only native test restore. |
 | [tests/test\_compare.py](tests/test_compare.py) | Jason Stys: independent regression cohort/status oracles and exact source/output boundaries. |
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
+| [tests/test\_publication\_privacy.py](tests/test_publication_privacy.py) | Jason Stys: credentials in actual Word XML remain visible to repository privacy checks. |
 | [tests/test\_runner.py](tests/test_runner.py) | Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence. |
 | [tests/test\_transport.py](tests/test_transport.py) | Jason Stys: actual loopback sockets plus isolated lifecycle failure/timeout/no-external-target tests. |
 | [tests/ui/text.test.mjs](tests/ui/text.test.mjs) | Jason Stys: native TypeScript text contracts and genuine Node transport, plus a nonserved unsafe comparison. |
@@ -138,3 +143,9 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [web/text.ts](web/text.ts) | Jason Stys: validate bounded Unicode and render it as text, never markup, attributes, URLs or code. |
 
 <!-- END FILE GUIDE -->
+
+## Documentation editions
+
+Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
+
+[Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
