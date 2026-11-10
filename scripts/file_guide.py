@@ -4,22 +4,22 @@
 # variable: BEGIN — line 31
 # variable: END — line 31
 # variable: SPECIAL — line 32
-# definition: purpose — line 52
-# parameter: name — line 52
-# variable: text — line 56
-# variable: line — line 70
-# variable: line — line 79
-# definition: main — line 85
-# variable: parser — line 87
-# variable: args — line 89
-# variable: names — line 90
-# variable: rows — line 98
-# variable: name — line 99
-# variable: path — line 109
-# variable: original — line 110
-# variable: end — line 111
-# variable: start — line 111
-# variable: expected — line 112
+# definition: purpose — line 54
+# parameter: name — line 54
+# variable: text — line 58
+# variable: line — line 72
+# variable: line — line 81
+# definition: main — line 87
+# variable: parser — line 89
+# variable: args — line 91
+# variable: names — line 92
+# variable: rows — line 100
+# variable: name — line 101
+# variable: path — line 111
+# variable: original — line 112
+# variable: end — line 113
+# variable: start — line 113
+# variable: expected — line 114
 # END CODE MAP
 
 import argparse
@@ -30,6 +30,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = "<!-- BEGIN FILE GUIDE -->", "<!-- END FILE GUIDE -->"
 SPECIAL = {
+    "docs/reports/project-guide.docx": "Reviewed Word project guide with source revision and dated validation scope.",
+    "docs/reports/publications.json": "Exact reviewed Office file identities, immutable source baseline and workflow observations.",
     ".gitignore": "Exclude runtime tokens, databases, builds, compilers and working reports.",
     ".gitattributes": "Consistent LF checkouts across supported operating systems.",
     "LICENSE": "MIT license for authored code; upstream tools retain their licenses.",

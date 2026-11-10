@@ -1,29 +1,58 @@
 """Jason Stys: private-state/link/action-pin and test-only-vulnerable-comparison confinement checks."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 26
-# definition: main — line 29
-# variable: names — line 31
-# variable: name — line 37
-# variable: path — line 38
-# variable: text — line 44
-# variable: target — line 47
-# variable: action — line 53
-# variable: word — line 57
-# variable: frontend — line 68
-# variable: word — line 71
-# variable: package — line 73
-# variable: value — line 76
-# variable: lock — line 78
-# variable: name — line 79
-# variable: value — line 79
+# variable: ROOT — line 34
+# definition: publication_text — line 37
+# parameter: path — line 37
+# variable: archive — line 39
+# variable: entries — line 40
+# variable: item — line 43
+# variable: item — line 47
+# variable: item — line 53
+# definition: main — line 58
+# variable: names — line 60
+# variable: name — line 66
+# variable: path — line 67
+# variable: text — line 73
+# variable: target — line 80
+# variable: action — line 86
+# variable: word — line 90
+# variable: frontend — line 101
+# variable: word — line 104
+# variable: package — line 106
+# variable: value — line 109
+# variable: lock — line 111
+# variable: name — line 112
+# variable: value — line 112
 # END CODE MAP
 
 import json
 import re
 import subprocess
 from pathlib import Path
+from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def publication_text(path: Path) -> str:
+    """Read bounded non-macro Word XML for the existing secret scan; reject malformed packages."""
+    with ZipFile(path) as archive:
+        entries = archive.infolist()
+        if (
+            len(entries) > 512
+            or sum(item.file_size for item in entries) > 16 * 1024 * 1024
+            or "word/document.xml" not in archive.namelist()
+            or any(
+                item.flag_bits & 1 or "vbaproject" in item.filename.lower()
+                for item in entries
+            )
+        ):
+            raise ValueError("Invalid or oversized Word documentation package")
+        return "\n".join(
+            archive.read(item).decode("utf-8")
+            for item in entries
+            if item.filename.endswith((".xml", ".rels"))
+        )
 
 
 def main() -> None:
@@ -41,7 +70,11 @@ def main() -> None:
             ("out/", "dist/", "node_modules/", ".venv/", ".tools/")
         )
         assert not re.search(r"/(?:bin|obj)/|\.(?:sqlite|db|env)(?:$|[.-])", name)
-        text = path.read_text(encoding="utf-8")
+        text = (
+            publication_text(path)
+            if name == "docs/reports/project-guide.docx"
+            else path.read_text(encoding="utf-8")
+        )
         assert not re.search(r"(?:ghp_|github_pat_)[A-Za-z0-9]{20,}", text)
         if name.endswith(".md"):
             for target in re.findall(r"\]\(([^)]+)\)", text):
