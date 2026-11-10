@@ -6,23 +6,23 @@
 # variable: archive — line 39
 # variable: entries — line 40
 # variable: item — line 43
-# variable: item — line 47
-# variable: item — line 53
-# definition: main — line 58
-# variable: names — line 60
-# variable: name — line 66
-# variable: path — line 67
-# variable: text — line 73
-# variable: target — line 80
-# variable: action — line 86
-# variable: word — line 90
-# variable: frontend — line 101
-# variable: word — line 104
-# variable: package — line 106
-# variable: value — line 109
-# variable: lock — line 111
-# variable: name — line 112
-# variable: value — line 112
+# variable: item — line 49
+# variable: item — line 55
+# definition: main — line 60
+# variable: names — line 62
+# variable: name — line 68
+# variable: path — line 69
+# variable: text — line 75
+# variable: target — line 82
+# variable: action — line 88
+# variable: word — line 92
+# variable: frontend — line 103
+# variable: word — line 106
+# variable: package — line 108
+# variable: value — line 111
+# variable: lock — line 113
+# variable: name — line 114
+# variable: value — line 114
 # END CODE MAP
 
 import json
@@ -43,7 +43,9 @@ def publication_text(path: Path) -> str:
             or sum(item.file_size for item in entries) > 16 * 1024 * 1024
             or "word/document.xml" not in archive.namelist()
             or any(
-                item.flag_bits & 1 or "vbaproject" in item.filename.lower()
+                item.flag_bits & 1
+                or "vbaproject" in item.filename.lower()
+                or "/embeddings/" in item.filename.lower()
                 for item in entries
             )
         ):
