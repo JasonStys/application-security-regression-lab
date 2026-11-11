@@ -1,129 +1,160 @@
 # Jason Stys: actual native/HTTP/browser security regressions; no artifact uploads or Actions caches.
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# parameter: name — line 128
-# parameter: on — line 129
-# parameter: push — line 130
-# parameter: branches — line 131
-# parameter: pull_request — line 132
-# parameter: workflow_dispatch — line 133
-# parameter: permissions — line 134
-# parameter: contents — line 135
-# parameter: concurrency — line 136
-# parameter: group — line 137
-# parameter: cancel-in-progress — line 138
-# parameter: jobs — line 139
-# parameter: quality — line 140
-# parameter: name — line 141
-# parameter: runs-on — line 142
-# parameter: timeout-minutes — line 143
-# parameter: strategy — line 144
-# parameter: fail-fast — line 145
-# parameter: matrix — line 146
-# parameter: include — line 147
-# parameter: steps — line 152
-# parameter: uses — line 153
-# parameter: with — line 154
-# parameter: persist-credentials — line 155
-# parameter: uses — line 156
-# parameter: with — line 157
-# parameter: python-version — line 158
-# parameter: uses — line 159
-# parameter: with — line 160
-# parameter: node-version — line 161
-# parameter: package-manager-cache — line 162
-# parameter: run — line 163
-# parameter: run — line 164
-# parameter: run — line 165
-# parameter: shell — line 166
-# parameter: run — line 167
-# parameter: native — line 168
-# parameter: name — line 169
-# parameter: runs-on — line 170
-# parameter: timeout-minutes — line 171
-# parameter: env — line 172
-# parameter: DOTNET_CLI_TELEMETRY_OPTOUT — line 173
-# parameter: DOTNET_NOLOGO — line 174
+# parameter: name — line 159
+# parameter: on — line 160
+# parameter: push — line 161
+# parameter: branches — line 162
+# parameter: pull_request — line 163
+# parameter: workflow_dispatch — line 164
+# parameter: permissions — line 165
+# parameter: contents — line 166
+# parameter: concurrency — line 167
+# parameter: group — line 168
+# parameter: cancel-in-progress — line 169
+# parameter: jobs — line 170
+# parameter: quality — line 171
+# parameter: name — line 172
+# parameter: runs-on — line 173
+# parameter: timeout-minutes — line 174
 # parameter: strategy — line 175
 # parameter: fail-fast — line 176
 # parameter: matrix — line 177
-# parameter: os — line 178
-# parameter: steps — line 179
-# parameter: uses — line 180
-# parameter: with — line 181
-# parameter: persist-credentials — line 182
-# parameter: uses — line 183
-# parameter: with — line 184
-# parameter: distribution — line 185
-# parameter: java-version — line 186
+# parameter: include — line 178
+# parameter: steps — line 183
+# parameter: uses — line 184
+# parameter: with — line 185
+# parameter: persist-credentials — line 186
 # parameter: uses — line 187
 # parameter: with — line 188
-# parameter: dotnet-version — line 189
-# parameter: name — line 190
-# parameter: shell — line 191
-# parameter: run — line 192
-# parameter: integration — line 203
-# parameter: name — line 204
-# parameter: runs-on — line 205
-# parameter: timeout-minutes — line 206
-# parameter: steps — line 207
-# parameter: uses — line 208
-# parameter: with — line 209
-# parameter: persist-credentials — line 210
-# parameter: uses — line 211
-# parameter: with — line 212
-# parameter: python-version — line 213
+# parameter: python-version — line 189
+# parameter: uses — line 190
+# parameter: with — line 191
+# parameter: node-version — line 192
+# parameter: package-manager-cache — line 193
+# parameter: run — line 194
+# parameter: name — line 195
+# parameter: if — line 196
+# parameter: run — line 197
+# parameter: run — line 198
+# parameter: run — line 199
+# parameter: shell — line 200
+# parameter: run — line 201
+# parameter: native — line 202
+# parameter: name — line 203
+# parameter: runs-on — line 204
+# parameter: timeout-minutes — line 205
+# parameter: env — line 206
+# parameter: DOTNET_CLI_TELEMETRY_OPTOUT — line 207
+# parameter: DOTNET_NOLOGO — line 208
+# parameter: strategy — line 209
+# parameter: fail-fast — line 210
+# parameter: matrix — line 211
+# parameter: os — line 212
+# parameter: steps — line 213
 # parameter: uses — line 214
 # parameter: with — line 215
-# parameter: node-version — line 216
-# parameter: package-manager-cache — line 217
-# parameter: uses — line 218
-# parameter: with — line 219
-# parameter: distribution — line 220
-# parameter: java-version — line 221
-# parameter: uses — line 222
-# parameter: with — line 223
-# parameter: dotnet-version — line 224
-# parameter: run — line 225
+# parameter: persist-credentials — line 216
+# parameter: uses — line 217
+# parameter: with — line 218
+# parameter: distribution — line 219
+# parameter: java-version — line 220
+# parameter: uses — line 221
+# parameter: with — line 222
+# parameter: dotnet-version — line 223
+# parameter: name — line 224
+# parameter: shell — line 225
 # parameter: run — line 226
-# parameter: name — line 227
-# parameter: run — line 228
-# parameter: name — line 229
-# parameter: run — line 230
-# parameter: browser — line 234
-# parameter: name — line 235
-# parameter: runs-on — line 236
-# parameter: timeout-minutes — line 237
-# parameter: steps — line 238
-# parameter: uses — line 239
-# parameter: with — line 240
-# parameter: persist-credentials — line 241
+# parameter: integration — line 237
+# parameter: name — line 238
+# parameter: runs-on — line 239
+# parameter: timeout-minutes — line 240
+# parameter: steps — line 241
 # parameter: uses — line 242
 # parameter: with — line 243
-# parameter: node-version — line 244
-# parameter: package-manager-cache — line 245
-# parameter: run — line 246
-# parameter: run — line 247
-# parameter: run — line 252
-# parameter: run — line 253
-# parameter: security — line 254
-# parameter: name — line 255
-# parameter: runs-on — line 256
-# parameter: timeout-minutes — line 257
-# parameter: steps — line 258
-# parameter: uses — line 259
-# parameter: with — line 260
-# parameter: persist-credentials — line 261
-# parameter: fetch-depth — line 262
-# parameter: uses — line 263
-# parameter: with — line 264
-# parameter: python-version — line 265
-# parameter: uses — line 266
-# parameter: with — line 267
-# parameter: node-version — line 268
-# parameter: package-manager-cache — line 269
-# parameter: run — line 270
-# parameter: run — line 271
-# parameter: run — line 272
+# parameter: persist-credentials — line 244
+# parameter: uses — line 245
+# parameter: with — line 246
+# parameter: python-version — line 247
+# parameter: uses — line 248
+# parameter: with — line 249
+# parameter: node-version — line 250
+# parameter: package-manager-cache — line 251
+# parameter: uses — line 252
+# parameter: with — line 253
+# parameter: distribution — line 254
+# parameter: java-version — line 255
+# parameter: uses — line 256
+# parameter: with — line 257
+# parameter: dotnet-version — line 258
+# parameter: run — line 259
+# parameter: run — line 260
+# parameter: name — line 261
+# parameter: run — line 262
+# parameter: name — line 263
+# parameter: run — line 264
+# parameter: browser — line 268
+# parameter: name — line 269
+# parameter: runs-on — line 270
+# parameter: timeout-minutes — line 271
+# parameter: steps — line 272
+# parameter: uses — line 273
+# parameter: with — line 274
+# parameter: persist-credentials — line 275
+# parameter: uses — line 276
+# parameter: with — line 277
+# parameter: node-version — line 278
+# parameter: package-manager-cache — line 279
+# parameter: run — line 280
+# parameter: run — line 281
+# parameter: run — line 286
+# parameter: run — line 287
+# parameter: security — line 288
+# parameter: name — line 289
+# parameter: runs-on — line 290
+# parameter: timeout-minutes — line 291
+# parameter: steps — line 292
+# parameter: uses — line 293
+# parameter: with — line 294
+# parameter: persist-credentials — line 295
+# parameter: fetch-depth — line 296
+# parameter: uses — line 297
+# parameter: with — line 298
+# parameter: python-version — line 299
+# parameter: uses — line 300
+# parameter: with — line 301
+# parameter: node-version — line 302
+# parameter: package-manager-cache — line 303
+# parameter: run — line 304
+# parameter: run — line 305
+# parameter: run — line 306
+# parameter: portable-windows — line 314
+# parameter: name — line 315
+# parameter: runs-on — line 316
+# parameter: timeout-minutes — line 317
+# parameter: steps — line 318
+# parameter: uses — line 319
+# parameter: with — line 320
+# parameter: persist-credentials — line 321
+# parameter: uses — line 322
+# parameter: with — line 323
+# parameter: python-version — line 324
+# parameter: uses — line 325
+# parameter: with — line 326
+# parameter: node-version — line 327
+# parameter: package-manager-cache — line 328
+# parameter: uses — line 329
+# parameter: with — line 330
+# parameter: distribution — line 331
+# parameter: java-version — line 332
+# parameter: run — line 333
+# parameter: run — line 334
+# parameter: run — line 335
+# parameter: run — line 336
+# parameter: run — line 337
+# parameter: name — line 338
+# parameter: run — line 339
+# parameter: name — line 340
+# parameter: run — line 341
 # END CODE MAP
 name: Validate
 on:
@@ -158,9 +189,12 @@ jobs:
           python-version: ${{ matrix.python }}
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '24.21.0'
+          node-version: '24.22.1'
           package-manager-cache: false
       - run: python -m pip install --require-hashes -r requirements-dev.lock
+      - name: Source Tk import on disposable Linux workers
+        if: runner.os == 'Linux'
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libtk8.6
       - run: npm ci --ignore-scripts
       - run: npm run build
       - shell: bash
@@ -183,10 +217,10 @@ jobs:
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
-          java-version: '25.0.4'
+          java-version: '25.0.5'
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
-          dotnet-version: '10.0.401'
+          dotnet-version: '10.0.404'
       - name: Actual native cores
         shell: bash
         run: |
@@ -213,15 +247,15 @@ jobs:
           python-version: '3.14'
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '24.21.0'
+          node-version: '24.22.1'
           package-manager-cache: false
       - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
         with:
           distribution: temurin
-          java-version: '25.0.4'
+          java-version: '25.0.5'
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         with:
-          dotnet-version: '10.0.401'
+          dotnet-version: '10.0.404'
       - run: npm ci --ignore-scripts
       - run: npm run build
       - name: Native compiler, real SQLite and owned-service regressions
@@ -241,7 +275,7 @@ jobs:
           persist-credentials: false
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '24.21.0'
+          node-version: '24.22.1'
           package-manager-cache: false
       - run: npm ci --ignore-scripts
       - run: |
@@ -265,7 +299,7 @@ jobs:
           python-version: '3.14'
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: '24.21.0'
+          node-version: '24.22.1'
           package-manager-cache: false
       - run: python -m pip install --require-hashes -r requirements-dev.lock
       - run: npm ci --ignore-scripts
@@ -277,3 +311,31 @@ jobs:
           .tools/gitleaks git . --redact --no-banner
           .tools/actionlint
           shellcheck scripts/validate.sh scripts/native.sh
+  portable-windows:
+    name: Windows / real four-runtime native application
+    runs-on: windows-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.14.10'
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24.22.1'
+          package-manager-cache: false
+      - uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5
+        with:
+          distribution: temurin
+          java-version: '25.0.5'
+      - run: python -m pip install --require-hashes -r requirements-dev.lock -r requirements-native.lock
+      - run: python -m pip check
+      - run: python -m pip_audit -r requirements-native.lock --disable-pip --no-deps
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - name: Exact official SDK/archive and signed app-local CRT admission, complete portable build
+        run: python scripts/build_native.py
+      - name: Actual Tk inputs, all four native services, independent status/content/cohort oracles, export and two-process reopen
+        run: python scripts/test_native_app.py

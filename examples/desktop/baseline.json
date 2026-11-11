@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "source": "uncommitted",
+  "note": "Fictional prepared comparison input, not an observed service execution or release certification. Every case is illustrative data.",
+  "cases": [
+    {
+      "id": "STABLE",
+      "component": "java",
+      "expected": 403,
+      "observed": 403,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "PERSISTENT",
+      "component": "java",
+      "expected": 403,
+      "observed": 200,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "RECOVERED",
+      "component": "java",
+      "expected": 403,
+      "observed": 200,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "REGRESSED",
+      "component": "java",
+      "expected": 403,
+      "observed": 403,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "MISSING",
+      "component": "java",
+      "expected": 403,
+      "observed": 403,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    },
+    {
+      "id": "CHANGED",
+      "component": "java",
+      "expected": 403,
+      "observed": 403,
+      "content_ok": true,
+      "elapsed_ms": 1.0
+    }
+  ]
+}

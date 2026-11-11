@@ -1,46 +1,50 @@
 """Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: request — line 52
-# parameter: port — line 53
-# parameter: path — line 54
-# parameter: method — line 55
-# parameter: body — line 56
-# parameter: headers — line 57
-# variable: started — line 68
-# variable: connection — line 69
-# variable: response — line 72
-# variable: raw — line 73
-# variable: name — line 78
-# variable: value — line 78
-# definition: free_port — line 88
-# variable: descriptor — line 90
-# definition: command — line 95
-# parameter: component — line 95
-# parameter: port — line 95
-# parameter: root — line 95
-# parameter: state — line 95
-# variable: commands — line 99
-# definition: service — line 120
-# parameter: component — line 120
-# parameter: root — line 120
-# parameter: state — line 120
-# variable: port — line 122
-# variable: environment — line 123
-# variable: process — line 124
-# variable: deadline — line 134
-# variable: _ — line 139
-# variable: headers — line 139
-# variable: raw — line 139
-# variable: status — line 139
-# variable: value — line 140
+# definition: request — line 56
+# parameter: port — line 57
+# parameter: path — line 58
+# parameter: method — line 59
+# parameter: body — line 60
+# parameter: headers — line 61
+# variable: started — line 72
+# variable: connection — line 73
+# variable: response — line 76
+# variable: raw — line 77
+# variable: name — line 82
+# variable: value — line 82
+# definition: free_port — line 92
+# variable: descriptor — line 94
+# definition: command — line 99
+# parameter: component — line 99
+# parameter: port — line 99
+# parameter: root — line 99
+# parameter: state — line 99
+# variable: commands — line 107
+# definition: service — line 128
+# parameter: component — line 128
+# parameter: root — line 128
+# parameter: state — line 128
+# variable: port — line 130
+# variable: environment — line 134
+# variable: environment — line 136
+# variable: nonce — line 137
+# variable: process — line 139
+# variable: deadline — line 149
+# variable: _ — line 154
+# variable: headers — line 154
+# variable: raw — line 154
+# variable: status — line 154
+# variable: value — line 155
 # END CODE MAP
 
 from __future__ import annotations
 
 import http.client
 import os
+import secrets
 import socket
 import subprocess
+import sys
 import time
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -96,6 +100,10 @@ def command(component: str, root: Path, state: Path, port: int) -> list[str]:
     """Select one fixed native adapter. No shell interpolation, caller URL or arbitrary executable command."""
     if component not in COMPONENTS:
         raise LabError("component")
+    if getattr(sys, "frozen", False):
+        from .native_runtime import command as bundled_command
+
+        return bundled_command(component, root, state, port)
     commands = {
         "java": ["java", "-cp", str(root / "out/java"), "JavaService", str(port)],
         "session": [
@@ -120,7 +128,14 @@ def command(component: str, root: Path, state: Path, port: int) -> list[str]:
 def service(component: str, root: Path, state: Path) -> Iterator[int]:
     """Start only an owned synthetic process, verify its component, and stop it even if assertions fail."""
     port = free_port()
-    environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
+    if getattr(sys, "frozen", False):
+        from .native_runtime import environment as bundled_environment
+
+        environment = bundled_environment(state)
+    else:
+        environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
+    nonce = secrets.token_hex(32)
+    environment["ASRL_OWNED_NONCE"] = nonce
     process = subprocess.Popen(
         command(component, root, state, port),
         cwd=root,
@@ -138,9 +153,15 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
             try:
                 status, headers, raw, _ = request(port, "/health")
                 value = decode(raw)
+                if getattr(sys, "frozen", False):
+                    from .native_runtime import RUNTIME_VERSIONS
+
+                    if headers.get("x-lab-runtime") != RUNTIME_VERSIONS[component]:
+                        raise LabError("owned_runtime_identity")
                 if (
                     status == 200
                     and headers.get("x-lab-component") == component
+                    and headers.get("x-lab-owned-nonce") == nonce
                     and value == {"component": component, "synthetic": True}
                 ):
                     break

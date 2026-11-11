@@ -1,44 +1,46 @@
 // Jason Stys: synthetic-only loopback HTTP session fixture. Not a real identity provider or public login.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
-// definition: Program — line 48
-// symbol: port — line 53
-// symbol: builder — line 55
-// variable: builder — line 55
-// variable: options — line 57
-// variable: MaxRequestBodySize — line 60
-// variable: RequestHeadersTimeout — line 61
-// variable: KeepAliveTimeout — line 62
-// variable: MaxConcurrentConnections — line 63
-// symbol: broker — line 65
-// variable: broker — line 65
-// symbol: app — line 66
-// variable: app — line 66
-// symbol: origin — line 67
-// variable: origin — line 67
-// variable: StatusCode — line 80
-// variable: StatusCode — line 89
-// variable: StatusCode — line 93
-// variable: StatusCode — line 94
+// definition: Program — line 50
+// symbol: port — line 55
+// symbol: builder — line 57
+// variable: builder — line 57
+// variable: options — line 59
+// variable: MaxRequestBodySize — line 62
+// variable: RequestHeadersTimeout — line 63
+// variable: KeepAliveTimeout — line 64
+// variable: MaxConcurrentConnections — line 65
+// symbol: broker — line 67
+// variable: broker — line 67
+// symbol: app — line 68
+// variable: app — line 68
+// symbol: origin — line 69
+// variable: origin — line 69
+// variable: StatusCode — line 82
+// variable: StatusCode — line 91
 // variable: StatusCode — line 95
-// variable: component — line 97
-// variable: synthetic — line 97
-// variable: MaxDepth — line 100
-// variable: document — line 100
-// variable: value — line 101
-// symbol: token — line 105
-// variable: token — line 106
-// variable: HttpOnly — line 109
-// variable: MaxAge — line 109
-// variable: Path — line 109
-// variable: SameSite — line 109
-// variable: Secure — line 109
-// variable: expires_in_seconds — line 110
-// variable: synthetic — line 110
-// variable: identity — line 114
-// variable: HttpOnly — line 120
-// variable: Path — line 120
-// variable: SameSite — line 120
-// variable: Secure — line 120
+// variable: StatusCode — line 96
+// variable: StatusCode — line 97
+// variable: nonce — line 101
+// variable: character — line 102
+// variable: component — line 105
+// variable: synthetic — line 105
+// variable: MaxDepth — line 109
+// variable: document — line 109
+// variable: value — line 110
+// symbol: token — line 114
+// variable: token — line 115
+// variable: HttpOnly — line 118
+// variable: MaxAge — line 118
+// variable: Path — line 118
+// variable: SameSite — line 118
+// variable: Secure — line 118
+// variable: expires_in_seconds — line 119
+// variable: synthetic — line 119
+// variable: identity — line 123
+// variable: HttpOnly — line 129
+// variable: Path — line 129
+// variable: SameSite — line 129
+// variable: Secure — line 129
 // END CODE MAP
 using System.Net;
 using System.Text.Json;
@@ -94,7 +96,14 @@ internal static class Program
             catch (BadHttpRequestException error) { context.Response.StatusCode = error.StatusCode; }
             catch (InvalidOperationException) { context.Response.StatusCode = 429; }
         });
-        app.MapGet("/health", () => Results.Json(new { component = "session", synthetic = true }));
+        app.MapGet("/health", (HttpContext context) =>
+        {
+            string? nonce = Environment.GetEnvironmentVariable("ASRL_OWNED_NONCE");
+            if (nonce is not null && nonce.Length == 64 && nonce.All(character => character is >= 'a' and <= 'f' or >= '0' and <= '9'))
+                context.Response.Headers["X-Lab-Owned-Nonce"] = nonce;
+            context.Response.Headers["X-Lab-Runtime"] = Environment.Version.ToString();
+            return Results.Json(new { component = "session", synthetic = true });
+        });
         app.MapPost("/session", async (HttpContext context) =>
         {
             using JsonDocument document = await JsonDocument.ParseAsync(context.Request.Body, new JsonDocumentOptions { MaxDepth = 8 });

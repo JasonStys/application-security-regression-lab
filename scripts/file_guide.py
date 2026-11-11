@@ -4,22 +4,22 @@
 # variable: BEGIN — line 31
 # variable: END — line 31
 # variable: SPECIAL — line 32
-# definition: purpose — line 54
-# parameter: name — line 54
-# variable: text — line 58
-# variable: line — line 72
-# variable: line — line 81
-# definition: main — line 87
-# variable: parser — line 89
-# variable: args — line 91
-# variable: names — line 92
-# variable: rows — line 100
-# variable: name — line 101
-# variable: path — line 111
-# variable: original — line 112
-# variable: end — line 113
-# variable: start — line 113
-# variable: expected — line 114
+# definition: purpose — line 59
+# parameter: name — line 59
+# variable: text — line 63
+# variable: line — line 77
+# variable: line — line 86
+# definition: main — line 92
+# variable: parser — line 94
+# variable: args — line 96
+# variable: names — line 97
+# variable: rows — line 105
+# variable: name — line 106
+# variable: path — line 116
+# variable: original — line 117
+# variable: end — line 118
+# variable: start — line 118
+# variable: expected — line 119
 # END CODE MAP
 
 import argparse
@@ -35,7 +35,12 @@ SPECIAL = {
     ".gitignore": "Exclude runtime tokens, databases, builds, compilers and working reports.",
     ".gitattributes": "Consistent LF checkouts across supported operating systems.",
     "LICENSE": "MIT license for authored code; upstream tools retain their licenses.",
-    "global.json": "Exact .NET SDK 10.0.401, no automatic version roll-forward.",
+    "global.json": "Exact patched .NET SDK 10.0.404, no automatic version roll-forward.",
+    "requirements-native.lock": "Exact SHA256-locked freezing tools; no runtime provider credentials or external SDK lookup at app launch.",
+    "native-sdks.lock.json": "Official fixed runtime/SDK archive sizes, URLs and provider hashes used only by the developer build.",
+    "examples/desktop/baseline.json": "Explicitly fictional supplied comparison baseline; not an observed native test execution.",
+    "examples/desktop/candidate.json": "Explicitly fictional supplied comparison changes with missing/new/changed/mismatching assertions.",
+    "scripts/prepare_native_crt.ps1": "Read-only discovery and actual Microsoft signature/hash validation of licensed app-local CRT build inputs.",
     "package.json": "Exact browser tool graph and build/verification commands.",
     "package-lock.json": "Complete integrity-locked npm tool graph.",
     "pyproject.toml": "Strict Python evidence/conformance lint/type/95% combined coverage gates.",

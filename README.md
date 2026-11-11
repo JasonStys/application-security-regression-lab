@@ -16,6 +16,14 @@ Four independent, functional, corrected native services demonstrate security bou
 
 Deliberately incorrect comparisons live only in tests, not HTTP modes. Regressions prove selected known defects are discriminated; this is not universal mutation coverage. Synthetic fixture IDs are **public exercise selectors, never real credentials**. C# bootstrap selects synthetic identities without passwords; it is not authentication of real people.
 
+## Windows application: execute, inspect and compare
+
+The portable **Application Security Regression Workbench 1.1.0** opens a native window and includes Python/Tk, Java, .NET, PHP and Node. An end user launches one EXE; no separate language installation, command setup or Docker is required. Source builds and release publication are separate steps; this change does not claim a published or installed release.
+
+Choose **Run real owned service regressions**, select all services or one component, acknowledge authorized synthetic use and run. The app starts only its own loopback fixtures and evaluates actual HTTP statuses **and** content invariants. Search the results, inspect the full selected evidence, export a new directory, and reopen an exact saved analysis. **Review supplied HTTP report** imports this project's bounded JSON schema without claiming to execute it. **Compare saved reports** preserves the original comparison engine's union of case IDs, changed assertions, missing execution and regressions.
+
+Eight prepared scenarios are selections within the full application: five real service runs, two explicitly fictional supplied reports and their seven-state comparison. They do not replace user-selected supported inputs. Saved evidence lives in an owner-local SQLite profile outside the EXE/repository; no real login or production scan target exists. Exit waits for active owned analysis and cleanup. [Application guide](docs/windows-application.md), [runtime sources/notices](docs/native-dependencies.md) and [dated acceptance evidence](docs/reports/native-workbench-2026-11-11.md) explain privacy, limits and reproduction.
+
 ## Quick start: browser exercise
 
 Node 24+, Python 3.12+:
@@ -28,7 +36,7 @@ Open the printed numeric 127.0.0.1 URL. Try a hostile-looking label: the text is
 
 ## Run the complete lab
 
-Prerequisites: Temurin JDK 25.0.4, .NET SDK 10.0.401, PHP 8.3+ with PDO SQLite, Node 24+ and Python 3.12+. GitHub's integration runner uses Node 24.21.0 and Ubuntu's maintained PHP/SQLite packages. No runtime third-party Maven/NuGet/Composer/npm libraries are required.
+Prerequisites for source CLI development: Temurin JDK 25.0.5, .NET SDK 10.0.404, PHP 8.3+ with PDO SQLite, Node 24+ and Python 3.12+. GitHub's integration runner uses Node 24.22.1 and Ubuntu's maintained PHP/SQLite packages. The Windows portable bundles JRE 25.0.5+8, .NET runtime 10.0.15, PHP 8.5.12 and Node 24.22.1. No runtime third-party Maven/NuGet/Composer/npm libraries are required.
 
     python -m venv .venv
     .venv\Scripts\python -m pip install --require-hashes -r requirements-dev.lock
@@ -81,13 +89,21 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/\_\_main\_\_.py](asrl/__main__.py) | Jason Stys: explicit component/all conformance runner and new-directory inert reports; owned synthetic fixtures only. |
 | [asrl/cases.py](asrl/cases.py) | Jason Stys: actual expected/observed application-boundary cases across four independent native adapters. |
 | [asrl/compare.py](asrl/compare.py) | Jason Stys: exact-byte regression run comparison; missing execution never becomes a pass. |
+| [asrl/desktop.py](asrl/desktop.py) | Native offline workbench: real project inputs, analysis, searchable evidence, history and export. Jason Stys. |
+| [asrl/desktop\_io.py](asrl/desktop_io.py) | Bounded regular descriptor reads and strict finite JSON for owner-local desktop state. Jason Stys. |
+| [asrl/desktop\_project.py](asrl/desktop_project.py) | Real native HTTP regression execution and exact saved-report review for the desktop. Jason Stys. |
+| [asrl/desktop\_state.py](asrl/desktop_state.py) | Owner-local desktop profile, bounded durable bundles and non-overwriting export. Jason Stys. |
 | [asrl/evidence.py](asrl/evidence.py) | Jason Stys: validated expected/observed security evidence, honest verdicts and inert HTML summaries. |
+| [asrl/inputs.py](asrl/inputs.py) | Bounded stable ordinary-file reads and streaming tool hashes for offline identity inputs. Jason Stys. |
+| [asrl/native\_runtime.py](asrl/native_runtime.py) | Closed, exact-byte app-local runtime admission and minimal service environment. Jason Stys. |
 | [asrl/transport.py](asrl/transport.py) | Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
 | [docs/handbook.md](docs/handbook.md) | Application Security Regression Lab handbook. |
+| [docs/native-dependencies.md](docs/native-dependencies.md) | Native runtime sources and notices. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
 | [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
+| [docs/reports/native-workbench-2026-11-11.md](docs/reports/native-workbench-2026-11-11.md) | Native security regression workbench — 2026-11-11. |
 | [docs/reports/office-input-boundary-2026-11-10.md](docs/reports/office-input-boundary-2026-11-10.md) | Documentation input boundary review — 2026-11-10. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
 | [docs/reports/project-guide.docx](docs/reports/project-guide.docx) | Reviewed Word project guide with source revision and dated validation scope. |
@@ -98,18 +114,30 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
 | [docs/security.md](docs/security.md) | Threat model and review boundaries. |
 | [docs/testing.md](docs/testing.md) | Test strategy and limitations. |
-| [global.json](global.json) | Exact .NET SDK 10.0.401, no automatic version roll-forward. |
+| [docs/windows-application.md](docs/windows-application.md) | Windows application guide. |
+| [examples/desktop/baseline.json](examples/desktop/baseline.json) | Explicitly fictional supplied comparison baseline; not an observed native test execution. |
+| [examples/desktop/candidate.json](examples/desktop/candidate.json) | Explicitly fictional supplied comparison changes with missing/new/changed/mismatching assertions. |
+| [global.json](global.json) | Exact patched .NET SDK 10.0.404, no automatic version roll-forward. |
+| [native-sdks.lock.json](native-sdks.lock.json) | Official fixed runtime/SDK archive sizes, URLs and provider hashes used only by the developer build. |
 | [package-lock.json](package-lock.json) | Complete integrity-locked npm tool graph. |
 | [package.json](package.json) | Exact browser tool graph and build/verification commands. |
 | [playwright.config.mjs](playwright.config.mjs) | Jason Stys: real corrected DOM exercise on three browser engines and a mobile layout, no artifact/cache uploads. |
 | [pyproject.toml](pyproject.toml) | Strict Python evidence/conformance lint/type/95% combined coverage gates. |
 | [requirements-dev.in](requirements-dev.in) | Exact Python development tool inputs. |
 | [requirements-dev.lock](requirements-dev.lock) | Complete portable hash-locked Python development graph. |
+| [requirements-native.lock](requirements-native.lock) | Exact SHA256-locked freezing tools; no runtime provider credentials or external SDK lookup at app launch. |
 | [scripts/build.mjs](scripts/build.mjs) | Jason Stys: copy reviewed static assets after strict TypeScript compilation; private reports/state excluded. |
+| [scripts/build\_native.py](scripts/build_native.py) | Freeze the real four-service workbench with exact app-local runtimes; no install or publication. Jason Stys. |
 | [scripts/code\_map.py](scripts/code_map.py) | Jason Stys: generate exact definition/variable line maps and verify Python function/class contracts. |
 | [scripts/file\_guide.py](scripts/file_guide.py) | Jason Stys: exact tracked-file README purpose inventory; unknown files fail instead of receiving guessed descriptions. |
 | [scripts/native.sh](scripts/native.sh) | Jason Stys: real native compilation/core comparisons and owned-loopback conformance; never skip a runtime. |
+| [scripts/native\_acceptance.py](scripts/native_acceptance.py) | Actual frozen AppSec widgets, four real service engines and durable restart acceptance. Jason Stys. |
+| [scripts/native\_common.py](scripts/native_common.py) | Actual patched Python/Tcl/Tk/PyInstaller runtime notices and authored portable icon. Jason Stys. |
+| [scripts/native\_entry.py](scripts/native_entry.py) | Launch the actual bundled offline project workbench; no setup shell commands. Jason Stys. |
+| [scripts/prepare\_native\_crt.ps1](scripts/prepare_native_crt.ps1) | Read-only discovery and actual Microsoft signature/hash validation of licensed app-local CRT build inputs. |
+| [scripts/prepare\_native\_sdks.py](scripts/prepare_native_sdks.py) | Verify exact official Windows SDK archives and inert local extraction; never install globally. Jason Stys. |
 | [scripts/scanners.py](scripts/scanners.py) | Install only hash-pinned official Linux scanner binaries. Created by Jason Stys. |
+| [scripts/test\_native\_app.py](scripts/test_native_app.py) | Run the real frozen workbench twice with an owned synthetic profile and exact bundle persistence. Jason Stys. |
 | [scripts/ts-map.mjs](scripts/ts-map.mjs) | Jason Stys: exact AST declaration/parameter maps for TypeScript/JavaScript and static HTML/CSS control maps. |
 | [scripts/validate.sh](scripts/validate.sh) | Jason Stys: strict conformance/evidence core and complete maintained source/documentation gates. |
 | [scripts/validate\_repo.py](scripts/validate_repo.py) | Jason Stys: private-state/link/action-pin and test-only-vulnerable-comparison confinement checks. |
@@ -131,7 +159,14 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/session/SessionTests.csproj](tests/session/SessionTests.csproj) | Jason Stys: native self-contained session tests, no test framework or runtime packages. |
 | [tests/session/packages.lock.json](tests/session/packages.lock.json) | Locked framework-only native test restore. |
 | [tests/test\_compare.py](tests/test_compare.py) | Jason Stys: independent regression cohort/status oracles and exact source/output boundaries. |
+| [tests/test\_desktop\_gui.py](tests/test_desktop_gui.py) | Presentation-adapter unit tests with real core/SQLite workers; real widgets are separately frozen-tested. Jason Stys. |
+| [tests/test\_desktop\_project.py](tests/test_desktop_project.py) | Independent exact-report/cohort/user-control oracles; mocks do not establish actual native execution. Jason Stys. |
+| [tests/test\_desktop\_state.py](tests/test_desktop_state.py) | Independent offline desktop ownership, byte-bound, SQLite and non-overwrite regressions. Jason Stys. |
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
+| [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
+| [tests/test\_native\_runtime.py](tests/test_native_runtime.py) | Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys. |
+| [tests/test\_native\_sdks.py](tests/test_native_sdks.py) | Actual inert developer-archive extraction and provider boundary regressions. Jason Stys. |
+| [tests/test\_profile\_admission.py](tests/test_profile_admission.py) | Actual pre-existing alias refusal and ordinary SQLite recovery continuity. Jason Stys. |
 | [tests/test\_publication\_privacy.py](tests/test_publication_privacy.py) | Jason Stys: credentials in actual Word XML remain visible to repository privacy checks. |
 | [tests/test\_runner.py](tests/test_runner.py) | Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence. |
 | [tests/test\_transport.py](tests/test_transport.py) | Jason Stys: actual loopback sockets plus isolated lifecycle failure/timeout/no-external-target tests. |
