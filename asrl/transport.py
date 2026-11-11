@@ -134,7 +134,7 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
     if getattr(sys, "frozen", False):
         from .native_runtime import environment as bundled_environment
 
-        environment = bundled_environment(state)
+        environment = bundled_environment(state, root, component)
     else:
         environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
     nonce = secrets.token_hex(32)

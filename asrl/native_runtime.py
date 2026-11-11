@@ -1,37 +1,39 @@
 """Closed, exact-byte app-local runtime admission and minimal service environment. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ENTRYPOINTS — line 47
-# variable: PREFIXES — line 53
-# variable: REQUIRED_DATA — line 54
-# variable: MAX_RESOURCE — line 73
-# variable: MAX_TOTAL — line 74
-# variable: RUNTIME_VERSIONS — line 75
-# definition: validate — line 83
-# parameter: root — line 83
-# variable: value — line 85
-# variable: entries — line 93
-# variable: names — line 96
-# variable: total — line 97
-# variable: row — line 98
-# variable: digest — line 101
-# variable: name — line 101
-# variable: size — line 101
-# variable: path — line 110
-# variable: part — line 113
-# variable: total — line 126
-# variable: selected — line 129
-# variable: name — line 136
+# variable: ENTRYPOINTS — line 49
+# variable: PREFIXES — line 55
+# variable: REQUIRED_DATA — line 56
+# variable: MAX_RESOURCE — line 75
+# variable: MAX_TOTAL — line 76
+# variable: RUNTIME_VERSIONS — line 77
+# definition: validate — line 85
+# parameter: root — line 85
+# variable: value — line 87
+# variable: entries — line 95
+# variable: names — line 98
+# variable: total — line 99
+# variable: row — line 100
+# variable: digest — line 103
+# variable: name — line 103
+# variable: size — line 103
+# variable: path — line 112
+# variable: part — line 115
+# variable: total — line 128
+# variable: selected — line 131
 # variable: name — line 138
-# definition: command — line 143
-# parameter: component — line 143
-# parameter: port — line 143
-# parameter: root — line 143
-# parameter: state — line 143
-# variable: executable — line 148
+# variable: name — line 140
+# definition: command — line 145
+# parameter: component — line 145
+# parameter: port — line 145
+# parameter: root — line 145
+# parameter: state — line 145
+# variable: executable — line 150
 # definition: environment — line 178
+# parameter: component — line 178
+# parameter: root — line 178
 # parameter: state — line 178
-# variable: result — line 180
-# variable: key — line 182
+# variable: result — line 182
+# variable: key — line 184
 # END CODE MAP
 
 from __future__ import annotations
@@ -165,9 +167,7 @@ def command(component: str, root: Path, state: Path, port: int) -> list[str]:
             "-d",
             "display_errors=0",
             "-d",
-            "extension_dir=" + str(root / "runtime/php/ext"),
-            "-d",
-            "extension=php_pdo_sqlite.dll",
+            "extension=" + str(root / "runtime/php/ext/php_pdo_sqlite.dll"),
             "-S",
             "127.0.0.1:" + str(port),
             str(root / "services/php/router.php"),
@@ -175,8 +175,10 @@ def command(component: str, root: Path, state: Path, port: int) -> list[str]:
     return [executable, str(root / "services/node/server.mjs"), str(port)]
 
 
-def environment(state: Path) -> dict[str, str]:
-    """Clear provider keys, runtime injection/config variables and user PATH before an authored disposable service starts."""
+def environment(state: Path, root: Path, component: str) -> dict[str, str]:
+    """Use only the fixed authenticated component directory and System32, never user PATH/config/provider keys."""
+    if component not in ENTRYPOINTS:
+        raise Rejected("native_environment_component")
     result = {
         key: os.environ[key]
         for key in ("SYSTEMROOT", "WINDIR", "TEMP", "TMP")
@@ -184,7 +186,9 @@ def environment(state: Path) -> dict[str, str]:
     }
     result.update(
         {
-            "PATH": str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32"),
+            "PATH": str((root / ENTRYPOINTS[component]).parent)
+            + os.pathsep
+            + str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32"),
             "ASRL_PHP_DB": str(state / "php.sqlite"),
             "DOTNET_EnableDiagnostics": "0",
             "DOTNET_ROLL_FORWARD": "Disable",

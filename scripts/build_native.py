@@ -1,76 +1,82 @@
 """Freeze the real four-service workbench with exact app-local runtimes; no install or publication. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 88
-# definition: copy_tree — line 92
-# parameter: source — line 92
-# parameter: target — line 92
-# variable: path — line 96
-# variable: selected — line 100
-# definition: main — line 105
-# variable: source — line 120
-# variable: dirty — line 123
-# variable: output — line 128
-# variable: release — line 128
-# variable: sdks — line 132
-# variable: jre — line 133
-# variable: dotnet — line 134
-# variable: node — line 135
-# variable: php — line 136
-# variable: compiler — line 137
-# variable: build_env — line 142
-# variable: crt — line 183
-# variable: directory — line 186
-# variable: stage — line 187
-# variable: runtime — line 192
-# variable: family — line 194
-# variable: name — line 203
-# variable: target — line 204
-# variable: row — line 207
-# variable: selected — line 208
-# variable: component — line 211
-# variable: session — line 213
-# variable: name — line 215
-# variable: config_path — line 223
-# variable: config — line 224
-# variable: options — line 225
-# variable: row — line 226
-# variable: row — line 231
-# variable: classes — line 235
-# variable: path — line 251
-# variable: path — line 257
-# variable: notice_sources — line 261
-# variable: path — line 266
-# variable: notice_sources — line 269
-# variable: base_notices — line 276
-# variable: blocks — line 277
-# variable: path — line 278
-# variable: title — line 278
-# variable: raw — line 279
-# variable: combined — line 283
-# variable: entries — line 289
-# variable: path — line 295
-# variable: manifest — line 298
-# variable: resources — line 305
-# variable: name — line 313
-# variable: metadata — line 315
-# variable: name — line 323
-# variable: path — line 323
-# variable: command — line 329
-# variable: name — line 351
-# variable: path — line 351
-# variable: command — line 353
-# variable: name — line 357
-# variable: command — line 358
-# variable: command — line 359
-# variable: packed — line 378
-# variable: name — line 381
-# variable: packed_names — line 381
-# variable: row — line 384
-# variable: name — line 385
-# variable: data — line 388
-# variable: executable — line 396
-# variable: stream — line 397
-# variable: digest — line 398
+# variable: ROOT — line 94
+# definition: copy_tree — line 98
+# parameter: source — line 98
+# parameter: target — line 98
+# variable: path — line 102
+# variable: selected — line 106
+# definition: verify_php_capability — line 111
+# parameter: root — line 111
+# parameter: state — line 111
+# variable: result — line 115
+# definition: main — line 142
+# variable: source — line 157
+# variable: dirty — line 160
+# variable: output — line 165
+# variable: release — line 165
+# variable: sdks — line 169
+# variable: jre — line 170
+# variable: dotnet — line 171
+# variable: node — line 172
+# variable: php — line 173
+# variable: compiler — line 174
+# variable: build_env — line 179
+# variable: crt — line 220
+# variable: directory — line 223
+# variable: stage — line 224
+# variable: runtime — line 229
+# variable: family — line 231
+# variable: name — line 240
+# variable: target — line 241
+# variable: row — line 244
+# variable: selected — line 245
+# variable: component — line 248
+# variable: session — line 250
+# variable: name — line 252
+# variable: config_path — line 260
+# variable: config — line 261
+# variable: options — line 262
+# variable: row — line 263
+# variable: row — line 268
+# variable: classes — line 272
+# variable: path — line 288
+# variable: path — line 294
+# variable: notice_sources — line 298
+# variable: path — line 303
+# variable: notice_sources — line 306
+# variable: base_notices — line 313
+# variable: blocks — line 314
+# variable: path — line 315
+# variable: title — line 315
+# variable: raw — line 316
+# variable: combined — line 320
+# variable: entries — line 326
+# variable: path — line 332
+# variable: manifest — line 335
+# variable: extension — line 345
+# variable: held — line 346
+# variable: resources — line 364
+# variable: name — line 372
+# variable: metadata — line 374
+# variable: name — line 382
+# variable: path — line 382
+# variable: command — line 388
+# variable: name — line 410
+# variable: path — line 410
+# variable: command — line 412
+# variable: name — line 416
+# variable: command — line 417
+# variable: command — line 418
+# variable: packed — line 437
+# variable: name — line 440
+# variable: packed_names — line 440
+# variable: row — line 443
+# variable: name — line 444
+# variable: data — line 447
+# variable: executable — line 455
+# variable: stream — line 456
+# variable: digest — line 457
 # END CODE MAP
 
 from __future__ import annotations
@@ -100,6 +106,37 @@ def copy_tree(source: Path, target: Path) -> None:
         selected = target / path.relative_to(source)
         selected.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(path, selected)
+
+
+def verify_php_capability(root: Path, state: Path) -> None:
+    """Require actual SQLite PDO capability under the same fixed absolute extension/minimal child environment."""
+    from asrl.native_runtime import environment
+
+    result = subprocess.run(
+        [
+            str(root / "runtime/php/php.exe"),
+            "-n",
+            "-d",
+            "display_errors=0",
+            "-d",
+            "extension=" + str(root / "runtime/php/ext/php_pdo_sqlite.dll"),
+            "-r",
+            "exit(PHP_VERSION==='8.5.12' && in_array('sqlite',PDO::getAvailableDrivers(),true)?0:12);",
+        ],
+        cwd=root,
+        env=environment(state, root, "php"),
+        stdin=subprocess.DEVNULL,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        timeout=15,
+        check=False,
+    )
+    if result.returncode != 0:
+        raise ValueError("Exact staged PHP version/PDO SQLite capability failed")
+    print(
+        "Actual exact staged PHP/PDO SQLite capability passed with fixed minimal environment",
+        flush=True,
+    )
 
 
 def main() -> None:
@@ -302,6 +339,28 @@ def main() -> None:
         )
         shutil.copyfile(manifest, stage / "runtime-manifest.json")
         validate_runtime(stage)
+        verify_php_capability(stage, output)
+        # An actual missing-module control must fail under the same command,
+        # then the exact admitted DLL must be restored before any freezing.
+        extension = stage / "runtime/php/ext/php_pdo_sqlite.dll"
+        held = extension.with_suffix(".disabled-owned-check")
+        extension.rename(held)
+        try:
+            try:
+                verify_php_capability(stage, output)
+            except ValueError:
+                print(
+                    "Actual missing PDO extension refused by staged capability check",
+                    flush=True,
+                )
+            else:
+                raise RuntimeError(
+                    "Missing PDO extension incorrectly passed capability admission"
+                )
+        finally:
+            held.rename(extension)
+        validate_runtime(stage)
+        verify_php_capability(stage, output)
         resources = {
             name: release / name
             if name in ("runtime-manifest.json", "notices.txt")

@@ -1,56 +1,58 @@
 """Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: manifest — line 62
-# parameter: tmp_path — line 62
-# variable: rows — line 64
-# variable: index — line 65
-# variable: name — line 65
-# variable: path — line 68
-# variable: raw — line 70
-# variable: value — line 75
-# definition: test_fixed_commands_and_cleared_injection_environment — line 80
-# parameter: manifest — line 80
-# parameter: monkeypatch — line 80
-# variable: root — line 82
-# variable: value — line 82
-# variable: name — line 84
-# variable: command — line 85
-# variable: item — line 87
-# variable: key — line 88
-# variable: environment — line 98
-# definition: test_manifest_path_refusal — line 135
-# parameter: manifest — line 135
-# parameter: name — line 135
-# variable: root — line 137
-# variable: value — line 137
-# definition: test_manifest_identity_and_closed_schema — line 160
-# parameter: manifest — line 160
-# parameter: mutation — line 160
-# variable: root — line 162
-# variable: value — line 162
-# variable: row — line 170
-# variable: path — line 185
-# definition: test_total_bound_and_entry_shape_are_independently_enforced — line 192
-# parameter: manifest — line 192
-# parameter: monkeypatch — line 192
-# variable: root — line 194
-# variable: value — line 194
-# definition: test_missing_fixed_program_cannot_be_replaced_by_an_extra_program — line 205
-# parameter: manifest — line 205
-# variable: root — line 207
-# variable: value — line 207
-# variable: row — line 208
-# variable: before — line 209
-# definition: test_missing_authored_sql_schema_fails_before_service_start — line 217
+# definition: manifest — line 64
+# parameter: tmp_path — line 64
+# variable: rows — line 66
+# variable: index — line 67
+# variable: name — line 67
+# variable: path — line 70
+# variable: raw — line 72
+# variable: value — line 77
+# definition: test_fixed_commands_and_cleared_injection_environment — line 82
+# parameter: manifest — line 82
+# parameter: monkeypatch — line 82
+# variable: root — line 84
+# variable: value — line 84
+# variable: name — line 86
+# variable: command — line 87
+# variable: item — line 89
+# variable: key — line 90
+# variable: environment — line 101
+# variable: php — line 122
+# definition: test_manifest_path_refusal — line 147
+# parameter: manifest — line 147
+# parameter: name — line 147
+# variable: root — line 149
+# variable: value — line 149
+# definition: test_manifest_identity_and_closed_schema — line 172
+# parameter: manifest — line 172
+# parameter: mutation — line 172
+# variable: root — line 174
+# variable: value — line 174
+# variable: row — line 182
+# variable: path — line 197
+# definition: test_total_bound_and_entry_shape_are_independently_enforced — line 204
+# parameter: manifest — line 204
+# parameter: monkeypatch — line 204
+# variable: root — line 206
+# variable: value — line 206
+# definition: test_missing_fixed_program_cannot_be_replaced_by_an_extra_program — line 217
 # parameter: manifest — line 217
 # variable: root — line 219
 # variable: value — line 219
-# variable: row — line 221
+# variable: row — line 220
+# variable: before — line 221
+# definition: test_missing_authored_sql_schema_fails_before_service_start — line 229
+# parameter: manifest — line 229
+# variable: root — line 231
+# variable: value — line 231
+# variable: row — line 233
 # END CODE MAP
 
 import hashlib
 import json
 import os
+from pathlib import Path
 
 import pytest
 
@@ -95,7 +97,8 @@ def test_fixed_commands_and_cleared_injection_environment(manifest, monkeypatch)
         "PYTHONPATH",
     ):
         monkeypatch.setenv(key, "private inert fixture")
-    environment = module.environment(root / "scratch")
+    monkeypatch.setenv("PATH", "untrusted-user-search-directory")
+    environment = module.environment(root / "scratch", root, "php")
     assert set(environment) <= {
         "SYSTEMROOT",
         "WINDIR",
@@ -112,6 +115,15 @@ def test_fixed_commands_and_cleared_injection_environment(manifest, monkeypatch)
     }
     assert environment["ASRL_PHP_DB"] == str(root / "scratch/php.sqlite")
     assert environment["DOTNET_ROLL_FORWARD"] == "Disable"
+    assert environment["PATH"].split(os.pathsep) == [
+        str(root / "runtime/php"),
+        str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32"),
+    ]
+    php = module.command("php", root, root / "scratch", 12345)
+    assert "extension=" + str(root / "runtime/php/ext/php_pdo_sqlite.dll") in php
+    assert "extension=php_pdo_sqlite.dll" not in php
+    with pytest.raises(Rejected, match="environment_component"):
+        module.environment(root, root, "untrusted")
     with pytest.raises(Rejected):
         module.command("arbitrary-command", root, root, 12345)
     with pytest.raises(Rejected):
