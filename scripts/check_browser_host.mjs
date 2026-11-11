@@ -1,4 +1,29 @@
 /** File: check-browser-host.mjs; Purpose: Jason Stys: prove each real locked browser and missing-executable refusal before original app journeys. Variables: requested engines, installed graph and owned pages; no profile/provider/OS package changes. */
+/* BEGIN CODE MAP (generated; npm run code-map)
+ * variable: engines — line 34
+ * variable: requested — line 35
+ * parameter: name — line 37
+ * variable: lock — line 41
+ * variable: lookup — line 42
+ * variable: testPackage — line 43
+ * variable: playwrightPackage — line 44
+ * variable: driverPackage — line 47
+ * variable: installed — line 50
+ * variable: driverLockPath — line 51
+ * variable: declared — line 54
+ * variable: temporary — line 58
+ * variable: name — line 62
+ * variable: engine — line 63
+ * variable: browser — line 74
+ * variable: page — line 76
+ * variable: outsideRequests — line 77
+ * parameter: route — line 78
+ * variable: layouts — line 91
+ * variable: width — line 92
+ * variable: layout — line 94
+ * variable: context — line 95
+ * parameter: node — line 117
+END CODE MAP */
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import fs from "node:fs/promises";
