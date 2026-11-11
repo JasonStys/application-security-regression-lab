@@ -104,8 +104,10 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
 | [docs/handbook.md](docs/handbook.md) | Application Security Regression Lab handbook. |
 | [docs/native-dependencies.md](docs/native-dependencies.md) | Native runtime sources and notices. |
+| [docs/reports/browser-environment-2026-11-11.md](docs/reports/browser-environment-2026-11-11.md) | Complete browser environment correction. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
 | [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
+| [docs/reports/installed-windows-1.1.0-2026-11-11.md](docs/reports/installed-windows-1.1.0-2026-11-11.md) | Installed Windows 1.1.0 validation - 11 November 2026. |
 | [docs/reports/native-workbench-2026-11-11.md](docs/reports/native-workbench-2026-11-11.md) | Native security regression workbench — 2026-11-11. |
 | [docs/reports/office-input-boundary-2026-11-10.md](docs/reports/office-input-boundary-2026-11-10.md) | Documentation input boundary review — 2026-11-10. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
@@ -113,6 +115,8 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/regression-review-2026-11-09.md](docs/reports/regression-review-2026-11-09.md) | Regression run review validation — November 9, 2026. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
+| [docs/reports/windows-application-guide-1.1.0.docx](docs/reports/windows-application-guide-1.1.0.docx) | Current illustrated installed workbench guide with exact screenshots, source and limits. |
+| [docs/reports/windows-application-guide-1.1.0.json](docs/reports/windows-application-guide-1.1.0.json) | Current Word, source, screenshot and independently reviewed-page digests. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
 | [docs/security.md](docs/security.md) | Threat model and review boundaries. |
@@ -131,6 +135,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [requirements-native.lock](requirements-native.lock) | Exact SHA256-locked freezing tools; no runtime provider credentials or external SDK lookup at app launch. |
 | [scripts/build.mjs](scripts/build.mjs) | Jason Stys: copy reviewed static assets after strict TypeScript compilation; private reports/state excluded. |
 | [scripts/build\_native.py](scripts/build_native.py) | Freeze the real four-service workbench with exact app-local runtimes; no install or publication. Jason Stys. |
+| [scripts/check\_browser\_host.mjs](scripts/check_browser_host.mjs) | File: check-browser-host.mjs; Purpose: Jason Stys: prove each real locked browser and missing-executable refusal before original app journeys. Variables: requested engines, installed graph and owned pages; no profile/provider/OS package changes. |
 | [scripts/code\_map.py](scripts/code_map.py) | Jason Stys: generate exact definition/variable line maps and verify Python function/class contracts. |
 | [scripts/file\_guide.py](scripts/file_guide.py) | Jason Stys: exact tracked-file README purpose inventory; unknown files fail instead of receiving guessed descriptions. |
 | [scripts/native.sh](scripts/native.sh) | Jason Stys: real native compilation/core comparisons and owned-loopback conformance; never skip a runtime. |
@@ -161,6 +166,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/session/Program.cs](tests/session/Program.cs) | Jason Stys: actual native session boundaries and nonserved deliberately incorrect comparison predicates. |
 | [tests/session/SessionTests.csproj](tests/session/SessionTests.csproj) | Jason Stys: native self-contained session tests, no test framework or runtime packages. |
 | [tests/session/packages.lock.json](tests/session/packages.lock.json) | Locked framework-only native test restore. |
+| [tests/test\_browser\_environment.py](tests/test_browser_environment.py) | Jason Stys: retain the original complete browser suite on a matching nonroot digest-pinned official image. |
 | [tests/test\_compare.py](tests/test_compare.py) | Jason Stys: independent regression cohort/status oracles and exact source/output boundaries. |
 | [tests/test\_desktop\_gui.py](tests/test_desktop_gui.py) | Presentation-adapter unit tests with real core/SQLite workers; real widgets are separately frozen-tested. Jason Stys. |
 | [tests/test\_desktop\_project.py](tests/test_desktop_project.py) | Independent exact-report/cohort/user-control oracles; mocks do not establish actual native execution. Jason Stys. |
@@ -193,3 +199,8 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+
+## Current Windows application guide
+
+The published **1.1.0** application has a [four-page illustrated guide](docs/reports/windows-application-guide-1.1.0.docx) with actual installed screenshots, a worked journey, immutable-source excerpt and practical limits. Read the [installed validation](docs/reports/installed-windows-1.1.0-2026-11-11.md) and [review manifest](docs/reports/windows-application-guide-1.1.0.json) for exact scope. Historical editions remain unchanged.

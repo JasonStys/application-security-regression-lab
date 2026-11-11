@@ -4,22 +4,22 @@
 # variable: BEGIN — line 31
 # variable: END — line 31
 # variable: SPECIAL — line 32
-# definition: purpose — line 59
-# parameter: name — line 59
-# variable: text — line 63
-# variable: line — line 77
-# variable: line — line 86
-# definition: main — line 92
-# variable: parser — line 94
-# variable: args — line 96
-# variable: names — line 97
-# variable: rows — line 105
-# variable: name — line 106
-# variable: path — line 116
-# variable: original — line 117
-# variable: end — line 118
-# variable: start — line 118
-# variable: expected — line 119
+# definition: purpose — line 61
+# parameter: name — line 61
+# variable: text — line 65
+# variable: line — line 79
+# variable: line — line 88
+# definition: main — line 94
+# variable: parser — line 96
+# variable: args — line 98
+# variable: names — line 99
+# variable: rows — line 107
+# variable: name — line 108
+# variable: path — line 118
+# variable: original — line 119
+# variable: end — line 120
+# variable: start — line 120
+# variable: expected — line 121
 # END CODE MAP
 
 import argparse
@@ -30,6 +30,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 BEGIN, END = "<!-- BEGIN FILE GUIDE -->", "<!-- END FILE GUIDE -->"
 SPECIAL = {
+    "docs/reports/windows-application-guide-1.1.0.docx": "Current illustrated installed workbench guide with exact screenshots, source and limits.",
+    "docs/reports/windows-application-guide-1.1.0.json": "Current Word, source, screenshot and independently reviewed-page digests.",
     "docs/reports/project-guide.docx": "Reviewed Word project guide with source revision and dated validation scope.",
     "docs/reports/publications.json": "Exact reviewed Office file identities, immutable source baseline and workflow observations.",
     ".gitignore": "Exclude runtime tokens, databases, builds, compilers and working reports.",
