@@ -167,6 +167,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
 | [tests/test\_native\_diagnostics.py](tests/test_native_diagnostics.py) | Actual failure-summary privacy/bounds tests; no process, service or application result is mocked into a pass. Jason Stys. |
 | [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
+| [tests/test\_native\_preflight.py](tests/test_native_preflight.py) | Native builder preflight false-pass controls; actual PHP execution remains the separate native gate. Jason Stys. |
 | [tests/test\_native\_runtime.py](tests/test_native_runtime.py) | Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys. |
 | [tests/test\_native\_sdks.py](tests/test_native_sdks.py) | Actual inert developer-archive extraction and provider boundary regressions. Jason Stys. |
 | [tests/test\_native\_spawn.py](tests/test_native_spawn.py) | DLL-directory lifecycle refusal/cleanup and actual inert Windows child inheritance controls. Jason Stys. |
