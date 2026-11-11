@@ -1,48 +1,53 @@
 """Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: test_case_generation — line 60
-# parameter: component — line 60
-# parameter: monkeypatch — line 60
-# variable: counter — line 62
-# definition: respond — line 64
-# parameter: args — line 64
+# definition: test_case_generation — line 65
+# parameter: component — line 65
+# parameter: monkeypatch — line 65
 # variable: counter — line 67
-# variable: rows — line 81
-# variable: row — line 83
-# definition: test_bad_upload_evidence — line 91
-# parameter: monkeypatch — line 91
-# parameter: args — line 93
-# definition: test_cookie_security_verdict — line 99
-# parameter: monkeypatch — line 99
-# parameter: secure — line 99
-# definition: respond — line 102
-# parameter: args — line 102
-# variable: rows — line 118
-# variable: issued — line 119
-# variable: row — line 119
-# definition: test_actual_node — line 123
-# parameter: tmp_path — line 123
-# variable: port — line 125
-# variable: rows — line 126
-# variable: row — line 127
-# definition: test_cli — line 130
-# parameter: capsys — line 130
-# parameter: monkeypatch — line 130
-# parameter: tmp_path — line 130
-# variable: report — line 133
-# variable: row — line 134
-# parameter: args — line 138
-# definition: test_cli_all_and_link — line 153
-# parameter: monkeypatch — line 153
-# parameter: tmp_path — line 153
-# definition: owned — line 158
-# parameter: args — line 158
-# parameter: component — line 165
-# parameter: port — line 165
-# parameter: self — line 177
-# parameter: args — line 181
-# parameter: kwargs — line 181
-# variable: _ — line 181
+# definition: respond — line 69
+# parameter: args — line 69
+# variable: counter — line 72
+# variable: rows — line 86
+# variable: row — line 88
+# definition: test_bad_upload_evidence — line 96
+# parameter: monkeypatch — line 96
+# parameter: args — line 98
+# definition: test_cookie_security_verdict — line 104
+# parameter: monkeypatch — line 104
+# parameter: secure — line 104
+# definition: respond — line 107
+# parameter: args — line 107
+# variable: rows — line 123
+# variable: issued — line 124
+# variable: row — line 124
+# definition: test_actual_node — line 128
+# parameter: tmp_path — line 128
+# variable: port — line 130
+# variable: rows — line 131
+# variable: row — line 132
+# definition: test_cli — line 135
+# parameter: capsys — line 135
+# parameter: monkeypatch — line 135
+# parameter: tmp_path — line 135
+# variable: report — line 138
+# variable: row — line 139
+# parameter: args — line 143
+# definition: test_cli_all_and_link — line 158
+# parameter: monkeypatch — line 158
+# parameter: tmp_path — line 158
+# definition: owned — line 163
+# parameter: args — line 163
+# parameter: component — line 170
+# parameter: port — line 170
+# parameter: self — line 182
+# parameter: args — line 186
+# parameter: kwargs — line 186
+# variable: _ — line 186
+# definition: test_php_failure_transport_uses_only_closed_nonprivate_categories — line 197
+# parameter: category — line 198
+# parameter: expected — line 198
+# parameter: monkeypatch — line 198
+# parameter: _args — line 204
 # END CODE MAP
 
 import json
@@ -183,3 +188,25 @@ def test_cli_all_and_link(tmp_path, monkeypatch):
         ),
     )
     assert main(["--output", str(tmp_path / "no-commit")]) == 0
+
+
+@pytest.mark.parametrize(
+    "category,expected",
+    [("database_8", "database_8"), ("private SQL C:/secret", "unclassified")],
+)
+def test_php_failure_transport_uses_only_closed_nonprivate_categories(
+    monkeypatch, category, expected
+):
+    """Protocol plumbing never echoes a received private body/header; actual SQLite categories have separate PHP tests."""
+    monkeypatch.setattr(
+        cases,
+        "request",
+        lambda *_args: (
+            500,
+            {"x-lab-error-category": category},
+            b'{"error":"local_operation_failed"}',
+            0,
+        ),
+    )
+    with pytest.raises(LabError, match="upload_evidence_500_" + expected + "$"):
+        cases.exercise("php", 12345)

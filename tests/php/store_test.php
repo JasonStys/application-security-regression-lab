@@ -1,103 +1,113 @@
 <?php
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
-// symbol: tests — line 102
-// variable: strict_types — line 103
-// variable: cases — line 105
-// symbol: checkCase — line 108
-// variable: condition — line 108
-// variable: id — line 108
-// variable: cases — line 110
-// variable: condition — line 111
-// variable: id — line 112
-// variable: cases — line 114
-// variable: id — line 114
-// symbol: denied — line 118
+// symbol: tests — line 112
+// variable: strict_types — line 113
+// variable: cases — line 115
+// symbol: checkCase — line 118
+// variable: condition — line 118
 // variable: id — line 118
-// variable: operation — line 118
-// variable: status — line 118
-// variable: caught — line 120
-// variable: caught — line 121
-// variable: error — line 121
-// variable: operation — line 121
-// variable: status — line 121
-// variable: caught — line 122
+// variable: cases — line 120
+// variable: condition — line 121
 // variable: id — line 122
-// variable: store — line 125
-// variable: alpha — line 126
-// variable: beta — line 127
-// variable: viewer — line 128
-// variable: alpha — line 129
-// variable: store — line 129
-// variable: alpha — line 130
-// variable: store — line 130
-// variable: alpha — line 131
-// variable: store — line 131
-// variable: index — line 132
-// variable: query — line 132
-// variable: alpha — line 133
-// variable: index — line 133
-// variable: query — line 133
-// variable: store — line 133
-// variable: alpha — line 135
+// variable: cases — line 124
+// variable: id — line 124
+// symbol: denied — line 128
+// variable: id — line 128
+// variable: operation — line 128
+// variable: status — line 128
+// variable: caught — line 130
+// variable: caught — line 131
+// variable: error — line 131
+// variable: operation — line 131
+// variable: status — line 131
+// variable: caught — line 132
+// variable: id — line 132
 // variable: store — line 135
-// variable: index — line 138
-// variable: name — line 138
-// variable: index — line 139
-// variable: name — line 139
-// variable: content — line 141
-// variable: index — line 141
-// variable: content — line 142
+// variable: alpha — line 136
+// variable: beta — line 137
+// variable: viewer — line 138
+// variable: alpha — line 139
+// variable: store — line 139
+// variable: alpha — line 140
+// variable: store — line 140
+// variable: alpha — line 141
+// variable: store — line 141
 // variable: index — line 142
-// variable: store — line 144
-// variable: viewer — line 144
+// variable: query — line 142
+// variable: alpha — line 143
+// variable: index — line 143
+// variable: query — line 143
+// variable: store — line 143
 // variable: alpha — line 145
-// variable: id — line 145
 // variable: store — line 145
-// variable: alpha — line 146
-// variable: id — line 146
-// variable: store — line 146
-// variable: beta — line 147
-// variable: id — line 147
-// variable: store — line 147
-// variable: alpha — line 148
-// variable: store — line 148
-// variable: alpha — line 149
-// variable: store — line 149
-// variable: alpha — line 150
-// variable: index — line 150
-// variable: store — line 150
-// variable: alpha — line 151
-// variable: store — line 151
-// variable: alpha — line 152
-// variable: id — line 152
-// variable: store — line 152
-// variable: beta — line 153
-// variable: index — line 153
-// variable: store — line 153
-// variable: beta — line 154
+// variable: index — line 148
+// variable: name — line 148
+// variable: index — line 149
+// variable: name — line 149
+// variable: content — line 151
+// variable: index — line 151
+// variable: content — line 152
+// variable: index — line 152
 // variable: store — line 154
-// variable: index — line 155
-// variable: raw — line 155
-// variable: x — line 155
-// variable: index — line 156
-// variable: raw — line 156
-// variable: x — line 158
-// variable: comparison — line 161
-// SQL object: notes — line 162
-// column: body — line 162
-// variable: comparison — line 162
-// variable: attack — line 163
-// variable: attack — line 164
-// variable: body — line 164
-// variable: comparison — line 164
-// variable: unsafe — line 164
-// variable: alpha — line 165
-// variable: attack — line 165
-// variable: store — line 165
-// variable: unsafe — line 165
-// variable: unsafeNameAccepts — line 166
-// variable: unsafeNameAccepts — line 167
-// variable: cases — line 169
+// variable: viewer — line 154
+// variable: alpha — line 155
+// variable: id — line 155
+// variable: store — line 155
+// variable: alpha — line 156
+// variable: id — line 156
+// variable: store — line 156
+// variable: beta — line 157
+// variable: id — line 157
+// variable: store — line 157
+// variable: alpha — line 158
+// variable: store — line 158
+// variable: alpha — line 159
+// variable: store — line 159
+// variable: alpha — line 160
+// variable: index — line 160
+// variable: store — line 160
+// variable: alpha — line 161
+// variable: store — line 161
+// variable: alpha — line 162
+// variable: id — line 162
+// variable: store — line 162
+// variable: beta — line 163
+// variable: index — line 163
+// variable: store — line 163
+// variable: beta — line 164
+// variable: store — line 164
+// variable: index — line 165
+// variable: raw — line 165
+// variable: x — line 165
+// variable: index — line 166
+// variable: raw — line 166
+// variable: x — line 168
+// variable: comparison — line 171
+// SQL object: notes — line 172
+// column: body — line 172
+// variable: comparison — line 172
+// variable: attack — line 173
+// variable: attack — line 174
+// variable: body — line 174
+// variable: comparison — line 174
+// variable: unsafe — line 174
+// variable: alpha — line 175
+// variable: attack — line 175
+// variable: store — line 175
+// variable: unsafe — line 175
+// variable: unsafeNameAccepts — line 176
+// variable: unsafeNameAccepts — line 177
+// variable: comparison — line 182
+// variable: error — line 184
+// variable: error — line 185
+// variable: comparison — line 187
+// variable: query_only — line 187
+// SQL object: private_write_refused — line 189
+// column: value — line 189
+// variable: comparison — line 189
+// variable: error — line 191
+// variable: error — line 192
+// variable: cases — line 195
 // END CODE MAP
 /** Jason Stys: real in-memory PDO tests and deliberately incorrect test-only SQL/name predicates, never served. */
 declare(strict_types=1);
@@ -166,4 +176,20 @@ checkCase('M-P-SQL-killed', count($unsafe) === 2 && $store->search($alpha, $atta
 $unsafeNameAccepts = str_ends_with('../a.txt', '.txt');
 checkCase('M-P-path-witness', $unsafeNameAccepts);
 denied('M-P-path-killed',400,fn() => Store::textUpload('../a.txt','x'));
+
+// Real driver failures expose only native numeric classes, never the private SQL or error body.
+try {
+    $comparison->query('SELECT * FROM private_missing_table');
+    throw new RuntimeException('expected actual SQLite missing-table failure');
+} catch (PDOException $error) {
+    checkCase('P-21-private-error-missing-table', Store::failureCategory($error) === 'database_1');
+}
+$comparison->exec('PRAGMA query_only=ON');
+try {
+    $comparison->exec('CREATE TABLE private_write_refused(value TEXT)');
+    throw new RuntimeException('expected actual SQLite read-only failure');
+} catch (PDOException $error) {
+    checkCase('P-22-private-error-readonly', Store::failureCategory($error) === 'database_8');
+}
+checkCase('P-23-private-error-no-message', Store::failureCategory(new RuntimeException('private SQL/path/body must never appear')) === 'operation');
 echo json_encode(['component'=>'php','passed'=>count($cases),'mutants_killed'=>2,'cases'=>$cases], JSON_THROW_ON_ERROR).PHP_EOL;
