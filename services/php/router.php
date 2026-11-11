@@ -20,60 +20,60 @@
 // variable: nonce — line 100
 // variable: nonce — line 101
 // variable: nonce — line 102
-// variable: path — line 108
-// variable: _SERVER — line 111
-// variable: identity — line 111
-// variable: database — line 112
+// variable: path — line 109
+// variable: _SERVER — line 112
+// variable: identity — line 112
 // variable: database — line 113
-// variable: database — line 116
-// variable: store — line 116
-// variable: method — line 117
-// variable: _SERVER — line 118
-// variable: fields — line 118
-// variable: expected — line 119
-// variable: path — line 119
+// variable: database — line 114
+// variable: database — line 117
+// variable: store — line 117
+// variable: method — line 118
+// variable: _SERVER — line 119
+// variable: fields — line 119
 // variable: expected — line 120
-// variable: fields — line 120
 // variable: path — line 120
-// variable: path — line 123
-// variable: fields — line 124
-// variable: identity — line 124
-// variable: store — line 124
-// variable: fields — line 126
-// variable: identity — line 126
-// variable: row — line 126
-// variable: store — line 126
-// variable: charset — line 127
-// variable: filename — line 128
-// variable: row — line 128
+// variable: expected — line 121
+// variable: fields — line 121
+// variable: path — line 121
+// variable: path — line 124
+// variable: fields — line 125
+// variable: identity — line 125
+// variable: store — line 125
+// variable: fields — line 127
+// variable: identity — line 127
+// variable: row — line 127
+// variable: store — line 127
+// variable: charset — line 128
+// variable: filename — line 129
 // variable: row — line 129
-// variable: method — line 131
-// variable: path — line 131
-// variable: _SERVER — line 132
-// variable: origin — line 132
+// variable: row — line 130
+// variable: method — line 132
+// variable: path — line 132
 // variable: _SERVER — line 133
+// variable: origin — line 133
 // variable: _SERVER — line 134
 // variable: _SERVER — line 135
-// variable: _SERVER — line 138
-// variable: length — line 138
+// variable: _SERVER — line 136
+// variable: _SERVER — line 139
 // variable: length — line 139
-// variable: raw — line 142
-// variable: length — line 143
+// variable: length — line 140
 // variable: raw — line 143
-// variable: fields — line 146
-// variable: raw — line 146
+// variable: length — line 144
+// variable: raw — line 144
 // variable: fields — line 147
-// variable: keys — line 147
+// variable: raw — line 147
+// variable: fields — line 148
 // variable: keys — line 148
-// variable: _SERVER — line 149
 // variable: keys — line 149
-// variable: fields — line 152
-// variable: identity — line 152
-// variable: store — line 152
-// variable: error — line 156
+// variable: _SERVER — line 150
+// variable: keys — line 150
+// variable: fields — line 153
+// variable: identity — line 153
+// variable: store — line 153
 // variable: error — line 157
-// variable: error — line 159
-// variable: error — line 161
+// variable: error — line 158
+// variable: error — line 160
+// variable: error — line 162
 // END CODE MAP
 /** Jason Stys: corrected synthetic-only PHP loopback routes, private SQLite path comes only from trusted environment. */
 declare(strict_types=1);
@@ -102,6 +102,7 @@ try {
             header('X-Lab-Owned-Nonce: '.$nonce);
         }
         header('X-Lab-Runtime: '.PHP_VERSION);
+        header('X-Lab-Sqlite: '.(in_array('sqlite', PDO::getAvailableDrivers(), true) ? 'available' : 'unavailable'));
         echo '{"component":"php","synthetic":true}';
         return;
     }

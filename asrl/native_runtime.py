@@ -187,7 +187,7 @@ def environment(state: Path, root: Path, component: str) -> dict[str, str]:
     result.update(
         {
             "PATH": str((root / ENTRYPOINTS[component]).parent)
-            + os.pathsep
+            + ";"
             + str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32"),
             "ASRL_PHP_DB": str(state / "php.sqlite"),
             "DOTNET_EnableDiagnostics": "0",

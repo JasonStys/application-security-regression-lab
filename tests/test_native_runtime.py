@@ -18,35 +18,35 @@
 # variable: item — line 89
 # variable: key — line 90
 # variable: environment — line 101
-# variable: php — line 122
-# definition: test_manifest_path_refusal — line 147
-# parameter: manifest — line 147
-# parameter: name — line 147
-# variable: root — line 149
-# variable: value — line 149
-# definition: test_manifest_identity_and_closed_schema — line 172
-# parameter: manifest — line 172
-# parameter: mutation — line 172
-# variable: root — line 174
-# variable: value — line 174
-# variable: row — line 182
-# variable: path — line 197
-# definition: test_total_bound_and_entry_shape_are_independently_enforced — line 204
-# parameter: manifest — line 204
-# parameter: monkeypatch — line 204
-# variable: root — line 206
-# variable: value — line 206
-# definition: test_missing_fixed_program_cannot_be_replaced_by_an_extra_program — line 217
-# parameter: manifest — line 217
-# variable: root — line 219
-# variable: value — line 219
-# variable: row — line 220
-# variable: before — line 221
-# definition: test_missing_authored_sql_schema_fails_before_service_start — line 229
-# parameter: manifest — line 229
-# variable: root — line 231
-# variable: value — line 231
-# variable: row — line 233
+# variable: php — line 123
+# definition: test_manifest_path_refusal — line 148
+# parameter: manifest — line 148
+# parameter: name — line 148
+# variable: root — line 150
+# variable: value — line 150
+# definition: test_manifest_identity_and_closed_schema — line 173
+# parameter: manifest — line 173
+# parameter: mutation — line 173
+# variable: root — line 175
+# variable: value — line 175
+# variable: row — line 183
+# variable: path — line 198
+# definition: test_total_bound_and_entry_shape_are_independently_enforced — line 205
+# parameter: manifest — line 205
+# parameter: monkeypatch — line 205
+# variable: root — line 207
+# variable: value — line 207
+# definition: test_missing_fixed_program_cannot_be_replaced_by_an_extra_program — line 218
+# parameter: manifest — line 218
+# variable: root — line 220
+# variable: value — line 220
+# variable: row — line 221
+# variable: before — line 222
+# definition: test_missing_authored_sql_schema_fails_before_service_start — line 230
+# parameter: manifest — line 230
+# variable: root — line 232
+# variable: value — line 232
+# variable: row — line 234
 # END CODE MAP
 
 import hashlib
@@ -115,10 +115,11 @@ def test_fixed_commands_and_cleared_injection_environment(manifest, monkeypatch)
     }
     assert environment["ASRL_PHP_DB"] == str(root / "scratch/php.sqlite")
     assert environment["DOTNET_ROLL_FORWARD"] == "Disable"
-    assert environment["PATH"].split(os.pathsep) == [
-        str(root / "runtime/php"),
-        str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32"),
-    ]
+    assert environment["PATH"] == (
+        str(root / "runtime/php")
+        + ";"
+        + str(Path(os.environ.get("SYSTEMROOT", "C:/Windows")) / "System32")
+    )
     php = module.command("php", root, root / "scratch", 12345)
     assert "extension=" + str(root / "runtime/php/ext/php_pdo_sqlite.dll") in php
     assert "extension=php_pdo_sqlite.dll" not in php

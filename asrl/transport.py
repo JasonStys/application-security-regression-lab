@@ -1,42 +1,47 @@
 """Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: request — line 59
-# parameter: port — line 60
-# parameter: path — line 61
-# parameter: method — line 62
-# parameter: body — line 63
-# parameter: headers — line 64
-# variable: started — line 75
-# variable: connection — line 76
-# variable: response — line 79
-# variable: raw — line 80
-# variable: name — line 85
-# variable: value — line 85
-# definition: free_port — line 95
-# variable: descriptor — line 97
-# definition: command — line 102
-# parameter: component — line 102
-# parameter: port — line 102
-# parameter: root — line 102
-# parameter: state — line 102
-# variable: commands — line 110
-# definition: service — line 131
-# parameter: component — line 131
-# parameter: root — line 131
-# parameter: state — line 131
-# variable: port — line 133
-# variable: environment — line 137
-# variable: environment — line 139
-# variable: nonce — line 140
-# variable: arguments — line 142
-# variable: process — line 143
-# variable: process — line 146
-# variable: deadline — line 155
-# variable: _ — line 160
-# variable: headers — line 160
-# variable: raw — line 160
-# variable: status — line 160
-# variable: value — line 161
+# definition: request — line 65
+# parameter: port — line 66
+# parameter: path — line 67
+# parameter: method — line 68
+# parameter: body — line 69
+# parameter: headers — line 70
+# variable: started — line 81
+# variable: connection — line 82
+# variable: response — line 85
+# variable: raw — line 86
+# variable: name — line 91
+# variable: value — line 91
+# definition: free_port — line 101
+# variable: descriptor — line 103
+# definition: command — line 108
+# parameter: component — line 108
+# parameter: port — line 108
+# parameter: root — line 108
+# parameter: state — line 108
+# variable: commands — line 116
+# definition: service — line 137
+# parameter: component — line 137
+# parameter: root — line 137
+# parameter: state — line 137
+# variable: port — line 139
+# variable: environment — line 143
+# variable: environment — line 145
+# variable: nonce — line 146
+# variable: arguments — line 148
+# variable: process — line 149
+# variable: diagnostic — line 150
+# variable: capture_startup — line 151
+# variable: process — line 154
+# variable: diagnostic — line 166
+# variable: deadline — line 167
+# variable: _ — line 172
+# variable: headers — line 172
+# variable: raw — line 172
+# variable: status — line 172
+# variable: value — line 173
+# variable: category — line 183
+# variable: pipe — line 214
 # END CODE MAP
 
 from __future__ import annotations
@@ -54,6 +59,7 @@ from pathlib import Path
 
 from .evidence import COMPONENTS, MAX_RESPONSE, LabError, decode
 from .native_spawn import isolated_dll_search
+from .native_stderr import StartupDiagnostic
 
 
 def request(
@@ -141,6 +147,8 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
     environment["ASRL_OWNED_NONCE"] = nonce
     arguments = command(component, root, state, port)
     process = None
+    diagnostic = None
+    capture_startup = component == "php" and getattr(sys, "frozen", False)
     try:
         with isolated_dll_search():
             process = subprocess.Popen(
@@ -149,9 +157,13 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
                 env=environment,
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
+                stderr=subprocess.PIPE if capture_startup else subprocess.DEVNULL,
                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
             )
+        if capture_startup:
+            if process.stderr is None:
+                raise LabError("owned_php_diagnostic_pipe")
+            diagnostic = StartupDiagnostic(process.stderr)
         deadline = time.monotonic() + 15
         while True:
             if process.poll() is not None:
@@ -164,6 +176,14 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
 
                     if headers.get("x-lab-runtime") != RUNTIME_VERSIONS[component]:
                         raise LabError("owned_runtime_identity")
+                    if (
+                        component == "php"
+                        and headers.get("x-lab-sqlite") != "available"
+                    ):
+                        category = (
+                            diagnostic.category() if diagnostic else "unavailable"
+                        )
+                        raise LabError("owned_php_driver_" + category)
                 if (
                     status == 200
                     and headers.get("x-lab-component") == component
@@ -187,3 +207,10 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
             except subprocess.TimeoutExpired:
                 process.kill()
                 process.wait(timeout=5)
+            finally:
+                if diagnostic is not None:
+                    diagnostic.close()
+                elif capture_startup:
+                    pipe = getattr(process, "stderr", None)
+                    if pipe is not None:
+                        pipe.close()
