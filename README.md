@@ -106,6 +106,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/native-dependencies.md](docs/native-dependencies.md) | Native runtime sources and notices. |
 | [docs/reports/ci.json](docs/reports/ci.json) | Immutable accepted-source Actions check snapshot, not a future guarantee. |
 | [docs/reports/documentation-refresh-2026-11-09.md](docs/reports/documentation-refresh-2026-11-09.md) | Documentation refresh — 2026-11-09. |
+| [docs/reports/installed-windows-1.1.0-2026-11-11.md](docs/reports/installed-windows-1.1.0-2026-11-11.md) | Installed Windows 1.1.0 validation - 11 November 2026. |
 | [docs/reports/native-workbench-2026-11-11.md](docs/reports/native-workbench-2026-11-11.md) | Native security regression workbench — 2026-11-11. |
 | [docs/reports/office-input-boundary-2026-11-10.md](docs/reports/office-input-boundary-2026-11-10.md) | Documentation input boundary review — 2026-11-10. |
 | [docs/reports/portfolio-sync-2026-10-22.md](docs/reports/portfolio-sync-2026-10-22.md) | <!-- File: docs/reports/portfolio-sync-2026-10-22.md; Purpose: certificate-bundle security repair and evidence by Jason Stys. -->. |
@@ -113,6 +114,8 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [docs/reports/publications.json](docs/reports/publications.json) | Exact reviewed Office file identities, immutable source baseline and workflow observations. |
 | [docs/reports/regression-review-2026-11-09.md](docs/reports/regression-review-2026-11-09.md) | Regression run review validation — November 9, 2026. |
 | [docs/reports/validation.md](docs/reports/validation.md) | Validation and acceptance record. |
+| [docs/reports/windows-application-guide-1.1.0.docx](docs/reports/windows-application-guide-1.1.0.docx) | Current illustrated installed workbench guide with exact screenshots, source and limits. |
+| [docs/reports/windows-application-guide-1.1.0.json](docs/reports/windows-application-guide-1.1.0.json) | Current Word, source, screenshot and independently reviewed-page digests. |
 | [docs/research.md](docs/research.md) | Primary sources and selected control references. |
 | [docs/runbook.md](docs/runbook.md) | Local operations and reproducing results. |
 | [docs/security.md](docs/security.md) | Threat model and review boundaries. |
@@ -193,3 +196,8 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 Start with the [organized handbook](docs/handbook.md) for current usage, design, security and test guidance. Reviewed downloadable editions: [project-guide.docx](docs/reports/project-guide.docx).
 
 [Publication identities and source scope](docs/reports/publications.json) · [Documentation validation record](docs/reports/documentation-refresh-2026-11-09.md). Historical results retain their own tested revision and date.
+
+
+## Current Windows application guide
+
+The published **1.1.0** application has a [four-page illustrated guide](docs/reports/windows-application-guide-1.1.0.docx) with actual installed screenshots, a worked journey, immutable-source excerpt and practical limits. Read the [installed validation](docs/reports/installed-windows-1.1.0-2026-11-11.md) and [review manifest](docs/reports/windows-application-guide-1.1.0.json) for exact scope. Historical editions remain unchanged.

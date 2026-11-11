@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "repository": "application-security-regression-lab",
+  "runtimeVersion": "1.1.0",
+  "runtimeSource": "34e40cf6657f3f1ddf8f9d059b5d09ab3c1b193c",
+  "createdAt": "2026-11-11T14:11:11.652Z",
+  "author": "Jason Stys",
+  "document": "windows-application-guide-1.1.0.docx",
+  "sha256": "0528de3143f745bf1629657e2f54f95a74cec686562b0c8eabbfa1d4e58a42dc",
+  "screenshots": [
+    {
+      "file": "selected-evidence.png",
+      "sha256": "2ee7194dad248a3ba0410381858a6cf000d0663a821c9d723af55699d969e364",
+      "width": 1276,
+      "height": 899,
+      "caption": "The installed app displays selected original reference-service evidence and its complete retained metadata."
+    },
+    {
+      "file": "cohort-review.png",
+      "sha256": "28ab30d526bebd3a8ad391e8a9657bfeb6aea4306b3409d7a3242d7edd9ad0e3",
+      "width": 1276,
+      "height": 899,
+      "caption": "The real cohort view distinguishes new, missing, changed, recovered, persistent and regressed cases. Missing execution is not recovery."
+    }
+  ],
+  "snippets": [
+    {
+      "file": "asrl/desktop_project.py",
+      "first": 201,
+      "last": 214,
+      "sha256": "cd634e168e45d9735ea341dc1c0b731b5d85c03a5f085659b2f1cd1351ae7e15",
+      "url": "https://github.com/JasonStys/application-security-regression-lab/blob/34e40cf6657f3f1ddf8f9d059b5d09ab3c1b193c/asrl/desktop_project.py#L201"
+    }
+  ],
+  "observedTests": [
+    {
+      "name": "Actual installed workflows",
+      "observed": "Eight real installed workflows retained eight exact bundles; all 150 mandatory HTTP assertions across four actual services passed. Both installed launches ended normally.",
+      "result": "Passed"
+    },
+    {
+      "name": "Original core and source gates",
+      "observed": "208 source tests and original Java/C#/PHP/Node cases, browser journeys, static types and dependency checks passed. The 95% source-coverage floor was retained; measured aggregate was 95.60%.",
+      "result": "Passed"
+    },
+    {
+      "name": "Assets and current security",
+      "observed": "Provider/download hashes, complete installed-byte identity, current exact-main workflows and processed raw CodeQL results passed with zero open main alerts.",
+      "result": "Passed"
+    },
+    {
+      "name": "Launch and data boundary",
+      "observed": "Individual Desktop and Start-menu targets verified. Only synthetic profiles were exercised; installed EXE tests are distinct from ordinary default-profile shortcut activation.",
+      "result": "Passed"
+    }
+  ],
+  "visualReview": {
+    "approved": true,
+    "reviewer": "audit_cyber",
+    "ooxmlSchema": "passed",
+    "pages": [
+      {
+        "page": 1,
+        "sha256": "33556641572a0c3ceb50d9e431f807aef99641c4ba9be7897f717f5cda960fbd"
+      },
+      {
+        "page": 2,
+        "sha256": "44067896bc112955031054f05c1f628adace11b5c6f941b51d141fd557630fcf"
+      },
+      {
+        "page": 3,
+        "sha256": "be1ec8fe97398896c19d0be177c3326f4ee47a9c10b771833d17ddefe20526a4"
+      },
+      {
+        "page": 4,
+        "sha256": "36c4ef2cc4f9e0b3f6ad9d34d120debaed99702c2519a3eeefef7eeada05cb49"
+      }
+    ],
+    "scope": "Every current page reviewed individually; prior inspection carried only by exact unchanged page hashes. Actual installed synthetic workflows, no ordinary-user profile replay.",
+    "checkedUtc": "2026-11-11T15:14:48.545506+00:00"
+  }
+}
