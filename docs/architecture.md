@@ -4,7 +4,13 @@ Status: accepted. Date: 2026-10-14. Author/decider: Jason Stys.
 
 ## Context
 
-Demonstrate security reasoning in Java, C#, PHP and JavaScript with observable expected versus actual outcomes. Avoid unsafe public services, real identities and decorative language wrappers. The local machine lacks Java/PHP; native hosted jobs supply those checks without modifying Docker.
+Demonstrate security reasoning in Java, C#, PHP and JavaScript with observable expected versus actual outcomes. Avoid unsafe public services, real identities and decorative language wrappers. The source CLI can use developer runtimes; the Windows desktop application bundles all four real service runtimes without modifying Docker or global toolchains.
+
+## Desktop extension — 2026-11-11
+
+`desktop.py` owns Tk widgets, one retained analysis worker and orderly close. `desktop_project.py` adapts real `cases.exercise`, `transport.service` and `compare` into explicit execute/import/compare operations. `desktop_state.py` owns bounded SQLite immutable bundles and profile admission; `desktop_io.py` and `inputs.py` validate bounded ordinary files without evaluating them. The same UI can select prepared scenarios or authorized user inputs.
+
+The portable builder authenticates fixed SDK archives and checks every frozen resource. `native_runtime.py` supplies fixed executable arguments and a minimal environment; a fresh nonce binds readiness to each owned service rather than a pre-existing port occupant. Expected runtime headers add identity evidence but are not remote attestation. No desktop service calls an external target. Ordinary CLI paths remain available to developers and do not require the frozen package.
 
 ## Decision
 

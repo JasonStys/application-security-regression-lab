@@ -1,38 +1,40 @@
 // Jason Stys: corrected tenant-policy HTTP fixture on numeric loopback; no vulnerable HTTP mode.
 // BEGIN CODE MAP (generated; python scripts/code_map.py)
-// definition: JavaService — line 49
-// symbol: main — line 51
-// symbol: port — line 53
-// variable: port — line 53
-// variable: server — line 55
-// variable: workers — line 56
-// variable: policy — line 58
-// symbol: origin — line 59
-// variable: origin — line 59
-// symbol: handle — line 71
-// symbol: origin — line 71
-// symbol: port — line 71
-// symbol: headers — line 73
-// variable: headers — line 73
-// symbol: path — line 77
-// variable: path — line 77
-// symbol: identity — line 84
-// variable: identity — line 84
-// symbol: note — line 86
-// variable: fields — line 88
-// variable: note — line 90
-// symbol: length — line 98
-// variable: length — line 98
-// variable: raw — line 100
-// variable: fields — line 103
-// variable: note — line 106
-// symbol: send — line 117
-// symbol: status — line 117
-// symbol: value — line 117
-// symbol: headers — line 118
-// variable: headers — line 118
-// variable: charset — line 119
-// variable: data — line 125
+// definition: JavaService — line 51
+// symbol: main — line 53
+// symbol: port — line 55
+// variable: port — line 55
+// variable: server — line 57
+// variable: workers — line 58
+// variable: policy — line 60
+// symbol: origin — line 61
+// variable: origin — line 61
+// symbol: handle — line 73
+// symbol: origin — line 73
+// symbol: port — line 73
+// symbol: headers — line 75
+// variable: headers — line 75
+// symbol: path — line 79
+// variable: path — line 79
+// symbol: nonce — line 81
+// variable: nonce — line 81
+// symbol: identity — line 89
+// variable: identity — line 89
+// symbol: note — line 91
+// variable: fields — line 93
+// variable: note — line 95
+// symbol: length — line 103
+// variable: length — line 103
+// variable: raw — line 105
+// variable: fields — line 108
+// variable: note — line 111
+// symbol: send — line 122
+// symbol: status — line 122
+// symbol: value — line 122
+// symbol: headers — line 123
+// variable: headers — line 123
+// variable: charset — line 124
+// variable: data — line 130
 // END CODE MAP
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
@@ -76,6 +78,9 @@ final class JavaService {
                 "cross-site".equals(headers.getFirst("Sec-Fetch-Site"))) throw new Policy.Failure(403);
             String path = exchange.getRequestURI().getRawPath();
             if ("GET".equals(exchange.getRequestMethod()) && "/health".equals(path)) {
+                String nonce = System.getenv("ASRL_OWNED_NONCE");
+                if (nonce != null && nonce.matches("[a-f0-9]{64}")) exchange.getResponseHeaders().set("X-Lab-Owned-Nonce", nonce);
+                exchange.getResponseHeaders().set("X-Lab-Runtime", System.getProperty("java.version"));
                 send(exchange, 200, "{\"component\":\"java\",\"synthetic\":true}");
                 return;
             }

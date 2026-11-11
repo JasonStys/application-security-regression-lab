@@ -14,9 +14,9 @@
  * parameter: _ — line 43
  * parameter: index — line 43
  * variable: assets — line 63
- * variable: value — line 71
- * variable: [name, mime] — line 84
- * variable: bytes — line 85
+ * variable: value — line 78
+ * variable: [name, mime] — line 91
+ * variable: bytes — line 92
 END CODE MAP */
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
@@ -68,6 +68,13 @@ export function server(root) {
     };
     try {
       if (request.url === "/health" || request.url === "/sample") {
+        if (request.url === "/health")
+          headers["X-Lab-Runtime"] = process.version;
+        if (
+          request.url === "/health" &&
+          /^[a-f0-9]{64}$/.test(process.env.ASRL_OWNED_NONCE ?? "")
+        )
+          headers["X-Lab-Owned-Nonce"] = process.env.ASRL_OWNED_NONCE;
         const value = {
           component: "node",
           synthetic: true,

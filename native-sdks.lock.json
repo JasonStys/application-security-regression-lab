@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "platform": "windows-x86_64",
+  "archives": [
+    {"name":"dotnet-sdk-10.0.404","url":"https://builds.dotnet.microsoft.com/dotnet/Sdk/10.0.404/dotnet-sdk-10.0.404-win-x64.zip","bytes":303618098,"algorithm":"sha512","digest":"330ddd2665b43cd2e428216a0d8ea1ac7bb19b5434fdc530e62010dc3b52823a620bf95489d628e1ed6f5122401793ee4887cca4a019122361a1231497f632ee"},
+    {"name":"temurin-jre-25.0.5-8","url":"https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.5%2B8/OpenJDK25U-jre_x64_windows_hotspot_25.0.5_8.zip","bytes":58589419,"algorithm":"sha256","digest":"da78d54a2fcdbba1e92d5e3f07dd30236f96297891c4a21a781c3f38f5c0beae"},
+    {"name":"node-24.22.1","url":"https://nodejs.org/download/release/v24.22.1/node-v24.22.1-win-x64.zip","bytes":37748064,"algorithm":"sha256","digest":"d2046d28c2c3dcd211ac5145c0bf30e2047ef9dfb306693c8c6e2eccd8b95fa5"},
+    {"name":"php-8.5.12-1-nts","url":"https://downloads.php.net/~windows/releases/archives/php-8.5.12-1-nts-Win32-vs17-x64.zip","bytes":36310917,"algorithm":"sha256","digest":"2a36a2edcb7a5b9252f638fd5e4cf84d7f6e066092654220dc0b63e5cf4e9723"}
+  ]
+}

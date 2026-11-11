@@ -1,53 +1,56 @@
 """Jason Stys: actual expected/observed application-boundary cases across four independent native adapters."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: exercise — line 58
-# parameter: component — line 58
-# parameter: port — line 58
-# variable: origin — line 60
-# variable: owner — line 61
-# variable: mutation — line 62
-# variable: cases — line 68
-# definition: case — line 70
-# parameter: name — line 71
-# parameter: expected — line 72
-# parameter: path — line 73
-# parameter: method — line 74
-# parameter: body — line 75
-# parameter: headers — line 76
-# parameter: contains — line 77
-# parameter: absent — line 78
-# variable: latency — line 81
-# variable: raw — line 81
-# variable: received — line 81
-# variable: status — line 81
-# variable: content — line 82
-# variable: content — line 89
-# variable: content — line 91
-# variable: raw — line 123
-# variable: cross — line 135
-# variable: name — line 170
-# variable: value — line 170
-# variable: raw — line 185
-# variable: name — line 200
-# variable: value — line 200
-# variable: data — line 216
-# variable: received — line 216
-# variable: identifier — line 219
-# variable: data — line 222
-# variable: received — line 222
-# variable: mutation — line 254
-# variable: _ — line 292
-# variable: first — line 292
-# variable: cookie — line 301
-# variable: attributes — line 302
-# variable: item — line 303
-# variable: _ — line 311
-# variable: peer — line 311
-# variable: peer_cookie — line 319
+# definition: exercise — line 61
+# parameter: component — line 61
+# parameter: port — line 61
+# variable: origin — line 63
+# variable: owner — line 64
+# variable: mutation — line 65
+# variable: cases — line 71
+# definition: case — line 73
+# parameter: name — line 74
+# parameter: expected — line 75
+# parameter: path — line 76
+# parameter: method — line 77
+# parameter: body — line 78
+# parameter: headers — line 79
+# parameter: contains — line 80
+# parameter: absent — line 81
+# variable: latency — line 84
+# variable: raw — line 84
+# variable: received — line 84
+# variable: status — line 84
+# variable: content — line 85
+# variable: content — line 92
+# variable: content — line 94
+# variable: raw — line 126
+# variable: cross — line 138
+# variable: name — line 173
+# variable: value — line 173
+# variable: raw — line 188
+# variable: name — line 203
+# variable: value — line 203
+# variable: data — line 219
+# variable: received — line 219
+# variable: identifier — line 222
+# variable: category — line 224
+# variable: category — line 232
+# variable: data — line 236
+# variable: received — line 236
+# variable: mutation — line 268
+# variable: _ — line 306
+# variable: first — line 306
+# variable: cookie — line 315
+# variable: attributes — line 316
+# variable: item — line 317
+# variable: _ — line 325
+# variable: peer — line 325
+# variable: peer_cookie — line 333
 # END CODE MAP
 
 from __future__ import annotations
 
+import re
 import urllib.parse
 from typing import Any
 
@@ -218,7 +221,18 @@ def exercise(component: str, port: int) -> list[dict[str, Any]]:
         )
         identifier = decode(data).get("id")
         if not isinstance(identifier, str):
-            raise LabError("upload_evidence")
+            category = received.get("x-lab-error-category", "unclassified")
+            if (
+                re.fullmatch(
+                    r"database_[0-9]{1,5}|driver_unavailable|entropy|operation",
+                    category,
+                )
+                is None
+            ):
+                category = "unclassified"
+            raise LabError(
+                "upload_evidence_" + str(cases[-1]["observed"]) + "_" + category
+            )
         received, data = case(
             "DOWNLOAD-LITERAL",
             200,

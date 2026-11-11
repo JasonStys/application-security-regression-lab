@@ -17,3 +17,7 @@ __pycache__/
 .ruff_cache/
 test-results/
 playwright-report/
+
+# Native candidates and synthetic local acceptance state, never public app data.
+release/
+*.spec

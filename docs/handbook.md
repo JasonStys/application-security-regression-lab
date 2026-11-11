@@ -21,6 +21,8 @@ The editable Markdown remains the maintenance source. The Word files are readabl
 ### Usage and operations
 
 - [runbook](runbook.md)
+- [Windows graphical application](windows-application.md)
+- [Native runtime sources and notices](native-dependencies.md)
 
 ### Design and contracts
 
@@ -38,6 +40,7 @@ The editable Markdown remains the maintenance source. The Word files are readabl
 The reviewed source is [`4466fed1ebed0c538cc2ea35d96c92c6299b96bf`](https://github.com/JasonStys/application-security-regression-lab/tree/4466fed1ebed0c538cc2ea35d96c92c6299b96bf). The observed functional workflow baseline is `4466fed1ebed0c538cc2ea35d96c92c6299b96bf`; those observations are recorded at `2026-11-10T05:25:40.628667+00:00`. They do not certify an unrun later revision.
 
 - [Detailed recorded validation](reports/regression-review-2026-11-09.md)
+- [Native workbench acceptance — 2026-11-11](reports/native-workbench-2026-11-11.md)
 - [Current Actions](https://github.com/JasonStys/application-security-regression-lab/actions) records later integration checks separately.
 - Preserve dated measurements and follow the existing testing guide to reproduce them; a test-source inventory alone does not establish execution.
 

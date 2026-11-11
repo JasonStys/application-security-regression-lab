@@ -2,6 +2,8 @@
 
 Author: Jason Stys. Synthetic-only trusted host. [README](../README.md) gives setup. Keep native runtimes patched; exact CI versions and platform limits are in validation.
 
+For the one-file Windows application, follow the [graphical application guide](windows-application.md). It bundles the required runtimes, preserves its owner-local profile across restarts and runs the original real fixture engines. Source CLI setup below remains supported. Developer portable build/notices contracts are in [native dependencies](native-dependencies.md); source and native acceptance are separate from release publication.
+
 ## Native commands (PowerShell or Bash)
 
     mkdir out/java

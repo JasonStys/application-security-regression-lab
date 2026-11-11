@@ -1,45 +1,59 @@
 """Jason Stys: actual loopback sockets plus isolated lifecycle failure/timeout/no-external-target tests."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: Fixture — line 56
-# definition: do_GET — line 59
-# parameter: self — line 59
-# variable: data — line 61
-# definition: log_message — line 67
-# parameter: args — line 67
-# parameter: self — line 67
-# definition: test_actual_transport — line 71
-# variable: server — line 73
-# variable: thread — line 74
-# variable: body — line 79
-# variable: headers — line 79
-# variable: latency — line 79
-# variable: status — line 79
-# definition: test_no_external_target — line 105
-# parameter: path — line 105
-# parameter: port — line 105
-# definition: test_commands_and_failure — line 111
-# parameter: monkeypatch — line 111
-# parameter: tmp_path — line 111
-# variable: component — line 113
-# definition: broken — line 118
-# parameter: args — line 118
-# parameter: kwargs — line 118
-# variable: error — line 123
-# definition: test_owned_lifecycle — line 129
-# parameter: mode — line 129
-# parameter: monkeypatch — line 129
-# parameter: tmp_path — line 129
-# variable: calls — line 131
-# definition: wait — line 133
-# parameter: timeout — line 133
-# variable: process — line 139
-# parameter: args — line 145
-# parameter: kwargs — line 145
-# variable: times — line 147
-# definition: reply — line 150
-# parameter: args — line 150
-# variable: port — line 163
-# definition: test_free_port — line 173
+# definition: Fixture — line 70
+# definition: do_GET — line 73
+# parameter: self — line 73
+# variable: data — line 75
+# definition: log_message — line 81
+# parameter: args — line 81
+# parameter: self — line 81
+# definition: test_actual_transport — line 85
+# variable: server — line 87
+# variable: thread — line 88
+# variable: body — line 93
+# variable: headers — line 93
+# variable: latency — line 93
+# variable: status — line 93
+# definition: test_no_external_target — line 119
+# parameter: path — line 119
+# parameter: port — line 119
+# definition: test_commands_and_failure — line 125
+# parameter: monkeypatch — line 125
+# parameter: tmp_path — line 125
+# variable: component — line 127
+# definition: broken — line 132
+# parameter: args — line 132
+# parameter: kwargs — line 132
+# variable: error — line 137
+# definition: test_owned_lifecycle — line 143
+# parameter: mode — line 143
+# parameter: monkeypatch — line 143
+# parameter: tmp_path — line 143
+# variable: calls — line 145
+# definition: wait — line 147
+# parameter: timeout — line 147
+# variable: process — line 153
+# parameter: args — line 159
+# parameter: kwargs — line 159
+# parameter: _ — line 161
+# variable: times — line 162
+# definition: reply — line 165
+# parameter: args — line 165
+# variable: port — line 181
+# definition: test_free_port — line 191
+# definition: test_frozen_service_binds_exact_nonce_runtime_and_program — line 197
+# parameter: monkeypatch — line 198
+# parameter: runtime — line 198
+# parameter: tmp_path — line 198
+# variable: calls — line 203
+# parameter: _root — line 205
+# parameter: _ — line 207
+# definition: launched — line 210
+# parameter: argv — line 210
+# parameter: kwargs — line 210
+# parameter: _kw — line 224
+# parameter: _args — line 231
+# variable: port — line 243
 # END CODE MAP
 
 import http.client
@@ -125,7 +139,7 @@ def test_commands_and_failure(monkeypatch, tmp_path):
     assert "PRIVATE" not in str(error.value)
 
 
-@pytest.mark.parametrize("mode", ["ok", "exit", "wrong", "timeout", "kill"])
+@pytest.mark.parametrize("mode", ["ok", "exit", "wrong", "foreign", "timeout", "kill"])
 def test_owned_lifecycle(monkeypatch, tmp_path, mode):
     """All startup/assertion/timeout paths terminate the exact owned child, and forced kill is bounded."""
     calls = []
@@ -144,6 +158,7 @@ def test_owned_lifecycle(monkeypatch, tmp_path, mode):
     )
     monkeypatch.setattr(t.subprocess, "Popen", lambda *args, **kwargs: process)
     monkeypatch.setattr(t, "free_port", lambda: 12345)
+    monkeypatch.setattr(t.secrets, "token_hex", lambda _: "a" * 64)
     times = iter([0, 16])
     monkeypatch.setattr(t.time, "monotonic", lambda: next(times))
 
@@ -153,7 +168,10 @@ def test_owned_lifecycle(monkeypatch, tmp_path, mode):
             raise LabError("loopback_transport")
         return (
             200,
-            {"x-lab-component": "wrong" if mode == "wrong" else "node"},
+            {
+                "x-lab-component": "wrong" if mode == "wrong" else "node",
+                "x-lab-owned-nonce": "b" * 64 if mode == "foreign" else "a" * 64,
+            },
             b'{"component":"node","synthetic":true}',
             0,
         )
@@ -173,3 +191,61 @@ def test_owned_lifecycle(monkeypatch, tmp_path, mode):
 def test_free_port():
     """Allocate only numeric-loopback ephemeral ports, not an externally selected target."""
     assert 1 <= t.free_port() <= 65535
+
+
+@pytest.mark.parametrize("runtime", ["v24.22.1", "v24.18.1", None])
+def test_frozen_service_binds_exact_nonce_runtime_and_program(
+    tmp_path, monkeypatch, runtime
+):
+    """Frozen wiring must use bundled argv, minimal environment and actual runtime header, never user PATH/provider state."""
+    from asrl import native_runtime
+
+    calls = []
+    monkeypatch.setattr(t.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(native_runtime, "validate", lambda _root: {})
+    monkeypatch.setattr(t, "free_port", lambda: 12345)
+    monkeypatch.setattr(t.secrets, "token_hex", lambda _: "a" * 64)
+    monkeypatch.setenv("NODE_OPTIONS", "--eval=private-fixture")
+
+    def launched(argv, **kwargs):
+        """Require fixed bundled argv and cleared injection environment before returning an inert owned-process fixture."""
+        assert argv == [
+            str(tmp_path / "runtime/node/node.exe"),
+            str(tmp_path / "services/node/server.mjs"),
+            "12345",
+        ]
+        assert (
+            "NODE_OPTIONS" not in kwargs["env"]
+            and kwargs["env"]["ASRL_OWNED_NONCE"] == "a" * 64
+        )
+        return SimpleNamespace(
+            poll=lambda: None,
+            terminate=lambda: calls.append("terminate"),
+            wait=lambda **_kw: calls.append("wait"),
+        )
+
+    monkeypatch.setattr(t.subprocess, "Popen", launched)
+    monkeypatch.setattr(
+        t,
+        "request",
+        lambda *_args: (
+            200,
+            {
+                "x-lab-component": "node",
+                "x-lab-owned-nonce": "a" * 64,
+                "x-lab-runtime": runtime,
+            },
+            b'{"component":"node","synthetic":true}',
+            0,
+        ),
+    )
+    if runtime == "v24.22.1":
+        with t.service("node", tmp_path, tmp_path) as port:
+            assert port == 12345
+    else:
+        with (
+            pytest.raises(LabError, match="runtime_identity"),
+            t.service("node", tmp_path, tmp_path),
+        ):
+            pytest.fail("wrong/unknown runtime cannot be admitted")
+    assert calls == ["terminate", "wait"]

@@ -82,11 +82,11 @@ jobs:
         if: matrix.language == 'java-kotlin'
         with:
           distribution: temurin
-          java-version: '25.0.4'
+          java-version: '25.0.5'
       - uses: actions/setup-dotnet@26b0ec14cb23fa6904739307f278c14f94c95bf1 # v5
         if: matrix.language == 'csharp'
         with:
-          dotnet-version: '10.0.401'
+          dotnet-version: '10.0.404'
       - uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4
         with:
           languages: ${{ matrix.language }}

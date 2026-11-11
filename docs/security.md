@@ -20,3 +20,16 @@ Test-only comparisons intentionally demonstrate chosen defects against isolated 
 Records/uploads are plaintext synthetic SQLite data; host ownership/ACL controls privacy. Real information must not be entered. No production login, password recovery, encryption, federation, MFA, external AI or telemetry. Logs/results never contain issued session cookies. Console startup URLs/fixture IDs are nonsecret.
 
 CodeQL supports Python/JavaScript/Java/C# here, not PHP. Native PHP syntax and real PDO tests plus manual parameter/tenant/upload review are explicit complementary checks—not a claim PHP was analyzed by CodeQL. Do not suppress findings or weaken guards for green CI. No compliance/security certification.
+
+## Native workbench boundary
+
+The owner-local profile is plaintext, protected by OS access rather than a new account system. A single-instance lock is retained until the active worker and owned fixtures finish. Admission rejects existing fixed DB, lock, marker and SQLite-sidecar aliases before initialization and before later connections; genuine regular recovery files remain supported. This prevents accidental alias writes, not concurrent sabotage by the same OS principal. Bundle counts/bytes, SQL work, imported inputs and exported files are bounded. Imports retain strict original report schemas and do not execute supplied content.
+
+Frozen runtime paths and argv are authored, not user-selected. PHP ignores user INI; .NET roll-forward/global lookup/diagnostics are disabled. Minimal child environments exclude provider keys and runtime injection variables. Each service must return the unique launch nonce and expected component/runtime before mutation; the host binds only numeric loopback and never adopts another listener. Cleanup addresses only the processes it created. Package digests/source metadata do not constitute Authenticode signing, a malware guarantee or complete toolchain attestation. Read [runtime provenance](native-dependencies.md) before distributing a package.
+
+On frozen Windows, the parent also temporarily clears/restores its process-local DLL directory around the fixed CreateProcess call, independently of PATH/environment. Bounded Win32 state failures reject; even failure after creation drains the owned child. PHP failure diagnostics are a closed class/SQLite-code vocabulary, not exception/SQL/path text. Actual API inheritance and native SQLite refusal controls complement the packaged consumer; they do not replace it or prove every dependency resolution safe.
+
+
+## Owned PHP completion follow-up
+
+Independent review found that two expired stop waits did not prove child completion. The normal terminate/wait-five-seconds and kill/wait-five-seconds attempts are retained. If both fail to establish exit, the same GUI worker, profile lock and temporary runtime namespace remain pending until the exact created child is reaped. Repeated wait/signal errors never become a successful completion. Namespace cleanup requires an explicit exit lease; even context-generator finalization preserves unproven live resources. Inert gated-process regression tests verify pending-worker retention and cleanup only after completion; no unrelated PID or directory is discovered or killed. This is not a shorter timeout, forced-success exit or claim that an unresponsive OS process can always be stopped.
