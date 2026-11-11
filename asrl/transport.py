@@ -1,55 +1,61 @@
 """Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: request — line 73
-# parameter: port — line 74
-# parameter: path — line 75
-# parameter: method — line 76
-# parameter: body — line 77
-# parameter: headers — line 78
-# variable: started — line 89
-# variable: connection — line 90
-# variable: response — line 93
-# variable: raw — line 94
-# variable: name — line 99
-# variable: value — line 99
-# definition: free_port — line 109
-# variable: descriptor — line 111
-# definition: command — line 116
-# parameter: component — line 116
-# parameter: port — line 116
-# parameter: root — line 116
-# parameter: state — line 116
-# variable: commands — line 124
-# definition: service — line 145
-# parameter: _direct_frozen_php — line 146
-# parameter: component — line 146
-# parameter: root — line 146
-# parameter: state — line 146
-# variable: port — line 151
-# variable: contexts — line 152
-# variable: process — line 153
-# variable: diagnostic — line 154
-# variable: capture_startup — line 155
-# variable: working_root — line 157
-# variable: launch — line 162
-# variable: arguments — line 163
-# variable: environment — line 163
-# variable: working_root — line 163
-# variable: receipt — line 168
-# variable: environment — line 174
-# variable: environment — line 176
-# variable: arguments — line 177
-# variable: nonce — line 178
-# variable: process — line 181
-# variable: diagnostic — line 193
-# variable: deadline — line 194
-# variable: _ — line 199
-# variable: headers — line 199
-# variable: raw — line 199
-# variable: status — line 199
-# variable: value — line 200
-# variable: category — line 210
-# variable: pipe — line 242
+# definition: request — line 79
+# parameter: port — line 80
+# parameter: path — line 81
+# parameter: method — line 82
+# parameter: body — line 83
+# parameter: headers — line 84
+# variable: started — line 95
+# variable: connection — line 96
+# variable: response — line 99
+# variable: raw — line 100
+# variable: name — line 105
+# variable: value — line 105
+# definition: free_port — line 115
+# variable: descriptor — line 117
+# definition: command — line 122
+# parameter: component — line 122
+# parameter: port — line 122
+# parameter: root — line 122
+# parameter: state — line 122
+# variable: commands — line 130
+# definition: service — line 151
+# parameter: _direct_frozen_php — line 152
+# parameter: component — line 152
+# parameter: root — line 152
+# parameter: state — line 152
+# variable: port — line 157
+# variable: contexts — line 158
+# variable: process — line 159
+# variable: diagnostic — line 160
+# variable: launch — line 161
+# variable: capture_startup — line 162
+# variable: working_root — line 164
+# variable: launch — line 169
+# variable: arguments — line 170
+# variable: environment — line 170
+# variable: working_root — line 170
+# variable: receipt — line 175
+# variable: environment — line 181
+# variable: environment — line 183
+# variable: arguments — line 184
+# variable: nonce — line 185
+# attribute: cleanup_permitted — line 188
+# variable: process — line 190
+# variable: diagnostic — line 202
+# variable: deadline — line 203
+# variable: _ — line 208
+# variable: headers — line 208
+# variable: raw — line 208
+# variable: status — line 208
+# variable: value — line 209
+# variable: category — line 219
+# variable: child_completed — line 245
+# variable: child_completed — line 266
+# attribute: cleanup_permitted — line 269
+# variable: pipe — line 273
+# attribute: cleanup_permitted — line 278
 # END CODE MAP
 
 from __future__ import annotations
@@ -152,6 +158,7 @@ def service(
     contexts = ExitStack()
     process = None
     diagnostic = None
+    launch = None
     capture_startup = component == "php" and getattr(sys, "frozen", False)
     try:
         working_root = root
@@ -177,6 +184,8 @@ def service(
             arguments = command(component, root, state, port)
         nonce = secrets.token_hex(32)
         environment["ASRL_OWNED_NONCE"] = nonce
+        if launch is not None:
+            launch.cleanup_permitted = False
         with isolated_dll_search():
             process = subprocess.Popen(
                 arguments,
@@ -229,13 +238,35 @@ def service(
     finally:
         try:
             if process is not None:
-                process.terminate()
                 try:
-                    process.wait(timeout=5)
-                except subprocess.TimeoutExpired:
-                    process.kill()
-                    process.wait(timeout=5)
+                    process.terminate()
+                except OSError:
+                    pass  # The exact child may have exited between observation and signal.
+                child_completed = False
+                try:
+                    try:
+                        process.wait(timeout=5)
+                    except (subprocess.TimeoutExpired, OSError):
+                        try:
+                            process.kill()
+                        except OSError:
+                            pass
+                        try:
+                            process.wait(timeout=5)
+                        except (subprocess.TimeoutExpired, OSError):
+                            # Neither a timeout nor an issued kill proves completion.
+                            # Retain the same GUI worker/profile lock/copy until the
+                            # exact created child is reaped; never finish with an orphan.
+                            while True:
+                                try:
+                                    process.wait(timeout=1)
+                                    break
+                                except (subprocess.TimeoutExpired, OSError):
+                                    time.sleep(0.05)
+                    child_completed = True
                 finally:
+                    if launch is not None:
+                        launch.cleanup_permitted = child_completed
                     if diagnostic is not None:
                         diagnostic.close()
                     elif capture_startup:
@@ -243,5 +274,7 @@ def service(
                         if pipe is not None:
                             pipe.close()
         finally:
+            if launch is not None and process is None:
+                launch.cleanup_permitted = True  # Popen returned no owned child.
             # Exiting the copy context comes strictly AFTER owned child wait/drain.
             contexts.close()

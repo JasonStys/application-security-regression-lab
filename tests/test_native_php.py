@@ -1,88 +1,121 @@
 """Actual whole-bundle admission, fixed same-byte PHP copies and child-before-cleanup ownership. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: runtime — line 96
-# parameter: tmp_path — line 96
-# variable: root — line 98
-# variable: state — line 99
-# variable: entries — line 102
-# variable: index — line 103
-# variable: name — line 103
-# variable: path — line 110
-# variable: raw — line 112
-# definition: test_actual_copy_binds_original_bytes_and_closed_argv_environment — line 123
-# parameter: monkeypatch — line 124
-# parameter: runtime — line 124
-# variable: root — line 127
-# variable: state — line 127
-# variable: original — line 130
-# variable: p — line 132
-# variable: launch — line 135
-# variable: selected — line 136
-# variable: row — line 161
-# variable: p — line 170
-# definition: test_partial_or_changed_source_never_becomes_a_new_trust_root — line 185
-# parameter: fault — line 185
-# parameter: runtime — line 185
-# variable: root — line 187
-# variable: state — line 187
-# variable: manifest — line 188
-# variable: port — line 189
-# variable: row — line 193
-# variable: row — line 202
-# variable: port — line 211
-# variable: state — line 213
-# definition: test_late_source_change_rejected_and_only_owned_copy_cleaned — line 220
-# parameter: monkeypatch — line 220
-# parameter: runtime — line 220
-# variable: root — line 222
-# variable: state — line 222
-# variable: actual — line 223
-# definition: changed — line 225
-# parameter: limit — line 225
-# parameter: path — line 225
-# definition: test_copied_bytes_and_manifest_observation_cannot_silently_diverge — line 241
-# parameter: fault — line 242
-# parameter: monkeypatch — line 242
-# parameter: runtime — line 242
-# variable: root — line 245
-# variable: state — line 245
-# variable: actual — line 246
-# definition: altered — line 248
-# parameter: limit — line 248
-# parameter: path — line 248
-# definition: test_unexpected_context_error_cleans_only_owned_namespace — line 266
-# parameter: runtime — line 266
-# variable: root — line 268
-# variable: state — line 268
-# variable: launch — line 270
-# variable: copied — line 271
-# definition: test_changed_owner_marker_refuses_cleanup_of_unknown_replacement — line 277
-# parameter: runtime — line 277
-# variable: root — line 279
-# variable: state — line 279
-# variable: launch — line 281
-# variable: selected — line 282
-# definition: test_real_copy_service_waits_for_exact_owned_child_before_removal — line 287
-# parameter: monkeypatch — line 288
-# parameter: runtime — line 288
-# variable: root — line 291
-# variable: state — line 291
-# variable: observed — line 292
-# parameter: _count — line 296
-# definition: launch — line 298
-# parameter: argv — line 298
-# parameter: kwargs — line 298
-# variable: selected — line 300
-# definition: wait — line 306
-# parameter: _kwargs — line 306
-# parameter: _args — line 322
-# variable: port — line 334
-# variable: receipt — line 341
+# definition: runtime — line 129
+# parameter: tmp_path — line 129
+# variable: root — line 131
+# variable: state — line 132
+# variable: entries — line 135
+# variable: index — line 136
+# variable: name — line 136
+# variable: path — line 143
+# variable: raw — line 145
+# definition: test_actual_copy_binds_original_bytes_and_closed_argv_environment — line 156
+# parameter: monkeypatch — line 157
+# parameter: runtime — line 157
+# variable: root — line 160
+# variable: state — line 160
+# variable: original — line 163
+# variable: p — line 165
+# variable: launch — line 168
+# variable: selected — line 169
+# variable: row — line 194
+# variable: p — line 203
+# definition: test_partial_or_changed_source_never_becomes_a_new_trust_root — line 218
+# parameter: fault — line 218
+# parameter: runtime — line 218
+# variable: root — line 220
+# variable: state — line 220
+# variable: manifest — line 221
+# variable: port — line 222
+# variable: row — line 226
+# variable: row — line 235
+# variable: port — line 244
+# variable: state — line 246
+# definition: test_late_source_change_rejected_and_only_owned_copy_cleaned — line 253
+# parameter: monkeypatch — line 253
+# parameter: runtime — line 253
+# variable: root — line 255
+# variable: state — line 255
+# variable: actual — line 256
+# definition: changed — line 258
+# parameter: limit — line 258
+# parameter: path — line 258
+# definition: test_copied_bytes_and_manifest_observation_cannot_silently_diverge — line 274
+# parameter: fault — line 275
+# parameter: monkeypatch — line 275
+# parameter: runtime — line 275
+# variable: root — line 278
+# variable: state — line 278
+# variable: actual — line 279
+# definition: altered — line 281
+# parameter: limit — line 281
+# parameter: path — line 281
+# definition: test_unexpected_context_error_cleans_only_owned_namespace — line 299
+# parameter: runtime — line 299
+# variable: root — line 301
+# variable: state — line 301
+# variable: launch — line 303
+# variable: copied — line 304
+# definition: test_changed_owner_marker_refuses_cleanup_of_unknown_replacement — line 310
+# parameter: runtime — line 310
+# variable: root — line 312
+# variable: state — line 312
+# variable: launch — line 314
+# variable: selected — line 315
+# definition: test_real_copy_service_waits_for_exact_owned_child_before_removal — line 320
+# parameter: monkeypatch — line 321
+# parameter: runtime — line 321
+# variable: root — line 324
+# variable: state — line 324
+# variable: observed — line 325
+# parameter: _count — line 329
+# definition: launch — line 331
+# parameter: argv — line 331
+# parameter: kwargs — line 331
+# variable: selected — line 333
+# definition: wait — line 339
+# parameter: _kwargs — line 339
+# parameter: _args — line 355
+# variable: port — line 367
+# variable: receipt — line 374
+# definition: test_unproven_exit_lease_survives_context_generator_finalization — line 378
+# parameter: runtime — line 378
+# variable: root — line 380
+# variable: state — line 380
+# variable: context — line 381
+# variable: launch — line 382
+# attribute: cleanup_permitted — line 383
+# definition: test_double_timeout_retains_worker_and_bytes_until_exact_child_completion — line 392
+# parameter: monkeypatch — line 393
+# parameter: runtime — line 393
+# parameter: signal_error — line 393
+# variable: root — line 396
+# variable: state — line 396
+# variable: _ — line 397
+# variable: completed — line 397
+# variable: finished — line 397
+# variable: pending — line 397
+# variable: errors — line 398
+# variable: observations — line 398
+# parameter: _ — line 402
+# definition: signal — line 404
+# definition: create — line 409
+# parameter: _arguments — line 409
+# parameter: kwargs — line 409
+# variable: selected — line 411
+# variable: calls — line 413
+# definition: wait — line 415
+# parameter: timeout — line 415
+# variable: value — line 424
+# parameter: _ — line 439
+# definition: worker — line 452
+# variable: thread — line 462
 # END CODE MAP
 
 import hashlib
 import io
 import json
+import threading
 from contextlib import nullcontext
 from types import SimpleNamespace
 
@@ -340,3 +373,101 @@ def test_real_copy_service_waits_for_exact_owned_child_before_removal(
     assert not observed[0].exists()
     receipt = json.loads((state / "php-runtime-context.json").read_bytes())
     assert len(receipt["files"]) == 9 and "nonce" not in json.dumps(receipt)
+
+
+def test_unproven_exit_lease_survives_context_generator_finalization(runtime):
+    """Even explicit generator close cannot recursively remove a namespace leased by an unproven child."""
+    root, state = runtime
+    context = native_php.isolated_php(root, state, 12345)
+    launch = context.__enter__()
+    launch.cleanup_permitted = False
+    context.gen.close()
+    assert launch.root.is_dir()
+    assert (launch.root / "runtime/php/php.exe").read_bytes() == (
+        root / "runtime/php/php.exe"
+    ).read_bytes()
+
+
+@pytest.mark.parametrize("signal_error", [False, True])
+def test_double_timeout_retains_worker_and_bytes_until_exact_child_completion(
+    runtime, monkeypatch, signal_error
+):
+    """Two expired waits and failed signals must neither finish the worker nor delete live owned resources."""
+    root, state = runtime
+    pending, completed, finished = (threading.Event() for _ in range(3))
+    observations, errors = [], []
+    monkeypatch.setattr(transport.sys, "frozen", True, raising=False)
+    monkeypatch.setattr(transport, "isolated_dll_search", nullcontext)
+    monkeypatch.setattr(transport, "free_port", lambda: 12345)
+    monkeypatch.setattr(transport.secrets, "token_hex", lambda _: "a" * 64)
+
+    def signal():
+        """A concurrently exited/slow child can make a signal unavailable; that is not exit proof."""
+        if signal_error:
+            raise OSError("inert signal unavailable")
+
+    def create(_arguments, **kwargs):
+        """Only the created inert process handle is observed; no compiler, PHP or external process is run."""
+        selected = kwargs["cwd"]
+        observations.append(selected)
+        calls = []
+
+        def wait(timeout):
+            """Keep the exact child pending after both original five-second attempts until the test releases it."""
+            calls.append(timeout)
+            assert selected.is_dir()
+            if len(calls) <= 2:
+                raise transport.subprocess.TimeoutExpired("inert-owned-child", timeout)
+            pending.set()
+            if not completed.wait(0.02):
+                raise OSError("inert wait still unavailable")
+            assert calls[:2] == [5, 5] and all(value == 1 for value in calls[2:])
+            return 0
+
+        return SimpleNamespace(
+            stderr=io.BufferedReader(io.BytesIO(b"")),
+            poll=lambda: None,
+            terminate=signal,
+            kill=signal,
+            wait=wait,
+        )
+
+    monkeypatch.setattr(transport.subprocess, "Popen", create)
+    monkeypatch.setattr(
+        transport,
+        "request",
+        lambda *_: (
+            200,
+            {
+                "x-lab-component": "php",
+                "x-lab-runtime": "8.5.12",
+                "x-lab-owned-nonce": "a" * 64,
+                "x-lab-sqlite": "available",
+            },
+            b'{"component":"php","synthetic":true}',
+            0,
+        ),
+    )
+
+    def worker():
+        """Represent the retained GUI worker: returning would release its profile/stage ownership."""
+        try:
+            with transport.service("php", root, state):
+                pass
+        except BaseException as error:
+            errors.append(error)
+        finally:
+            finished.set()
+
+    thread = threading.Thread(target=worker)
+    thread.start()
+    try:
+        assert pending.wait(3), errors
+        assert thread.is_alive() and not finished.is_set()
+        assert observations[0].is_dir()
+        assert (observations[0] / "runtime/php/php8.dll").is_file()
+    finally:
+        completed.set()
+        thread.join(3)
+    assert not thread.is_alive() and finished.is_set() and errors == []
+    assert not observations[0].exists()

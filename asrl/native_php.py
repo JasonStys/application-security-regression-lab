@@ -1,37 +1,40 @@
 """Exact admitted PHP closure in a nonce-owned per-analysis namespace, never arbitrary executables. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: PHP_FILES — line 55
-# definition: PHPLaunch — line 69
-# variable: arguments — line 72
-# variable: environment — line 73
-# variable: root — line 74
-# variable: receipt — line 75
-# definition: isolated_php — line 79
-# parameter: original — line 79
-# parameter: port — line 79
-# parameter: state — line 79
-# variable: manifest — line 84
-# variable: original_manifest — line 85
-# variable: inventory — line 88
-# variable: row — line 88
-# variable: parent — line 91
-# variable: path — line 93
-# variable: parent — line 96
-# variable: selected — line 99
-# variable: identity — line 100
-# variable: nonce — line 101
-# variable: marker — line 102
-# variable: expected_marker — line 103
-# variable: stream — line 106
-# variable: name — line 110
-# variable: row — line 111
-# variable: raw — line 112
-# variable: target — line 118
-# variable: stream — line 120
-# variable: copied — line 123
-# variable: receipt — line 126
-# variable: name — line 136
-# variable: current — line 157
+# variable: PHP_FILES — line 58
+# definition: PHPLaunch — line 72
+# variable: arguments — line 75
+# variable: environment — line 76
+# variable: root — line 77
+# variable: receipt — line 78
+# variable: cleanup_permitted — line 79
+# definition: isolated_php — line 83
+# parameter: original — line 83
+# parameter: port — line 83
+# parameter: state — line 83
+# variable: manifest — line 88
+# variable: original_manifest — line 89
+# variable: inventory — line 92
+# variable: row — line 92
+# variable: parent — line 95
+# variable: path — line 97
+# variable: parent — line 100
+# variable: selected — line 103
+# variable: identity — line 104
+# variable: nonce — line 105
+# variable: marker — line 106
+# variable: expected_marker — line 107
+# variable: stream — line 110
+# variable: launch — line 113
+# variable: name — line 115
+# variable: row — line 116
+# variable: raw — line 117
+# variable: target — line 123
+# variable: stream — line 125
+# variable: copied — line 128
+# variable: receipt — line 131
+# variable: name — line 141
+# variable: launch — line 145
+# variable: current — line 167
 # END CODE MAP
 
 from __future__ import annotations
@@ -65,7 +68,7 @@ PHP_FILES = (
 )
 
 
-@dataclass(frozen=True)
+@dataclass
 class PHPLaunch:
     """Launch values derived only from a fully authenticated source bundle and this fresh owned namespace."""
 
@@ -73,6 +76,7 @@ class PHPLaunch:
     environment: dict[str, str]
     root: Path
     receipt: dict[str, Any]
+    cleanup_permitted: bool = True
 
 
 @contextmanager
@@ -106,6 +110,7 @@ def isolated_php(original: Path, state: Path, port: int) -> Iterator[PHPLaunch]:
     with marker.open("xb") as stream:
         os.chmod(marker, 0o600)
         stream.write(expected_marker)
+    launch = None
     try:
         for name in PHP_FILES:
             row = inventory[name]
@@ -137,7 +142,7 @@ def isolated_php(original: Path, state: Path, port: int) -> Iterator[PHPLaunch]:
             ],
             "scope": "Exact original whole-bundle admission, then same-byte fixed PHP closure copy. No caller executable, user PATH or trust metadata; this is not proof of a Windows loader root cause.",
         }
-        yield PHPLaunch(
+        launch = PHPLaunch(
             [
                 str(selected / "runtime/php/php.exe"),
                 "-n",
@@ -153,18 +158,23 @@ def isolated_php(original: Path, state: Path, port: int) -> Iterator[PHPLaunch]:
             selected,
             receipt,
         )
+        yield launch
     finally:
-        current = selected.lstat()
-        if (
-            not stat.S_ISDIR(current.st_mode)
-            or selected.is_symlink()
-            or selected.is_junction()
-            or (current.st_dev, current.st_ino) != (identity.st_dev, identity.st_ino)
-            or selected.resolve().parent != parent
-            or not selected.name.startswith("owned-php-runtime-")
-            or read_source(marker, 4096) != expected_marker
-        ):
-            raise Rejected("owned PHP cleanup identity changed")
-        # Parent/caller must stop and wait for its exact child before leaving this context.
-        # No separately discovered directory, PID, profile or service is cleaned up.
-        shutil.rmtree(selected)
+        # A yielded context may be finalized after an exceptional caller exit. The
+        # lease survives generator finalization: absence of child-exit proof must
+        # preserve this namespace rather than recursively deleting live resources.
+        if launch is None or launch.cleanup_permitted:
+            current = selected.lstat()
+            if (
+                not stat.S_ISDIR(current.st_mode)
+                or selected.is_symlink()
+                or selected.is_junction()
+                or (current.st_dev, current.st_ino)
+                != (identity.st_dev, identity.st_ino)
+                or selected.resolve().parent != parent
+                or not selected.name.startswith("owned-php-runtime-")
+                or read_source(marker, 4096) != expected_marker
+            ):
+                raise Rejected("owned PHP cleanup identity changed")
+            # Only the exact marked namespace is removed after confirmed completion.
+            shutil.rmtree(selected)
