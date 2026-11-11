@@ -1,76 +1,78 @@
 """Real native HTTP regression execution and exact saved-report review for the desktop. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 92
-# variable: PRODUCT — line 93
-# variable: PROFILE — line 93
-# variable: TITLE — line 97
-# variable: VERSION — line 97
-# variable: COLUMNS — line 98
-# variable: RESOURCES — line 104
-# variable: RESOURCE_LIMITS — line 113
-# variable: MODES — line 114
-# variable: REVIEW_MODE — line 119
-# variable: CHOICES — line 120
-# variable: FIELDS — line 121
-# variable: ACTIVE_FIELDS — line 135
-# variable: SCENARIOS — line 140
-# variable: HELP — line 150
-# definition: scenario — line 155
-# parameter: name — line 155
-# variable: index — line 159
-# variable: result — line 160
-# definition: report — line 176
-# parameter: path — line 176
-# variable: raw — line 178
-# definition: bundle — line 182
-# parameter: value — line 182
-# variable: raw — line 184
-# variable: page — line 185
-# definition: analyze — line 193
-# parameter: parameters — line 194
-# parameter: stage — line 194
-# parameter: state — line 194
-# variable: mode — line 197
-# variable: component — line 201
-# variable: identity — line 204
-# variable: rows — line 205
-# variable: selected — line 206
-# variable: port — line 210
-# variable: category — line 213
+# variable: ROOT — line 94
+# variable: PRODUCT — line 95
+# variable: PROFILE — line 95
+# variable: TITLE — line 99
+# variable: VERSION — line 99
+# variable: COLUMNS — line 100
+# variable: RESOURCES — line 106
+# variable: RESOURCE_LIMITS — line 115
+# variable: MODES — line 116
+# variable: REVIEW_MODE — line 121
+# variable: CHOICES — line 122
+# variable: FIELDS — line 123
+# variable: ACTIVE_FIELDS — line 137
+# variable: SCENARIOS — line 142
+# variable: HELP — line 152
+# definition: scenario — line 157
+# parameter: name — line 157
+# variable: index — line 161
+# variable: result — line 162
+# definition: report — line 178
+# parameter: path — line 178
+# variable: raw — line 180
+# definition: bundle — line 184
+# parameter: value — line 184
+# variable: raw — line 186
+# variable: page — line 187
+# definition: analyze — line 195
+# parameter: parameters — line 196
+# parameter: stage — line 196
+# parameter: state — line 196
+# variable: mode — line 199
+# variable: component — line 203
+# variable: identity — line 206
+# variable: rows — line 207
+# variable: selected — line 208
+# variable: port — line 212
 # variable: category — line 215
-# variable: value — line 217
-# variable: matching — line 227
-# variable: row — line 227
-# variable: raw — line 237
-# variable: value — line 237
-# variable: matching — line 238
-# variable: row — line 238
-# variable: result — line 239
-# variable: _ — line 251
-# variable: before_raw — line 251
-# variable: _ — line 252
-# variable: after_raw — line 252
-# variable: after — line 255
-# variable: before — line 255
-# variable: result — line 258
-# definition: views — line 266
-# parameter: files — line 266
-# variable: value — line 269
-# variable: row — line 273
-# variable: item — line 276
-# variable: key — line 276
-# variable: value — line 279
-# variable: saved — line 281
-# variable: row — line 285
-# variable: item — line 288
-# variable: key — line 288
-# variable: row — line 294
-# variable: item — line 297
-# variable: key — line 297
-# definition: cells — line 302
-# parameter: row — line 302
-# definition: outcome — line 313
-# parameter: value — line 313
+# variable: category — line 217
+# variable: value — line 219
+# variable: matching — line 229
+# variable: row — line 229
+# variable: files — line 230
+# variable: context — line 234
+# variable: raw — line 243
+# variable: value — line 243
+# variable: matching — line 244
+# variable: row — line 244
+# variable: result — line 245
+# variable: _ — line 257
+# variable: before_raw — line 257
+# variable: _ — line 258
+# variable: after_raw — line 258
+# variable: after — line 261
+# variable: before — line 261
+# variable: result — line 264
+# definition: views — line 272
+# parameter: files — line 272
+# variable: value — line 275
+# variable: row — line 279
+# variable: item — line 282
+# variable: key — line 282
+# variable: value — line 285
+# variable: saved — line 287
+# variable: row — line 291
+# variable: item — line 294
+# variable: key — line 294
+# variable: row — line 300
+# variable: item — line 303
+# variable: key — line 303
+# definition: cells — line 308
+# parameter: row — line 308
+# definition: outcome — line 319
+# parameter: value — line 319
 # END CODE MAP
 
 from __future__ import annotations
@@ -225,13 +227,17 @@ def analyze(
             }
         )
         matching = sum(evidence.passed(row) for row in rows)
+        files = {
+            "http.json": evidence.canonical(value),
+            "http.html": evidence.render(value).encode(),
+        }
+        context = stage / "php-runtime-context.json"
+        if getattr(sys, "frozen", False) and context.exists():
+            files["php-runtime-context.json"] = read_source(context, 65536)
         return (
             mode,
             f"{matching}/{len(rows)} actual HTTP status/content oracles match; {len(rows) - matching} mismatches retained",
-            {
-                "http.json": evidence.canonical(value),
-                "http.html": evidence.render(value).encode(),
-            },
+            files,
         )
     if mode == MODES[1]:
         raw, value = report(Path(parameters["report"]))

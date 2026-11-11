@@ -178,7 +178,7 @@ def test_restore_failure_still_drains_created_owned_service(
         ),
     )
     with pytest.raises(LabError, match="owned_dll_search_restore"):
-        with transport.service("php", tmp_path, tmp_path):
+        with transport.service("php", tmp_path, tmp_path, _direct_frozen_php=True):
             pytest.fail("restore failure cannot make a service ready")
     assert calls == ["terminate", "wait"]
 

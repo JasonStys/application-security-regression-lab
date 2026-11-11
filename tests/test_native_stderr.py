@@ -29,7 +29,7 @@
 # parameter: _kwargs — line 145
 # variable: headers — line 147
 # parameter: _args — line 156
-# variable: port — line 159
+# variable: port — line 161
 # END CODE MAP
 
 import io
@@ -156,12 +156,14 @@ def test_frozen_php_health_requires_actual_sqlite_and_drains_its_own_pipe(
         lambda *_args: (200, headers, b'{"component":"php","synthetic":true}', 0),
     )
     if capability == "available":
-        with transport.service("php", tmp_path, tmp_path) as port:
+        with transport.service(
+            "php", tmp_path, tmp_path, _direct_frozen_php=True
+        ) as port:
             assert port == 12345
     else:
         with (
             pytest.raises(LabError, match="owned_php_driver_"),
-            transport.service("php", tmp_path, tmp_path),
+            transport.service("php", tmp_path, tmp_path, _direct_frozen_php=True),
         ):
             pytest.fail("missing capability must not yield")
     assert calls == ["terminate", "wait"]

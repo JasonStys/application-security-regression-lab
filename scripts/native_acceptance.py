@@ -1,111 +1,119 @@
 """Actual frozen AppSec widgets, four real service engines and durable restart acceptance. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: capture — line 134
-# parameter: target — line 134
-# parameter: window — line 134
-# variable: load — line 140
-# variable: gdi — line 141
-# variable: user — line 141
-# variable: pointer — line 142
-# variable: arguments — line 143
-# variable: library — line 143
-# variable: name — line 143
-# variable: result — line 143
-# variable: function — line 169
-# attribute: argtypes — line 170
-# attribute: restype — line 170
-# variable: handle — line 173
-# variable: rectangle — line 174
-# variable: height — line 177
-# variable: width — line 177
-# variable: source — line 180
-# variable: destination — line 181
-# variable: bitmap — line 182
-# variable: previous — line 183
-# variable: pixels — line 188
-# variable: header — line 189
-# variable: raw — line 207
-# variable: scanlines — line 208
-# variable: row — line 209
-# variable: column — line 211
-# variable: offset — line 212
-# definition: chunk — line 215
-# parameter: data — line 215
-# parameter: name — line 215
-# definition: oracle — line 237
-# parameter: files — line 237
-# parameter: index — line 237
-# variable: value — line 240
-# variable: counts — line 241
-# variable: row — line 242
-# variable: name — line 243
-# variable: expected — line 245
-# variable: selected — line 247
-# variable: expected — line 248
-# variable: count — line 250
-# variable: name — line 250
-# variable: row — line 252
-# variable: by_id — line 253
-# variable: row — line 253
-# variable: name — line 255
-# variable: status — line 255
-# variable: value — line 269
-# variable: row — line 275
-# variable: value — line 283
-# variable: row — line 284
-# definition: exercise — line 304
-# parameter: output — line 304
-# parameter: reopen — line 304
-# parameter: window — line 304
-# variable: expected — line 309
-# variable: started — line 309
-# variable: receipt — line 310
-# variable: deadline — line 327
-# definition: progress — line 329
-# parameter: stage — line 329
-# definition: finish — line 336
-# parameter: failed — line 336
-# attribute: acceptance_result — line 338
-# variable: name — line 346
-# variable: raw — line 346
-# variable: row — line 348
-# definition: checked — line 353
-# parameter: callback — line 353
-# variable: trace — line 361
-# variable: trace — line 369
-# definition: callback_failed — line 372
-# parameter: _traceback — line 373
-# parameter: _value — line 373
-# parameter: kind — line 373
-# definition: wait — line 379
-# parameter: callback — line 379
-# definition: layout — line 389
-# variable: widgets — line 394
-# variable: name — line 395
-# variable: widget — line 397
-# definition: rejected — line 419
-# definition: licenses — line 428
-# variable: dialogs — line 431
-# variable: child — line 433
-# variable: dialog — line 437
-# variable: pending — line 438
-# variable: texts — line 439
-# variable: widget — line 441
-# variable: text — line 447
-# variable: value — line 450
-# definition: completed — line 455
-# parameter: index — line 455
-# variable: files — line 461
-# variable: parent — line 480
-# variable: target — line 486
-# variable: path — line 487
-# variable: selected — line 490
-# definition: start — line 501
-# parameter: index — line 501
-# variable: selected — line 508
-# definition: begin — line 521
-# variable: identity — line 525
-# attribute: report_callback_exception — line 541
+# definition: capture — line 142
+# parameter: target — line 142
+# parameter: window — line 142
+# variable: load — line 148
+# variable: gdi — line 149
+# variable: user — line 149
+# variable: pointer — line 150
+# variable: arguments — line 151
+# variable: library — line 151
+# variable: name — line 151
+# variable: result — line 151
+# variable: function — line 177
+# attribute: argtypes — line 178
+# attribute: restype — line 178
+# variable: handle — line 181
+# variable: rectangle — line 182
+# variable: height — line 185
+# variable: width — line 185
+# variable: source — line 188
+# variable: destination — line 189
+# variable: bitmap — line 190
+# variable: previous — line 191
+# variable: pixels — line 196
+# variable: header — line 197
+# variable: raw — line 215
+# variable: scanlines — line 216
+# variable: row — line 217
+# variable: column — line 219
+# variable: offset — line 220
+# definition: chunk — line 223
+# parameter: data — line 223
+# parameter: name — line 223
+# definition: oracle — line 245
+# parameter: files — line 245
+# parameter: index — line 245
+# variable: value — line 248
+# variable: counts — line 249
+# variable: row — line 250
+# variable: name — line 251
+# variable: expected — line 253
+# variable: selected — line 255
+# variable: expected — line 256
+# variable: count — line 258
+# variable: name — line 258
+# variable: row — line 260
+# variable: by_id — line 261
+# variable: row — line 261
+# variable: name — line 263
+# variable: status — line 263
+# variable: value — line 277
+# variable: row — line 283
+# variable: value — line 291
+# variable: row — line 292
+# variable: copied — line 311
+# variable: row — line 314
+# definition: exercise — line 327
+# parameter: output — line 327
+# parameter: reopen — line 327
+# parameter: window — line 327
+# variable: expected — line 332
+# variable: started — line 332
+# variable: receipt — line 333
+# variable: deadline — line 350
+# definition: progress — line 352
+# parameter: stage — line 352
+# definition: finish — line 359
+# parameter: failed — line 359
+# attribute: acceptance_result — line 361
+# variable: name — line 369
+# variable: raw — line 369
+# variable: row — line 371
+# definition: checked — line 376
+# parameter: callback — line 376
+# variable: trace — line 384
+# variable: trace — line 392
+# definition: callback_failed — line 395
+# parameter: _traceback — line 396
+# parameter: _value — line 396
+# parameter: kind — line 396
+# definition: wait — line 402
+# parameter: callback — line 402
+# definition: layout — line 412
+# variable: widgets — line 417
+# variable: name — line 418
+# variable: widget — line 420
+# definition: rejected — line 442
+# definition: licenses — line 451
+# variable: dialogs — line 454
+# variable: child — line 456
+# variable: dialog — line 460
+# variable: pending — line 461
+# variable: texts — line 462
+# variable: widget — line 464
+# variable: text — line 470
+# variable: value — line 473
+# definition: completed — line 478
+# parameter: index — line 478
+# variable: files — line 484
+# variable: parent — line 503
+# variable: target — line 509
+# variable: path — line 510
+# variable: selected — line 513
+# definition: start — line 524
+# parameter: index — line 524
+# variable: selected — line 531
+# definition: begin — line 544
+# variable: direct — line 551
+# variable: port — line 556
+# variable: control_rows — line 557
+# variable: row — line 560
+# variable: category — line 568
+# variable: suffix — line 571
+# variable: identity — line 589
+# attribute: report_callback_exception — line 605
 # END CODE MAP
 
 from __future__ import annotations
@@ -299,6 +307,21 @@ def oracle(index: int, files: dict[str, bytes]) -> None:
             value["candidate_sha256"]
             == hashlib.sha256(files["candidate.json"]).hexdigest()
         )
+    if index in (0, 3):
+        copied = json_value(files["php-runtime-context.json"])
+        assert copied["namespace"] == "fresh-owned-outside-frozen-extraction"
+        assert len(copied["files"]) == 9
+        assert {row["path"] for row in copied["files"]} == {
+            "runtime/php/php.exe",
+            "runtime/php/php8.dll",
+            "runtime/php/libsqlite3.dll",
+            "runtime/php/ext/php_pdo_sqlite.dll",
+            "runtime/php/vcruntime140.dll",
+            "runtime/php/vcruntime140_1.dll",
+            "services/php/router.php",
+            "services/php/Store.php",
+            "sql/schema.sql",
+        }
 
 
 def exercise(window: Workbench, output: Path, reopen: bool) -> None:
@@ -520,6 +543,47 @@ def exercise(window: Workbench, output: Path, reopen: bool) -> None:
 
     def begin() -> None:
         """A separate real process reopens all exact bundles without rerunning services or recomputing a prior report."""
+        if not reopen:
+            from asrl.cases import exercise as actual_cases
+            from asrl.evidence import LabError
+            from asrl.transport import service
+
+            direct = output / "owned-extraction-control"
+            direct.mkdir(mode=0o700)
+            try:
+                with service(
+                    "php", project.ROOT, direct, _direct_frozen_php=True
+                ) as port:
+                    control_rows = actual_cases("php", port)
+                assert len(control_rows) == 24 and all(
+                    row["observed"] == row["expected"] and row["content_ok"] is True
+                    for row in control_rows
+                )
+                receipt["direct_php_namespace_control"] = {
+                    "passed": True,
+                    "http_cases": 24,
+                    "scope": "Direct extraction namespace comparative observation; separate from the full isolated-runtime user acceptance.",
+                }
+            except LabError as error:
+                category = str(error)
+                if category not in {
+                    "owned_php_driver_" + suffix
+                    for suffix in (
+                        "module_missing",
+                        "procedure_missing",
+                        "bad_image",
+                        "access_denied",
+                        "startup_other",
+                        "unclassified",
+                    )
+                }:
+                    raise
+                receipt["direct_php_namespace_control"] = {
+                    "passed": False,
+                    "category": category,
+                    "scope": "Historical/direct runtime boundary remains failed; not retroactively passed. The copied-runtime full150HTTP acceptance below is independently mandatory.",
+                }
+            progress("direct-namespace-control-recorded")
         if reopen:
             assert len(window.state.history()) == expected
             for identity in range(1, expected + 1):

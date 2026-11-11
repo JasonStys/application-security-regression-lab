@@ -95,6 +95,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/desktop\_state.py](asrl/desktop_state.py) | Owner-local desktop profile, bounded durable bundles and non-overwriting export. Jason Stys. |
 | [asrl/evidence.py](asrl/evidence.py) | Jason Stys: validated expected/observed security evidence, honest verdicts and inert HTML summaries. |
 | [asrl/inputs.py](asrl/inputs.py) | Bounded stable ordinary-file reads and streaming tool hashes for offline identity inputs. Jason Stys. |
+| [asrl/native\_php.py](asrl/native_php.py) | Exact admitted PHP closure in a nonce-owned per-analysis namespace, never arbitrary executables. Jason Stys. |
 | [asrl/native\_runtime.py](asrl/native_runtime.py) | Closed, exact-byte app-local runtime admission and minimal service environment. Jason Stys. |
 | [asrl/native\_spawn.py](asrl/native_spawn.py) | Temporarily isolate fixed native children from inherited PyInstaller Windows DLL search state. Jason Stys. |
 | [asrl/native\_stderr.py](asrl/native_stderr.py) | Bounded volatile startup classification for owned PHP; raw errors and paths never escape. Jason Stys. |
@@ -167,6 +168,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
 | [tests/test\_native\_diagnostics.py](tests/test_native_diagnostics.py) | Actual failure-summary privacy/bounds tests; no process, service or application result is mocked into a pass. Jason Stys. |
 | [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
+| [tests/test\_native\_php.py](tests/test_native_php.py) | Actual whole-bundle admission, fixed same-byte PHP copies and child-before-cleanup ownership. Jason Stys. |
 | [tests/test\_native\_preflight.py](tests/test_native_preflight.py) | Native builder preflight false-pass controls; actual PHP execution remains the separate native gate. Jason Stys. |
 | [tests/test\_native\_runtime.py](tests/test_native_runtime.py) | Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys. |
 | [tests/test\_native\_sdks.py](tests/test_native_sdks.py) | Actual inert developer-archive extraction and provider boundary regressions. Jason Stys. |

@@ -1,58 +1,63 @@
 """Run the real frozen workbench twice with an owned synthetic profile and exact bundle persistence. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 72
-# variable: PRODUCT — line 73
-# variable: EXECUTABLE — line 74
-# variable: VERSION — line 75
-# definition: failure_summary — line 78
-# parameter: receipt — line 78
-# variable: result — line 80
-# variable: name — line 81
-# variable: value — line 82
-# variable: line — line 85
-# variable: bundles — line 88
-# variable: steps — line 88
-# variable: status — line 93
-# variable: match — line 95
-# definition: gone — line 104
-# parameter: pid — line 104
-# variable: kernel — line 108
-# attribute: argtypes — line 109
-# attribute: restype — line 110
-# attribute: argtypes — line 111
-# attribute: restype — line 112
-# attribute: argtypes — line 113
-# variable: handle — line 114
-# definition: launch — line 125
-# parameter: executable — line 126
-# parameter: profile — line 127
-# parameter: output — line 128
-# parameter: metadata — line 129
-# parameter: reopen — line 131
-# variable: arguments — line 134
-# variable: environment — line 143
-# variable: key — line 145
-# variable: child — line 151
-# variable: code — line 158
-# variable: path — line 159
-# variable: stream — line 160
-# variable: payload — line 161
-# variable: receipt — line 164
-# variable: diagnostic — line 170
-# definition: main — line 197
-# variable: executable — line 201
-# variable: metadata — line 202
-# variable: source — line 203
-# variable: stream — line 214
-# variable: digest — line 215
-# variable: destination — line 220
-# variable: temporary — line 222
-# variable: scratch — line 223
-# variable: profile — line 227
-# variable: first — line 228
-# variable: second — line 229
-# variable: path — line 233
-# variable: summary — line 235
+# variable: ROOT — line 77
+# variable: PRODUCT — line 78
+# variable: EXECUTABLE — line 79
+# variable: VERSION — line 80
+# definition: namespace_summary — line 83
+# parameter: receipt — line 83
+# variable: control — line 85
+# variable: category — line 95
+# variable: suffix — line 98
+# definition: failure_summary — line 114
+# parameter: receipt — line 114
+# variable: result — line 116
+# variable: name — line 120
+# variable: value — line 121
+# variable: line — line 124
+# variable: bundles — line 127
+# variable: steps — line 127
+# variable: status — line 132
+# variable: match — line 134
+# definition: gone — line 143
+# parameter: pid — line 143
+# variable: kernel — line 147
+# attribute: argtypes — line 148
+# attribute: restype — line 149
+# attribute: argtypes — line 150
+# attribute: restype — line 151
+# attribute: argtypes — line 152
+# variable: handle — line 153
+# definition: launch — line 164
+# parameter: executable — line 165
+# parameter: profile — line 166
+# parameter: output — line 167
+# parameter: metadata — line 168
+# parameter: reopen — line 170
+# variable: arguments — line 173
+# variable: environment — line 182
+# variable: key — line 184
+# variable: child — line 190
+# variable: code — line 197
+# variable: path — line 198
+# variable: stream — line 199
+# variable: payload — line 200
+# variable: receipt — line 203
+# variable: diagnostic — line 209
+# definition: main — line 236
+# variable: executable — line 240
+# variable: metadata — line 241
+# variable: source — line 242
+# variable: stream — line 253
+# variable: digest — line 254
+# variable: destination — line 259
+# variable: temporary — line 261
+# variable: scratch — line 262
+# variable: profile — line 266
+# variable: first — line 267
+# variable: second — line 268
+# variable: path — line 272
+# variable: summary — line 274
 # END CODE MAP
 
 from __future__ import annotations
@@ -75,9 +80,43 @@ EXECUTABLE = "ApplicationSecurityRegressionLab.exe"
 VERSION = "1.1.0"
 
 
+def namespace_summary(receipt: dict[str, Any]) -> dict[str, Any]:
+    """Expose only complete closed comparative controls; raw receipts, roots, nonces and text are never printed."""
+    control = receipt.get("direct_php_namespace_control")
+    if not isinstance(control, dict) or type(control.get("passed")) is not bool:
+        return {}
+    if control["passed"] is True:
+        if type(control.get("http_cases")) is not int or control["http_cases"] != 24:
+            return {}
+        return {
+            "direct_extraction_control_passed": True,
+            "direct_extraction_control_http_cases": 24,
+        }
+    category = control.get("category")
+    if isinstance(category, str) and category in {
+        "owned_php_driver_" + suffix
+        for suffix in (
+            "module_missing",
+            "procedure_missing",
+            "bad_image",
+            "access_denied",
+            "startup_other",
+            "unclassified",
+        )
+    }:
+        return {
+            "direct_extraction_control_passed": False,
+            "direct_extraction_control_category": category,
+        }
+    return {}
+
+
 def failure_summary(receipt: dict[str, Any]) -> dict[str, Any]:
     """Expose only bounded authored-stage/category diagnostics, never raw status, paths, records or environment."""
-    result: dict[str, Any] = {"native_acceptance": "failed"}
+    result: dict[str, Any] = {
+        "native_acceptance": "failed",
+        **namespace_summary(receipt),
+    }
     for name in ("failure_stage", "failure_step", "failure_function", "failure_type"):
         value = receipt.get(name)
         if isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_<>-]{1,80}", value):
@@ -251,6 +290,7 @@ def main() -> None:
         json.dumps(
             {
                 "native_application": PRODUCT,
+                **namespace_summary(first),
                 "passed": True,
                 "source_dirty": metadata["source_dirty"],
                 "saved_bundles": len(first["bundles"]),

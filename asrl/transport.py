@@ -1,47 +1,55 @@
 """Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: request — line 65
-# parameter: port — line 66
-# parameter: path — line 67
-# parameter: method — line 68
-# parameter: body — line 69
-# parameter: headers — line 70
-# variable: started — line 81
-# variable: connection — line 82
-# variable: response — line 85
-# variable: raw — line 86
-# variable: name — line 91
-# variable: value — line 91
-# definition: free_port — line 101
-# variable: descriptor — line 103
-# definition: command — line 108
-# parameter: component — line 108
-# parameter: port — line 108
-# parameter: root — line 108
-# parameter: state — line 108
-# variable: commands — line 116
-# definition: service — line 137
-# parameter: component — line 137
-# parameter: root — line 137
-# parameter: state — line 137
-# variable: port — line 139
-# variable: environment — line 143
-# variable: environment — line 145
-# variable: nonce — line 146
-# variable: arguments — line 148
-# variable: process — line 149
-# variable: diagnostic — line 150
-# variable: capture_startup — line 151
-# variable: process — line 154
-# variable: diagnostic — line 166
-# variable: deadline — line 167
-# variable: _ — line 172
-# variable: headers — line 172
-# variable: raw — line 172
-# variable: status — line 172
-# variable: value — line 173
-# variable: category — line 183
-# variable: pipe — line 214
+# definition: request — line 73
+# parameter: port — line 74
+# parameter: path — line 75
+# parameter: method — line 76
+# parameter: body — line 77
+# parameter: headers — line 78
+# variable: started — line 89
+# variable: connection — line 90
+# variable: response — line 93
+# variable: raw — line 94
+# variable: name — line 99
+# variable: value — line 99
+# definition: free_port — line 109
+# variable: descriptor — line 111
+# definition: command — line 116
+# parameter: component — line 116
+# parameter: port — line 116
+# parameter: root — line 116
+# parameter: state — line 116
+# variable: commands — line 124
+# definition: service — line 145
+# parameter: _direct_frozen_php — line 146
+# parameter: component — line 146
+# parameter: root — line 146
+# parameter: state — line 146
+# variable: port — line 151
+# variable: contexts — line 152
+# variable: process — line 153
+# variable: diagnostic — line 154
+# variable: capture_startup — line 155
+# variable: working_root — line 157
+# variable: launch — line 162
+# variable: arguments — line 163
+# variable: environment — line 163
+# variable: working_root — line 163
+# variable: receipt — line 168
+# variable: environment — line 174
+# variable: environment — line 176
+# variable: arguments — line 177
+# variable: nonce — line 178
+# variable: process — line 181
+# variable: diagnostic — line 193
+# variable: deadline — line 194
+# variable: _ — line 199
+# variable: headers — line 199
+# variable: raw — line 199
+# variable: status — line 199
+# variable: value — line 200
+# variable: category — line 210
+# variable: pipe — line 242
 # END CODE MAP
 
 from __future__ import annotations
@@ -54,7 +62,7 @@ import subprocess
 import sys
 import time
 from collections.abc import Iterator
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 from pathlib import Path
 
 from .evidence import COMPONENTS, MAX_RESPONSE, LabError, decode
@@ -134,26 +142,45 @@ def command(component: str, root: Path, state: Path, port: int) -> list[str]:
 
 
 @contextmanager
-def service(component: str, root: Path, state: Path) -> Iterator[int]:
-    """Start only an owned synthetic process, verify its component, and stop it even if assertions fail."""
+def service(
+    component: str, root: Path, state: Path, *, _direct_frozen_php: bool = False
+) -> Iterator[int]:
+    """Start only an owned fixed service; PHP copies the exact admitted closure outside the freezer namespace."""
+    if type(_direct_frozen_php) is not bool:
+        raise LabError("owned_php_namespace_control")
     port = free_port()
-    if getattr(sys, "frozen", False):
-        from .native_runtime import environment as bundled_environment
-
-        environment = bundled_environment(state, root, component)
-    else:
-        environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
-    nonce = secrets.token_hex(32)
-    environment["ASRL_OWNED_NONCE"] = nonce
-    arguments = command(component, root, state, port)
+    contexts = ExitStack()
     process = None
     diagnostic = None
     capture_startup = component == "php" and getattr(sys, "frozen", False)
     try:
+        working_root = root
+        if capture_startup and not _direct_frozen_php:
+            from .desktop_io import canonical
+            from .native_php import isolated_php
+
+            launch = contexts.enter_context(isolated_php(root, state, port))
+            arguments, environment, working_root = (
+                launch.arguments,
+                launch.environment,
+                launch.root,
+            )
+            with (state / "php-runtime-context.json").open("xb") as receipt:
+                receipt.write(canonical(launch.receipt))
+        else:
+            if getattr(sys, "frozen", False):
+                from .native_runtime import environment as bundled_environment
+
+                environment = bundled_environment(state, root, component)
+            else:
+                environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
+            arguments = command(component, root, state, port)
+        nonce = secrets.token_hex(32)
+        environment["ASRL_OWNED_NONCE"] = nonce
         with isolated_dll_search():
             process = subprocess.Popen(
                 arguments,
-                cwd=root,
+                cwd=working_root,
                 env=environment,
                 stdin=subprocess.DEVNULL,
                 stdout=subprocess.DEVNULL,
@@ -200,17 +227,21 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
             time.sleep(0.05)
         yield port
     finally:
-        if process is not None:
-            process.terminate()
-            try:
-                process.wait(timeout=5)
-            except subprocess.TimeoutExpired:
-                process.kill()
-                process.wait(timeout=5)
-            finally:
-                if diagnostic is not None:
-                    diagnostic.close()
-                elif capture_startup:
-                    pipe = getattr(process, "stderr", None)
-                    if pipe is not None:
-                        pipe.close()
+        try:
+            if process is not None:
+                process.terminate()
+                try:
+                    process.wait(timeout=5)
+                except subprocess.TimeoutExpired:
+                    process.kill()
+                    process.wait(timeout=5)
+                finally:
+                    if diagnostic is not None:
+                        diagnostic.close()
+                    elif capture_startup:
+                        pipe = getattr(process, "stderr", None)
+                        if pipe is not None:
+                            pipe.close()
+        finally:
+            # Exiting the copy context comes strictly AFTER owned child wait/drain.
+            contexts.close()
