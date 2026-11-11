@@ -96,6 +96,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [asrl/evidence.py](asrl/evidence.py) | Jason Stys: validated expected/observed security evidence, honest verdicts and inert HTML summaries. |
 | [asrl/inputs.py](asrl/inputs.py) | Bounded stable ordinary-file reads and streaming tool hashes for offline identity inputs. Jason Stys. |
 | [asrl/native\_runtime.py](asrl/native_runtime.py) | Closed, exact-byte app-local runtime admission and minimal service environment. Jason Stys. |
+| [asrl/native\_spawn.py](asrl/native_spawn.py) | Temporarily isolate fixed native children from inherited PyInstaller Windows DLL search state. Jason Stys. |
 | [asrl/transport.py](asrl/transport.py) | Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface. |
 | [docs/architecture.md](docs/architecture.md) | ADR-001: independent native boundaries, not a fake production federation. |
 | [docs/contracts.md](docs/contracts.md) | Native fixture and evidence contracts. |
@@ -167,6 +168,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
 | [tests/test\_native\_runtime.py](tests/test_native_runtime.py) | Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys. |
 | [tests/test\_native\_sdks.py](tests/test_native_sdks.py) | Actual inert developer-archive extraction and provider boundary regressions. Jason Stys. |
+| [tests/test\_native\_spawn.py](tests/test_native_spawn.py) | DLL-directory lifecycle refusal/cleanup and actual inert Windows child inheritance controls. Jason Stys. |
 | [tests/test\_profile\_admission.py](tests/test_profile_admission.py) | Actual pre-existing alias refusal and ordinary SQLite recovery continuity. Jason Stys. |
 | [tests/test\_publication\_privacy.py](tests/test_publication_privacy.py) | Jason Stys: credentials in actual Word XML remain visible to repository privacy checks. |
 | [tests/test\_runner.py](tests/test_runner.py) | Jason Stys: case generation/negative verdicts, actual Node/.NET fixtures and CLI evidence persistence. |

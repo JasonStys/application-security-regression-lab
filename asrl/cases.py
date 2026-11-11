@@ -34,18 +34,18 @@
 # variable: received — line 219
 # variable: identifier — line 222
 # variable: category — line 224
-# variable: category — line 226
-# variable: data — line 230
-# variable: received — line 230
-# variable: mutation — line 262
-# variable: _ — line 300
-# variable: first — line 300
-# variable: cookie — line 309
-# variable: attributes — line 310
-# variable: item — line 311
-# variable: _ — line 319
-# variable: peer — line 319
-# variable: peer_cookie — line 327
+# variable: category — line 232
+# variable: data — line 236
+# variable: received — line 236
+# variable: mutation — line 268
+# variable: _ — line 306
+# variable: first — line 306
+# variable: cookie — line 315
+# variable: attributes — line 316
+# variable: item — line 317
+# variable: _ — line 325
+# variable: peer — line 325
+# variable: peer_cookie — line 333
 # END CODE MAP
 
 from __future__ import annotations
@@ -222,7 +222,13 @@ def exercise(component: str, port: int) -> list[dict[str, Any]]:
         identifier = decode(data).get("id")
         if not isinstance(identifier, str):
             category = received.get("x-lab-error-category", "unclassified")
-            if re.fullmatch(r"database_[0-9]{1,5}|entropy|operation", category) is None:
+            if (
+                re.fullmatch(
+                    r"database_[0-9]{1,5}|driver_unavailable|entropy|operation",
+                    category,
+                )
+                is None
+            ):
                 category = "unclassified"
             raise LabError(
                 "upload_evidence_" + str(cases[-1]["observed"]) + "_" + category

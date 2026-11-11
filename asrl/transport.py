@@ -1,40 +1,42 @@
 """Jason Stys: explicit owned numeric-loopback request/process lifecycle, no external-target scan interface."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# definition: request — line 56
-# parameter: port — line 57
-# parameter: path — line 58
-# parameter: method — line 59
-# parameter: body — line 60
-# parameter: headers — line 61
-# variable: started — line 72
-# variable: connection — line 73
-# variable: response — line 76
-# variable: raw — line 77
-# variable: name — line 82
-# variable: value — line 82
-# definition: free_port — line 92
-# variable: descriptor — line 94
-# definition: command — line 99
-# parameter: component — line 99
-# parameter: port — line 99
-# parameter: root — line 99
-# parameter: state — line 99
-# variable: commands — line 107
-# definition: service — line 128
-# parameter: component — line 128
-# parameter: root — line 128
-# parameter: state — line 128
-# variable: port — line 130
-# variable: environment — line 134
-# variable: environment — line 136
-# variable: nonce — line 137
-# variable: process — line 139
-# variable: deadline — line 149
-# variable: _ — line 154
-# variable: headers — line 154
-# variable: raw — line 154
-# variable: status — line 154
-# variable: value — line 155
+# definition: request — line 59
+# parameter: port — line 60
+# parameter: path — line 61
+# parameter: method — line 62
+# parameter: body — line 63
+# parameter: headers — line 64
+# variable: started — line 75
+# variable: connection — line 76
+# variable: response — line 79
+# variable: raw — line 80
+# variable: name — line 85
+# variable: value — line 85
+# definition: free_port — line 95
+# variable: descriptor — line 97
+# definition: command — line 102
+# parameter: component — line 102
+# parameter: port — line 102
+# parameter: root — line 102
+# parameter: state — line 102
+# variable: commands — line 110
+# definition: service — line 131
+# parameter: component — line 131
+# parameter: root — line 131
+# parameter: state — line 131
+# variable: port — line 133
+# variable: environment — line 137
+# variable: environment — line 139
+# variable: nonce — line 140
+# variable: arguments — line 142
+# variable: process — line 143
+# variable: process — line 146
+# variable: deadline — line 155
+# variable: _ — line 160
+# variable: headers — line 160
+# variable: raw — line 160
+# variable: status — line 160
+# variable: value — line 161
 # END CODE MAP
 
 from __future__ import annotations
@@ -51,6 +53,7 @@ from contextlib import contextmanager
 from pathlib import Path
 
 from .evidence import COMPONENTS, MAX_RESPONSE, LabError, decode
+from .native_spawn import isolated_dll_search
 
 
 def request(
@@ -136,16 +139,19 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
         environment = {**os.environ, "ASRL_PHP_DB": str(state / "php.sqlite")}
     nonce = secrets.token_hex(32)
     environment["ASRL_OWNED_NONCE"] = nonce
-    process = subprocess.Popen(
-        command(component, root, state, port),
-        cwd=root,
-        env=environment,
-        stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
-    )
+    arguments = command(component, root, state, port)
+    process = None
     try:
+        with isolated_dll_search():
+            process = subprocess.Popen(
+                arguments,
+                cwd=root,
+                env=environment,
+                stdin=subprocess.DEVNULL,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
+            )
         deadline = time.monotonic() + 15
         while True:
             if process.poll() is not None:
@@ -174,9 +180,10 @@ def service(component: str, root: Path, state: Path) -> Iterator[int]:
             time.sleep(0.05)
         yield port
     finally:
-        process.terminate()
-        try:
-            process.wait(timeout=5)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait(timeout=5)
+        if process is not None:
+            process.terminate()
+            try:
+                process.wait(timeout=5)
+            except subprocess.TimeoutExpired:
+                process.kill()
+                process.wait(timeout=5)
