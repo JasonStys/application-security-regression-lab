@@ -163,6 +163,7 @@ No Docker repair, public hosting, real account collection, cloud resources, ads,
 | [tests/test\_desktop\_project.py](tests/test_desktop_project.py) | Independent exact-report/cohort/user-control oracles; mocks do not establish actual native execution. Jason Stys. |
 | [tests/test\_desktop\_state.py](tests/test_desktop_state.py) | Independent offline desktop ownership, byte-bound, SQLite and non-overwrite regressions. Jason Stys. |
 | [tests/test\_evidence.py](tests/test_evidence.py) | Jason Stys: property and negative checks for truthful verdicts, strict reports and inert rendering. |
+| [tests/test\_native\_diagnostics.py](tests/test_native_diagnostics.py) | Actual failure-summary privacy/bounds tests; no process, service or application result is mocked into a pass. Jason Stys. |
 | [tests/test\_native\_inputs.py](tests/test_native_inputs.py) | Actual same-descriptor input bounds and ownership-change cases for selected offline reports. Jason Stys. |
 | [tests/test\_native\_runtime.py](tests/test_native_runtime.py) | Independent bundled-runtime boundaries without executing any fixture or modifying global tools. Jason Stys. |
 | [tests/test\_native\_sdks.py](tests/test_native_sdks.py) | Actual inert developer-archive extraction and provider boundary regressions. Jason Stys. |

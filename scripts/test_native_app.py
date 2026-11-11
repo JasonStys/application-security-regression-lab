@@ -1,48 +1,58 @@
 """Run the real frozen workbench twice with an owned synthetic profile and exact bundle persistence. Jason Stys."""
 # BEGIN CODE MAP (generated; python scripts/code_map.py)
-# variable: ROOT — line 61
-# variable: PRODUCT — line 62
-# variable: EXECUTABLE — line 63
-# variable: VERSION — line 64
-# definition: gone — line 67
-# parameter: pid — line 67
-# variable: kernel — line 71
-# attribute: argtypes — line 72
-# attribute: restype — line 73
-# attribute: argtypes — line 74
-# attribute: restype — line 75
-# attribute: argtypes — line 76
-# variable: handle — line 77
-# definition: launch — line 88
-# parameter: executable — line 89
-# parameter: profile — line 90
-# parameter: output — line 91
-# parameter: metadata — line 92
-# parameter: reopen — line 94
-# variable: arguments — line 97
-# variable: environment — line 106
-# variable: key — line 108
-# variable: child — line 114
-# variable: code — line 121
-# variable: path — line 122
-# variable: stream — line 123
-# variable: payload — line 124
-# variable: receipt — line 127
-# variable: diagnostic — line 133
-# definition: main — line 159
-# variable: executable — line 163
-# variable: metadata — line 164
-# variable: source — line 165
-# variable: stream — line 176
-# variable: digest — line 177
-# variable: destination — line 182
-# variable: temporary — line 184
-# variable: scratch — line 185
-# variable: profile — line 189
-# variable: first — line 190
-# variable: second — line 191
-# variable: path — line 195
-# variable: summary — line 197
+# variable: ROOT — line 72
+# variable: PRODUCT — line 73
+# variable: EXECUTABLE — line 74
+# variable: VERSION — line 75
+# definition: failure_summary — line 78
+# parameter: receipt — line 78
+# variable: result — line 80
+# variable: name — line 81
+# variable: value — line 82
+# variable: line — line 85
+# variable: bundles — line 88
+# variable: steps — line 88
+# variable: status — line 93
+# variable: match — line 95
+# definition: gone — line 104
+# parameter: pid — line 104
+# variable: kernel — line 108
+# attribute: argtypes — line 109
+# attribute: restype — line 110
+# attribute: argtypes — line 111
+# attribute: restype — line 112
+# attribute: argtypes — line 113
+# variable: handle — line 114
+# definition: launch — line 125
+# parameter: executable — line 126
+# parameter: profile — line 127
+# parameter: output — line 128
+# parameter: metadata — line 129
+# parameter: reopen — line 131
+# variable: arguments — line 134
+# variable: environment — line 143
+# variable: key — line 145
+# variable: child — line 151
+# variable: code — line 158
+# variable: path — line 159
+# variable: stream — line 160
+# variable: payload — line 161
+# variable: receipt — line 164
+# variable: diagnostic — line 170
+# definition: main — line 197
+# variable: executable — line 201
+# variable: metadata — line 202
+# variable: source — line 203
+# variable: stream — line 214
+# variable: digest — line 215
+# variable: destination — line 220
+# variable: temporary — line 222
+# variable: scratch — line 223
+# variable: profile — line 227
+# variable: first — line 228
+# variable: second — line 229
+# variable: path — line 233
+# variable: summary — line 235
 # END CODE MAP
 
 from __future__ import annotations
@@ -51,6 +61,7 @@ import ctypes
 import hashlib
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -62,6 +73,32 @@ ROOT = Path(__file__).resolve().parents[1]
 PRODUCT = "application-security-regression-lab"
 EXECUTABLE = "ApplicationSecurityRegressionLab.exe"
 VERSION = "1.1.0"
+
+
+def failure_summary(receipt: dict[str, Any]) -> dict[str, Any]:
+    """Expose only bounded authored-stage/category diagnostics, never raw status, paths, records or environment."""
+    result: dict[str, Any] = {"native_acceptance": "failed"}
+    for name in ("failure_stage", "failure_step", "failure_function", "failure_type"):
+        value = receipt.get(name)
+        if isinstance(value, str) and re.fullmatch(r"[A-Za-z0-9_<>-]{1,80}", value):
+            result[name] = value
+    line = receipt.get("failure_line")
+    if type(line) is int and 1 <= line <= 100000:
+        result["failure_line"] = line
+    steps, bundles = receipt.get("steps"), receipt.get("bundles")
+    if isinstance(steps, list) and len(steps) <= 40:
+        result["completed_steps"] = len(steps)
+    if isinstance(bundles, dict) and len(bundles) <= 20:
+        result["saved_bundles"] = len(bundles)
+    status = receipt.get("safe_application_status")
+    if isinstance(status, str) and len(status) <= 240:
+        match = re.fullmatch(
+            r"Input/output rejected: ((?:java|session|php|node)_[a-z0-9_]{1,70})\. Earlier saved analyses were retained\.",
+            status,
+        )
+        if match:
+            result["application_category"] = match[1]
+    return result
 
 
 def gone(pid: int) -> bool:
@@ -135,6 +172,7 @@ def launch(
         (
             diagnostic / ("failed-reopen.json" if reopen else "failed-first.json")
         ).write_bytes(payload)
+        print(json.dumps(failure_summary(receipt), sort_keys=True), flush=True)
         raise AssertionError(
             "Owned native acceptance failed at "
             + str(receipt.get("failure_stage", "startup"))[:60]
